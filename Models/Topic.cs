@@ -7,19 +7,20 @@ public partial class Topic
 {
     public string Id { get; set; } = null!;
     public string Name { get; set; } = null!;
-    public List<int> Classes { get; set; } = [];
+    public List<byte> Grades { get; set; } = [];
     public string SubjectId { get; set; } = null!;
-    public bool IsVisible { get; set; } = true;
     public DateTime? CreatedAt { get; set; }
-    public DateTime? UpdateAt { get; set; }
+    public DateTime? UpdatedAt { get; set; }
     public virtual Subject Subject { get; set; } = null!;
+    public bool? IsVisible { get; set; }
+    public virtual ICollection<Question> Questions { get; set; } = [];
 
     public void TakeValuesFrom(Topic t)
     {
         Name = t.Name;
-        Classes = t.Classes;
+        Grades = t.Grades;
         SubjectId = t.SubjectId;
-        UpdateAt = DateTime.Now;
+        UpdatedAt = DateTime.Now;
         Subject = t.Subject;
     }
 }

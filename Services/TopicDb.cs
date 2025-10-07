@@ -21,7 +21,7 @@ public class TopicDb
                            {
                                Id = t.Id,
                                Name = t.Name,
-                               Classes = t.Classes,
+                               Grades = t.Grades,
                                SubjectId = t.SubjectId,
                                Subject = t.Subject,
                                IsVisible = t.IsVisible
@@ -45,7 +45,7 @@ public class TopicDb
                             {
                                 Id = t.Id,
                                 Name = t.Name,
-                                Classes = t.Classes,
+                                Grades = t.Grades,
                                 SubjectId = t.SubjectId,
                                 Subject = t.Subject,
                                 IsVisible = t.IsVisible

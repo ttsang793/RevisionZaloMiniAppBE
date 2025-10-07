@@ -34,14 +34,14 @@ public class TopicController : Controller
     [HttpPost("")]
     public async Task<IActionResult> Add([Bind("Name", "Classes", "SubjectId")] TopicDTO topicDTO)
     {
-        Topic topic = new Topic { Name = topicDTO.Name, Classes = topicDTO.Classes, SubjectId = topicDTO.SubjectId };
+        Topic topic = new Topic { Name = topicDTO.Name, Grades = topicDTO.Grades, SubjectId = topicDTO.SubjectId };
         return await _topicDb.Add(topic) ? StatusCode(201) : StatusCode(400);
     }
 
     [HttpPut("{id}")]
     public async Task<IActionResult> Update([Bind("Id", "Name", "Classes", "SubjectId")] TopicDTO topicDTO)
     {
-        Topic topic = new Topic { Id = topicDTO.Id, Name = topicDTO.Name, Classes = topicDTO.Classes, SubjectId = topicDTO.SubjectId };
+        Topic topic = new Topic { Id = topicDTO.Id, Name = topicDTO.Name, Grades = topicDTO.Grades, SubjectId = topicDTO.SubjectId };
         return await _topicDb.Update(topic) ? StatusCode(200) : StatusCode(400);
     }
 

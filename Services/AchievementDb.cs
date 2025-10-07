@@ -14,6 +14,6 @@ public class AchievementDb
 
     public async Task<List<Achievement>> GetAsync()
     {
-        return await _dbContext.Achivements.ToListAsync();
+        return await _dbContext.Achievements.ToListAsync();
     }
 }

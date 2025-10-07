@@ -20,6 +20,269 @@
     ]
   },
   {
+    "ContainingType": "backend.Controllers.ExamController",
+    "Method": "AddExam",
+    "RelativePath": "api/Exam",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "examDTO",
+        "Type": "backend.DTOs.ExamDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "backend.Controllers.QuestionController",
+    "Method": "GetAllQuestionsByTeacher",
+    "RelativePath": "api/Question",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.List\u00601[[backend.Models.Question, backend, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "backend.Controllers.QuestionController",
+    "Method": "GetQuestionById",
+    "RelativePath": "api/Question/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.UInt64",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "backend.DTOs.QuestionDTO",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "backend.Controllers.QuestionController",
+    "Method": "DeleteQuestion",
+    "RelativePath": "api/Question/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.UInt64",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "backend.Controllers.QuestionController",
+    "Method": "AddConstructedResponseQuestion",
+    "RelativePath": "api/Question/constructed-response",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "questionDTO",
+        "Type": "backend.DTOs.ConstructedResponseQuestionDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "backend.Controllers.QuestionController",
+    "Method": "UpdateConstructedResponseQuestion",
+    "RelativePath": "api/Question/constructed-response/{id}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "questionDTO",
+        "Type": "backend.DTOs.ConstructedResponseQuestionDTO",
+        "IsRequired": true
+      },
+      {
+        "Name": "id",
+        "Type": "System.UInt64",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "backend.Controllers.QuestionController",
+    "Method": "AddFillInTheBlankQuestion",
+    "RelativePath": "api/Question/fill-in-the-blank",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "questionDTO",
+        "Type": "backend.DTOs.FillInTheBlankQuestionDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "backend.Controllers.QuestionController",
+    "Method": "UpdateFillInTheBlankQuestion",
+    "RelativePath": "api/Question/fill-in-the-blank/{id}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "questionDTO",
+        "Type": "backend.DTOs.FillInTheBlankQuestionDTO",
+        "IsRequired": true
+      },
+      {
+        "Name": "id",
+        "Type": "System.UInt64",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "backend.Controllers.QuestionController",
+    "Method": "AddMultipleChoiceQuestion",
+    "RelativePath": "api/Question/multiple-choice",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "questionDTO",
+        "Type": "backend.DTOs.MultipleChoiceQuestionDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "backend.Controllers.QuestionController",
+    "Method": "UpdateMultipleChoiceQuestion",
+    "RelativePath": "api/Question/multiple-choice/{id}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "questionDTO",
+        "Type": "backend.DTOs.MultipleChoiceQuestionDTO",
+        "IsRequired": true
+      },
+      {
+        "Name": "id",
+        "Type": "System.UInt64",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "backend.Controllers.QuestionController",
+    "Method": "AddShortAnswerQuestion",
+    "RelativePath": "api/Question/short-answer",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "questionDTO",
+        "Type": "backend.DTOs.ShortAnswerQuestionDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "backend.Controllers.QuestionController",
+    "Method": "UpdateShortAnswerQuestion",
+    "RelativePath": "api/Question/short-answer/{id}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "questionDTO",
+        "Type": "backend.DTOs.ShortAnswerQuestionDTO",
+        "IsRequired": true
+      },
+      {
+        "Name": "id",
+        "Type": "System.UInt64",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "backend.Controllers.QuestionController",
+    "Method": "AddTrueFalseQuestion",
+    "RelativePath": "api/Question/true-false",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "questionDTO",
+        "Type": "backend.DTOs.TrueFalseQuestionDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "backend.Controllers.QuestionController",
+    "Method": "UpdateTrueFalseQuestion",
+    "RelativePath": "api/Question/true-false/{id}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "questionDTO",
+        "Type": "backend.DTOs.TrueFalseQuestionDTO",
+        "IsRequired": true
+      },
+      {
+        "Name": "id",
+        "Type": "System.UInt64",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "backend.Controllers.SubjectController",
     "Method": "Get",
     "RelativePath": "api/Subject",

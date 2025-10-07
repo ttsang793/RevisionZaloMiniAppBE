@@ -19,7 +19,7 @@ public class SubjectDb
 
     public async Task<Subject> GetByIdAsync(string id)
     {
-        return await _dbContext.Subjects.FindAsync(id);
+        return await _dbContext.Subjects.FirstAsync(s => s.Id == id);
     }
 
     public async Task<bool> Add(Subject s)

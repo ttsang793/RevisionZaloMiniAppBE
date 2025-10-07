@@ -43,6 +43,501 @@
         }
       }
     },
+    "/api/Exam": {
+      "post": {
+        "tags": [
+          "Exam"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExamDTO"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExamDTO"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExamDTO"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Question": {
+      "get": {
+        "tags": [
+          "Question"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Question"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Question"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Question"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Question/{id}": {
+      "get": {
+        "tags": [
+          "Question"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/QuestionDTO"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/QuestionDTO"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/QuestionDTO"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Question"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Question/multiple-choice": {
+      "post": {
+        "tags": [
+          "Question"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MultipleChoiceQuestionDTO"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MultipleChoiceQuestionDTO"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/MultipleChoiceQuestionDTO"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Question/true-false": {
+      "post": {
+        "tags": [
+          "Question"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TrueFalseQuestionDTO"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TrueFalseQuestionDTO"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/TrueFalseQuestionDTO"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Question/short-answer": {
+      "post": {
+        "tags": [
+          "Question"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ShortAnswerQuestionDTO"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ShortAnswerQuestionDTO"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/ShortAnswerQuestionDTO"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Question/fill-in-the-blank": {
+      "post": {
+        "tags": [
+          "Question"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/FillInTheBlankQuestionDTO"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/FillInTheBlankQuestionDTO"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/FillInTheBlankQuestionDTO"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Question/constructed-response": {
+      "post": {
+        "tags": [
+          "Question"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ConstructedResponseQuestionDTO"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ConstructedResponseQuestionDTO"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/ConstructedResponseQuestionDTO"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Question/multiple-choice/{id}": {
+      "put": {
+        "tags": [
+          "Question"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MultipleChoiceQuestionDTO"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MultipleChoiceQuestionDTO"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/MultipleChoiceQuestionDTO"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Question/true-false/{id}": {
+      "put": {
+        "tags": [
+          "Question"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TrueFalseQuestionDTO"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TrueFalseQuestionDTO"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/TrueFalseQuestionDTO"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Question/short-answer/{id}": {
+      "put": {
+        "tags": [
+          "Question"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ShortAnswerQuestionDTO"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ShortAnswerQuestionDTO"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/ShortAnswerQuestionDTO"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Question/fill-in-the-blank/{id}": {
+      "put": {
+        "tags": [
+          "Question"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/FillInTheBlankQuestionDTO"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/FillInTheBlankQuestionDTO"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/FillInTheBlankQuestionDTO"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Question/constructed-response/{id}": {
+      "put": {
+        "tags": [
+          "Question"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ConstructedResponseQuestionDTO"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ConstructedResponseQuestionDTO"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/ConstructedResponseQuestionDTO"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/api/Subject": {
       "get": {
         "tags": [
@@ -411,6 +906,792 @@
         },
         "additionalProperties": false
       },
+      "Admin": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "username": {
+            "type": "string",
+            "nullable": true
+          },
+          "password": {
+            "type": "string",
+            "nullable": true
+          },
+          "idNavigation": {
+            "$ref": "#/components/schemas/User"
+          }
+        },
+        "additionalProperties": false
+      },
+      "Comment": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "examId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "userId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "replyTo": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "content": {
+            "type": "string",
+            "nullable": true
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "exam": {
+            "$ref": "#/components/schemas/Exam"
+          },
+          "replyToNavigation": {
+            "$ref": "#/components/schemas/User"
+          },
+          "user": {
+            "$ref": "#/components/schemas/User"
+          }
+        },
+        "additionalProperties": false
+      },
+      "ConstructedResponseQuestion": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "answerKeys": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          },
+          "allowTakePhoto": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "allowEnter": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "markAsWrong": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "idNavigation": {
+            "$ref": "#/components/schemas/Question"
+          }
+        },
+        "additionalProperties": false
+      },
+      "ConstructedResponseQuestionDTO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "title": {
+            "type": "string",
+            "nullable": true
+          },
+          "grade": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "type": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "difficulty": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "topicId": {
+            "type": "string",
+            "nullable": true
+          },
+          "subjectId": {
+            "type": "string",
+            "nullable": true
+          },
+          "explaination": {
+            "type": "string",
+            "nullable": true
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "answerKeys": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          },
+          "allowTakePhoto": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "allowEnter": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "markAsWrong": {
+            "type": "boolean",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "Exam": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "examType": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "displayType": {
+            "type": "string",
+            "nullable": true
+          },
+          "title": {
+            "type": "string",
+            "nullable": true
+          },
+          "grade": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "timeLimit": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "allowTurnInTime": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "allowShowScore": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "allowPartSwap": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "allowQuestionSwap": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "allowAnswerSwap": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "teacherId": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "subjectId": {
+            "type": "string",
+            "nullable": true
+          },
+          "approvedBy": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "approvedByNavigation": {
+            "$ref": "#/components/schemas/Teacher"
+          },
+          "comments": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Comment"
+            },
+            "nullable": true
+          },
+          "subject": {
+            "$ref": "#/components/schemas/Subject"
+          },
+          "teacher": {
+            "$ref": "#/components/schemas/Teacher"
+          }
+        },
+        "additionalProperties": false
+      },
+      "ExamDTO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "examType": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "displayType": {
+            "type": "string",
+            "nullable": true
+          },
+          "title": {
+            "type": "string",
+            "nullable": true
+          },
+          "grade": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "timeLimit": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "allowTurnInTime": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "allowShowScore": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "allowPartSwap": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "allowQuestionSwap": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "allowAnswerSwap": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "teacherId": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "subjectId": {
+            "type": "string",
+            "nullable": true
+          },
+          "approvedBy": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "FillInTheBlankQuestion": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "answerKeys": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          },
+          "markAsWrong": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "idNavigation": {
+            "$ref": "#/components/schemas/Question"
+          }
+        },
+        "additionalProperties": false
+      },
+      "FillInTheBlankQuestionDTO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "title": {
+            "type": "string",
+            "nullable": true
+          },
+          "grade": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "type": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "difficulty": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "topicId": {
+            "type": "string",
+            "nullable": true
+          },
+          "subjectId": {
+            "type": "string",
+            "nullable": true
+          },
+          "explaination": {
+            "type": "string",
+            "nullable": true
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "answerKeys": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          },
+          "markAsWrong": {
+            "type": "boolean",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "GroupQuestion": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "questions": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "nullable": true
+          },
+          "idNavigation": {
+            "$ref": "#/components/schemas/Question"
+          }
+        },
+        "additionalProperties": false
+      },
+      "MultipleChoiceQuestion": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "answerA": {
+            "type": "string",
+            "nullable": true
+          },
+          "answerB": {
+            "type": "string",
+            "nullable": true
+          },
+          "answerC": {
+            "type": "string",
+            "nullable": true
+          },
+          "answerD": {
+            "type": "string",
+            "nullable": true
+          },
+          "answerKey": {
+            "type": "string",
+            "nullable": true
+          },
+          "idNavigation": {
+            "$ref": "#/components/schemas/Question"
+          }
+        },
+        "additionalProperties": false
+      },
+      "MultipleChoiceQuestionDTO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "title": {
+            "type": "string",
+            "nullable": true
+          },
+          "grade": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "type": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "difficulty": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "topicId": {
+            "type": "string",
+            "nullable": true
+          },
+          "subjectId": {
+            "type": "string",
+            "nullable": true
+          },
+          "explaination": {
+            "type": "string",
+            "nullable": true
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "answerA": {
+            "type": "string",
+            "nullable": true
+          },
+          "answerB": {
+            "type": "string",
+            "nullable": true
+          },
+          "answerC": {
+            "type": "string",
+            "nullable": true
+          },
+          "answerD": {
+            "type": "string",
+            "nullable": true
+          },
+          "answerKey": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "Question": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "title": {
+            "type": "string",
+            "nullable": true
+          },
+          "grade": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "type": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "difficulty": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "topicId": {
+            "type": "string",
+            "nullable": true
+          },
+          "subjectId": {
+            "type": "string",
+            "nullable": true
+          },
+          "explaination": {
+            "type": "string",
+            "nullable": true
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "constructedResponseQuestion": {
+            "$ref": "#/components/schemas/ConstructedResponseQuestion"
+          },
+          "fillInTheBlankQuestion": {
+            "$ref": "#/components/schemas/FillInTheBlankQuestion"
+          },
+          "groupQuestion": {
+            "$ref": "#/components/schemas/GroupQuestion"
+          },
+          "multipleChoiceQuestion": {
+            "$ref": "#/components/schemas/MultipleChoiceQuestion"
+          },
+          "shortAnswerQuestion": {
+            "$ref": "#/components/schemas/ShortAnswerQuestion"
+          },
+          "sortingQuestion": {
+            "$ref": "#/components/schemas/SortingQuestion"
+          },
+          "subject": {
+            "$ref": "#/components/schemas/Subject"
+          },
+          "topic": {
+            "$ref": "#/components/schemas/Topic"
+          },
+          "trueFalseQuestion": {
+            "$ref": "#/components/schemas/TrueFalseQuestion"
+          }
+        },
+        "additionalProperties": false
+      },
+      "QuestionDTO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "title": {
+            "type": "string",
+            "nullable": true
+          },
+          "grade": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "type": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "difficulty": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "topicId": {
+            "type": "string",
+            "nullable": true
+          },
+          "subjectId": {
+            "type": "string",
+            "nullable": true
+          },
+          "explaination": {
+            "type": "string",
+            "nullable": true
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ShortAnswerQuestion": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "answerKey": {
+            "type": "number",
+            "format": "double"
+          },
+          "idNavigation": {
+            "$ref": "#/components/schemas/Question"
+          }
+        },
+        "additionalProperties": false
+      },
+      "ShortAnswerQuestionDTO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "title": {
+            "type": "string",
+            "nullable": true
+          },
+          "grade": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "type": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "difficulty": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "topicId": {
+            "type": "string",
+            "nullable": true
+          },
+          "subjectId": {
+            "type": "string",
+            "nullable": true
+          },
+          "explaination": {
+            "type": "string",
+            "nullable": true
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "answerKey": {
+            "type": "number",
+            "format": "double"
+          }
+        },
+        "additionalProperties": false
+      },
+      "SortingQuestion": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "correctOrder": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          },
+          "idNavigation": {
+            "$ref": "#/components/schemas/Question"
+          }
+        },
+        "additionalProperties": false
+      },
+      "Student": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "realName": {
+            "type": "string",
+            "nullable": true
+          },
+          "idNavigation": {
+            "$ref": "#/components/schemas/User"
+          }
+        },
+        "additionalProperties": false
+      },
       "Subject": {
         "type": "object",
         "properties": {
@@ -422,7 +1703,7 @@
             "type": "string",
             "nullable": true
           },
-          "classes": {
+          "grades": {
             "type": "array",
             "items": {
               "type": "integer",
@@ -456,9 +1737,30 @@
             "format": "date-time",
             "nullable": true
           },
-          "updateAt": {
+          "updatedAt": {
             "type": "string",
             "format": "date-time",
+            "nullable": true
+          },
+          "exams": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Exam"
+            },
+            "nullable": true
+          },
+          "questions": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Question"
+            },
+            "nullable": true
+          },
+          "teachers": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Teacher"
+            },
             "nullable": true
           },
           "topics": {
@@ -467,6 +1769,52 @@
               "$ref": "#/components/schemas/Topic"
             },
             "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "Teacher": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "role": {
+            "type": "string",
+            "nullable": true
+          },
+          "subjectId": {
+            "type": "string",
+            "nullable": true
+          },
+          "grades": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "nullable": true
+          },
+          "examApprovedByNavigations": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Exam"
+            },
+            "nullable": true
+          },
+          "examTeachers": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Exam"
+            },
+            "nullable": true
+          },
+          "idNavigation": {
+            "$ref": "#/components/schemas/User"
+          },
+          "subject": {
+            "$ref": "#/components/schemas/Subject"
           }
         },
         "additionalProperties": false
@@ -482,7 +1830,7 @@
             "type": "string",
             "nullable": true
           },
-          "classes": {
+          "grades": {
             "type": "array",
             "items": {
               "type": "integer",
@@ -494,21 +1842,29 @@
             "type": "string",
             "nullable": true
           },
-          "isVisible": {
-            "type": "boolean"
-          },
           "createdAt": {
             "type": "string",
             "format": "date-time",
             "nullable": true
           },
-          "updateAt": {
+          "updatedAt": {
             "type": "string",
             "format": "date-time",
             "nullable": true
           },
           "subject": {
             "$ref": "#/components/schemas/Subject"
+          },
+          "isVisible": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "questions": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Question"
+            },
+            "nullable": true
           }
         },
         "additionalProperties": false
@@ -524,7 +1880,7 @@
             "type": "string",
             "nullable": true
           },
-          "classes": {
+          "grades": {
             "type": "array",
             "items": {
               "type": "integer",
@@ -535,6 +1891,133 @@
           "subjectId": {
             "type": "string",
             "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "TrueFalseQuestion": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "answerKey": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "idNavigation": {
+            "$ref": "#/components/schemas/Question"
+          }
+        },
+        "additionalProperties": false
+      },
+      "TrueFalseQuestionDTO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "title": {
+            "type": "string",
+            "nullable": true
+          },
+          "grade": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "type": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "difficulty": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "topicId": {
+            "type": "string",
+            "nullable": true
+          },
+          "subjectId": {
+            "type": "string",
+            "nullable": true
+          },
+          "explaination": {
+            "type": "string",
+            "nullable": true
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "answerKey": {
+            "type": "boolean",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "User": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "zaloId": {
+            "type": "string",
+            "nullable": true
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "avatar": {
+            "type": "string",
+            "nullable": true
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "commentReplyToNavigations": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Comment"
+            },
+            "nullable": true
+          },
+          "commentUsers": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Comment"
+            },
+            "nullable": true
+          },
+          "admin": {
+            "$ref": "#/components/schemas/Admin"
+          },
+          "student": {
+            "$ref": "#/components/schemas/Student"
+          },
+          "teacher": {
+            "$ref": "#/components/schemas/Teacher"
           }
         },
         "additionalProperties": false
