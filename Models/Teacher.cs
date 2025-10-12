@@ -13,6 +13,8 @@ public partial class Teacher
 
     public ICollection<byte> Grades { get; set; } = [];
 
+    public string? Introduction { get; set; }
+
     public virtual ICollection<Exam> ExamApprovedByNavigations { get; set; } = new List<Exam>();
 
     public virtual ICollection<Exam> ExamTeachers { get; set; } = new List<Exam>();

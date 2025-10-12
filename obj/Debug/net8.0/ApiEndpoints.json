@@ -20,6 +20,84 @@
     ]
   },
   {
+    "ContainingType": "CommentController",
+    "Method": "AddComment",
+    "RelativePath": "api/Comment",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "c",
+        "Type": "backend.DTOs.CommentInsertDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "CommentController",
+    "Method": "GetCommentsByExamIdAsync",
+    "RelativePath": "api/Comment/{examId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "examId",
+        "Type": "System.UInt64",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.List\u00601[[backend.DTOs.CommentReadDTO, backend, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "CommentController",
+    "Method": "DeleteComment",
+    "RelativePath": "api/Comment/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.UInt64",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "backend.Controllers.ExamController",
+    "Method": "GetExamsAsync",
+    "RelativePath": "api/Exam",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.List\u00601[[backend.DTOs.ExamReadDTO, backend, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
     "ContainingType": "backend.Controllers.ExamController",
     "Method": "AddExam",
     "RelativePath": "api/Exam",
@@ -29,7 +107,128 @@
     "Parameters": [
       {
         "Name": "examDTO",
-        "Type": "backend.DTOs.ExamDTO",
+        "Type": "backend.DTOs.ExamInsertDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "backend.Controllers.ExamController",
+    "Method": "GetExamByIdAsync",
+    "RelativePath": "api/Exam/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.UInt64",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "backend.Models.Exam",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "backend.Controllers.ExamController",
+    "Method": "UpdateExam",
+    "RelativePath": "api/Exam/{id}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "examDTO",
+        "Type": "backend.DTOs.ExamInsertDTO",
+        "IsRequired": true
+      },
+      {
+        "Name": "id",
+        "Type": "",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "backend.Controllers.ExamController",
+    "Method": "DeleteExam",
+    "RelativePath": "api/Exam/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.UInt64",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "backend.Controllers.ExamController",
+    "Method": "PublishExam",
+    "RelativePath": "api/Exam/publish/{id}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.UInt64",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "backend.Controllers.ExamController",
+    "Method": "GetExamsByTeacherAsync",
+    "RelativePath": "api/Exam/teacher/{teacherId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "teacherId",
+        "Type": "System.UInt64",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.List\u00601[[backend.DTOs.ExamReadDTO, backend, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "backend.Controllers.ExamController",
+    "Method": "UnpublishExam",
+    "RelativePath": "api/Exam/unpublish/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.UInt64",
         "IsRequired": true
       }
     ],
@@ -99,15 +298,15 @@
   },
   {
     "ContainingType": "backend.Controllers.QuestionController",
-    "Method": "AddConstructedResponseQuestion",
-    "RelativePath": "api/Question/constructed-response",
+    "Method": "AddManualResponseQuestion",
+    "RelativePath": "api/Question/manual-response",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
     "Parameters": [
       {
         "Name": "questionDTO",
-        "Type": "backend.DTOs.ConstructedResponseQuestionDTO",
+        "Type": "backend.DTOs.ManualResponseQuestionDTO",
         "IsRequired": true
       }
     ],
@@ -115,52 +314,15 @@
   },
   {
     "ContainingType": "backend.Controllers.QuestionController",
-    "Method": "UpdateConstructedResponseQuestion",
-    "RelativePath": "api/Question/constructed-response/{id}",
+    "Method": "UpdateManualResponseQuestion",
+    "RelativePath": "api/Question/manual-response/{id}",
     "HttpMethod": "PUT",
     "IsController": true,
     "Order": 0,
     "Parameters": [
       {
         "Name": "questionDTO",
-        "Type": "backend.DTOs.ConstructedResponseQuestionDTO",
-        "IsRequired": true
-      },
-      {
-        "Name": "id",
-        "Type": "System.UInt64",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "backend.Controllers.QuestionController",
-    "Method": "AddFillInTheBlankQuestion",
-    "RelativePath": "api/Question/fill-in-the-blank",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "questionDTO",
-        "Type": "backend.DTOs.FillInTheBlankQuestionDTO",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "backend.Controllers.QuestionController",
-    "Method": "UpdateFillInTheBlankQuestion",
-    "RelativePath": "api/Question/fill-in-the-blank/{id}",
-    "HttpMethod": "PUT",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "questionDTO",
-        "Type": "backend.DTOs.FillInTheBlankQuestionDTO",
+        "Type": "backend.DTOs.ManualResponseQuestionDTO",
         "IsRequired": true
       },
       {
@@ -247,6 +409,43 @@
   },
   {
     "ContainingType": "backend.Controllers.QuestionController",
+    "Method": "AddSortingQuestion",
+    "RelativePath": "api/Question/sorting",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "questionDTO",
+        "Type": "backend.DTOs.SortingQuestionDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "backend.Controllers.QuestionController",
+    "Method": "UpdateSortingQuestion",
+    "RelativePath": "api/Question/sorting/{id}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "questionDTO",
+        "Type": "backend.DTOs.SortingQuestionDTO",
+        "IsRequired": true
+      },
+      {
+        "Name": "id",
+        "Type": "System.UInt64",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "backend.Controllers.QuestionController",
     "Method": "AddTrueFalseQuestion",
     "RelativePath": "api/Question/true-false",
     "HttpMethod": "POST",
@@ -256,6 +455,43 @@
       {
         "Name": "questionDTO",
         "Type": "backend.DTOs.TrueFalseQuestionDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "backend.Controllers.QuestionController",
+    "Method": "AddTrueFalseTHPTQuestion",
+    "RelativePath": "api/Question/true-false-THPT",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "questionDTO",
+        "Type": "backend.DTOs.TrueFalseTHPTQuestionDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "backend.Controllers.QuestionController",
+    "Method": "UpdateTrueFalseTHPTQuestion",
+    "RelativePath": "api/Question/true-false-THPT/{id}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "questionDTO",
+        "Type": "backend.DTOs.TrueFalseTHPTQuestionDTO",
+        "IsRequired": true
+      },
+      {
+        "Name": "id",
+        "Type": "System.UInt64",
         "IsRequired": true
       }
     ],
@@ -376,6 +612,22 @@
       {
         "Name": "id",
         "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "backend.Controllers.TeacherController",
+    "Method": "UpdateTeacher",
+    "RelativePath": "api/Teacher",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "t",
+        "Type": "backend.DTOs.TeacherDTO",
         "IsRequired": true
       }
     ],

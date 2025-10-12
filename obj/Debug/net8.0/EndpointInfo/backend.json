@@ -43,7 +43,146 @@
         }
       }
     },
+    "/api/Comment/{examId}": {
+      "get": {
+        "tags": [
+          "Comment"
+        ],
+        "parameters": [
+          {
+            "name": "examId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/CommentReadDTO"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/CommentReadDTO"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/CommentReadDTO"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Comment": {
+      "post": {
+        "tags": [
+          "Comment"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CommentInsertDTO"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CommentInsertDTO"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/CommentInsertDTO"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Comment/{id}": {
+      "delete": {
+        "tags": [
+          "Comment"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/api/Exam": {
+      "get": {
+        "tags": [
+          "Exam"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ExamReadDTO"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ExamReadDTO"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ExamReadDTO"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
       "post": {
         "tags": [
           "Exam"
@@ -52,21 +191,216 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/ExamDTO"
+                "$ref": "#/components/schemas/ExamInsertDTO"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/ExamDTO"
+                "$ref": "#/components/schemas/ExamInsertDTO"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/ExamDTO"
+                "$ref": "#/components/schemas/ExamInsertDTO"
               }
             }
           }
         },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Exam/{id}": {
+      "get": {
+        "tags": [
+          "Exam"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Exam"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Exam"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Exam"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Exam"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExamInsertDTO"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExamInsertDTO"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExamInsertDTO"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Exam"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Exam/teacher/{teacherId}": {
+      "get": {
+        "tags": [
+          "Exam"
+        ],
+        "parameters": [
+          {
+            "name": "teacherId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ExamReadDTO"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ExamReadDTO"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ExamReadDTO"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Exam/publish/{id}": {
+      "put": {
+        "tags": [
+          "Exam"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Exam/unpublish/{id}": {
+      "delete": {
+        "tags": [
+          "Exam"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "OK"
@@ -266,7 +600,7 @@
         }
       }
     },
-    "/api/Question/fill-in-the-blank": {
+    "/api/Question/manual-response": {
       "post": {
         "tags": [
           "Question"
@@ -275,17 +609,17 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/FillInTheBlankQuestionDTO"
+                "$ref": "#/components/schemas/ManualResponseQuestionDTO"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/FillInTheBlankQuestionDTO"
+                "$ref": "#/components/schemas/ManualResponseQuestionDTO"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/FillInTheBlankQuestionDTO"
+                "$ref": "#/components/schemas/ManualResponseQuestionDTO"
               }
             }
           }
@@ -297,7 +631,7 @@
         }
       }
     },
-    "/api/Question/constructed-response": {
+    "/api/Question/sorting": {
       "post": {
         "tags": [
           "Question"
@@ -306,17 +640,48 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/ConstructedResponseQuestionDTO"
+                "$ref": "#/components/schemas/SortingQuestionDTO"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/ConstructedResponseQuestionDTO"
+                "$ref": "#/components/schemas/SortingQuestionDTO"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/ConstructedResponseQuestionDTO"
+                "$ref": "#/components/schemas/SortingQuestionDTO"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Question/true-false-THPT": {
+      "post": {
+        "tags": [
+          "Question"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TrueFalseTHPTQuestionDTO"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TrueFalseTHPTQuestionDTO"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/TrueFalseTHPTQuestionDTO"
               }
             }
           }
@@ -454,7 +819,7 @@
         }
       }
     },
-    "/api/Question/fill-in-the-blank/{id}": {
+    "/api/Question/manual-response/{id}": {
       "put": {
         "tags": [
           "Question"
@@ -474,17 +839,17 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/FillInTheBlankQuestionDTO"
+                "$ref": "#/components/schemas/ManualResponseQuestionDTO"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/FillInTheBlankQuestionDTO"
+                "$ref": "#/components/schemas/ManualResponseQuestionDTO"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/FillInTheBlankQuestionDTO"
+                "$ref": "#/components/schemas/ManualResponseQuestionDTO"
               }
             }
           }
@@ -496,7 +861,7 @@
         }
       }
     },
-    "/api/Question/constructed-response/{id}": {
+    "/api/Question/sorting/{id}": {
       "put": {
         "tags": [
           "Question"
@@ -516,17 +881,59 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/ConstructedResponseQuestionDTO"
+                "$ref": "#/components/schemas/SortingQuestionDTO"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/ConstructedResponseQuestionDTO"
+                "$ref": "#/components/schemas/SortingQuestionDTO"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/ConstructedResponseQuestionDTO"
+                "$ref": "#/components/schemas/SortingQuestionDTO"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Question/true-false-THPT/{id}": {
+      "put": {
+        "tags": [
+          "Question"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TrueFalseTHPTQuestionDTO"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TrueFalseTHPTQuestionDTO"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/TrueFalseTHPTQuestionDTO"
               }
             }
           }
@@ -698,6 +1105,37 @@
             }
           }
         ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Teacher": {
+      "put": {
+        "tags": [
+          "Teacher"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TeacherDTO"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TeacherDTO"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/TeacherDTO"
+              }
+            }
+          }
+        },
         "responses": {
           "200": {
             "description": "OK"
@@ -959,8 +1397,15 @@
           "exam": {
             "$ref": "#/components/schemas/Exam"
           },
+          "inverseReplyToNavigation": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Comment"
+            },
+            "nullable": true
+          },
           "replyToNavigation": {
-            "$ref": "#/components/schemas/User"
+            "$ref": "#/components/schemas/Comment"
           },
           "user": {
             "$ref": "#/components/schemas/User"
@@ -968,73 +1413,58 @@
         },
         "additionalProperties": false
       },
-      "ConstructedResponseQuestion": {
+      "CommentInsertDTO": {
         "type": "object",
         "properties": {
-          "id": {
+          "examId": {
             "type": "integer",
             "format": "int64"
           },
-          "answerKeys": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
+          "userId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "replyTo": {
+            "type": "integer",
+            "format": "int64",
             "nullable": true
           },
-          "allowTakePhoto": {
-            "type": "boolean",
+          "content": {
+            "type": "string",
             "nullable": true
-          },
-          "allowEnter": {
-            "type": "boolean",
-            "nullable": true
-          },
-          "markAsWrong": {
-            "type": "boolean",
-            "nullable": true
-          },
-          "idNavigation": {
-            "$ref": "#/components/schemas/Question"
           }
         },
         "additionalProperties": false
       },
-      "ConstructedResponseQuestionDTO": {
+      "CommentReadDTO": {
         "type": "object",
         "properties": {
           "id": {
             "type": "integer",
             "format": "int64"
           },
-          "title": {
+          "userId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "userName": {
             "type": "string",
             "nullable": true
           },
-          "grade": {
-            "type": "integer",
-            "format": "int32",
-            "nullable": true
-          },
-          "type": {
-            "type": "integer",
-            "format": "int32",
-            "nullable": true
-          },
-          "difficulty": {
-            "type": "integer",
-            "format": "int32",
-            "nullable": true
-          },
-          "topicId": {
+          "userAvatar": {
             "type": "string",
             "nullable": true
           },
-          "subjectId": {
-            "type": "string",
+          "examId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "replyTo": {
+            "type": "integer",
+            "format": "int64",
             "nullable": true
           },
-          "explaination": {
+          "content": {
             "type": "string",
             "nullable": true
           },
@@ -1043,28 +1473,11 @@
             "format": "date-time",
             "nullable": true
           },
-          "updatedAt": {
-            "type": "string",
-            "format": "date-time",
-            "nullable": true
-          },
-          "answerKeys": {
+          "replies": {
             "type": "array",
             "items": {
-              "type": "string"
+              "$ref": "#/components/schemas/CommentReadDTO"
             },
-            "nullable": true
-          },
-          "allowTakePhoto": {
-            "type": "boolean",
-            "nullable": true
-          },
-          "allowEnter": {
-            "type": "boolean",
-            "nullable": true
-          },
-          "markAsWrong": {
-            "type": "boolean",
             "nullable": true
           }
         },
@@ -1079,8 +1492,7 @@
           },
           "examType": {
             "type": "integer",
-            "format": "int32",
-            "nullable": true
+            "format": "int32"
           },
           "displayType": {
             "type": "string",
@@ -1092,17 +1504,22 @@
           },
           "grade": {
             "type": "integer",
-            "format": "int32",
-            "nullable": true
+            "format": "int32"
           },
           "timeLimit": {
             "type": "integer",
+            "format": "int32"
+          },
+          "earlyTurnIn": {
+            "type": "integer",
             "format": "int32",
             "nullable": true
           },
-          "allowTurnInTime": {
-            "type": "integer",
-            "format": "int32",
+          "partTitle": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
             "nullable": true
           },
           "allowShowScore": {
@@ -1145,6 +1562,10 @@
             "format": "date-time",
             "nullable": true
           },
+          "state": {
+            "type": "integer",
+            "format": "int32"
+          },
           "approvedByNavigation": {
             "$ref": "#/components/schemas/Teacher"
           },
@@ -1152,6 +1573,27 @@
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/Comment"
+            },
+            "nullable": true
+          },
+          "examAttempts": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ExamAttempt"
+            },
+            "nullable": true
+          },
+          "pdfExamAttempts": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PdfExamAttempt"
+            },
+            "nullable": true
+          },
+          "pdfExamCodes": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PdfExamCode"
             },
             "nullable": true
           },
@@ -1164,7 +1606,89 @@
         },
         "additionalProperties": false
       },
-      "ExamDTO": {
+      "ExamAttempt": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "examId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "studentId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "score": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "duration": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "submittedAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "comment": {
+            "type": "string",
+            "nullable": true
+          },
+          "exam": {
+            "$ref": "#/components/schemas/Exam"
+          },
+          "examAttemptAnswers": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ExamAttemptAnswer"
+            },
+            "nullable": true
+          },
+          "student": {
+            "$ref": "#/components/schemas/Student"
+          }
+        },
+        "additionalProperties": false
+      },
+      "ExamAttemptAnswer": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "attemptId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "examQuestionId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "studentAnswer": {
+            "type": "string",
+            "nullable": true
+          },
+          "isCorrect": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "attempt": {
+            "$ref": "#/components/schemas/ExamAttempt"
+          },
+          "examQuestion": {
+            "$ref": "#/components/schemas/ExamQuestion"
+          }
+        },
+        "additionalProperties": false
+      },
+      "ExamInsertDTO": {
         "type": "object",
         "properties": {
           "id": {
@@ -1174,8 +1698,7 @@
           },
           "examType": {
             "type": "integer",
-            "format": "int32",
-            "nullable": true
+            "format": "int32"
           },
           "displayType": {
             "type": "string",
@@ -1187,15 +1710,13 @@
           },
           "grade": {
             "type": "integer",
-            "format": "int32",
-            "nullable": true
+            "format": "int32"
           },
           "timeLimit": {
             "type": "integer",
-            "format": "int32",
-            "nullable": true
+            "format": "int32"
           },
-          "allowTurnInTime": {
+          "earlyTurnIn": {
             "type": "integer",
             "format": "int32",
             "nullable": true
@@ -1230,49 +1751,96 @@
             "format": "int64",
             "nullable": true
           },
-          "createdAt": {
-            "type": "string",
-            "format": "date-time",
-            "nullable": true
-          },
-          "updatedAt": {
-            "type": "string",
-            "format": "date-time",
+          "state": {
+            "type": "integer",
+            "format": "int32",
             "nullable": true
           }
         },
         "additionalProperties": false
       },
-      "FillInTheBlankQuestion": {
+      "ExamPart": {
         "type": "object",
         "properties": {
           "id": {
             "type": "integer",
             "format": "int64"
           },
-          "answerKeys": {
+          "examId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "partIndex": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "points": {
             "type": "array",
             "items": {
-              "type": "string"
+              "type": "number",
+              "format": "double"
             },
             "nullable": true
           },
-          "markAsWrong": {
-            "type": "boolean",
+          "examQuestions": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ExamQuestion"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ExamQuestion": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "examPartId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "questionId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "orderIndex": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "examAttemptAnswers": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ExamAttemptAnswer"
+            },
             "nullable": true
           },
-          "idNavigation": {
+          "examPart": {
+            "$ref": "#/components/schemas/ExamPart"
+          },
+          "question": {
             "$ref": "#/components/schemas/Question"
           }
         },
         "additionalProperties": false
       },
-      "FillInTheBlankQuestionDTO": {
+      "ExamReadDTO": {
         "type": "object",
         "properties": {
           "id": {
             "type": "integer",
             "format": "int64"
+          },
+          "examType": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "displayType": {
+            "type": "string",
+            "nullable": true
           },
           "title": {
             "type": "string",
@@ -1280,20 +1848,46 @@
           },
           "grade": {
             "type": "integer",
-            "format": "int32",
-            "nullable": true
+            "format": "int32"
           },
-          "type": {
+          "timeLimit": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "earlyTurnIn": {
             "type": "integer",
             "format": "int32",
             "nullable": true
           },
-          "difficulty": {
-            "type": "integer",
-            "format": "int32",
+          "partTitle": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
             "nullable": true
           },
-          "topicId": {
+          "allowShowScore": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "allowPartSwap": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "allowQuestionSwap": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "allowAnswerSwap": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "teacherId": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "teacherName": {
             "type": "string",
             "nullable": true
           },
@@ -1301,29 +1895,13 @@
             "type": "string",
             "nullable": true
           },
-          "explaination": {
+          "subjectName": {
             "type": "string",
             "nullable": true
           },
-          "createdAt": {
-            "type": "string",
-            "format": "date-time",
-            "nullable": true
-          },
-          "updatedAt": {
-            "type": "string",
-            "format": "date-time",
-            "nullable": true
-          },
-          "answerKeys": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
-            "nullable": true
-          },
-          "markAsWrong": {
-            "type": "boolean",
+          "state": {
+            "type": "integer",
+            "format": "int32",
             "nullable": true
           }
         },
@@ -1350,6 +1928,107 @@
         },
         "additionalProperties": false
       },
+      "ManualResponseQuestion": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "idNavigation": {
+            "$ref": "#/components/schemas/Question"
+          },
+          "answerKeys": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          },
+          "allowTakePhoto": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "allowEnter": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "markAsWrong": {
+            "type": "boolean",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ManualResponseQuestionDTO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "title": {
+            "type": "string",
+            "nullable": true
+          },
+          "grade": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "type": {
+            "type": "string",
+            "nullable": true
+          },
+          "difficulty": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "topicId": {
+            "type": "string",
+            "nullable": true
+          },
+          "subjectId": {
+            "type": "string",
+            "nullable": true
+          },
+          "explanation": {
+            "type": "string",
+            "nullable": true
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "answerKeys": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          },
+          "allowTakePhoto": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "allowEnter": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "markAsWrong": {
+            "type": "boolean",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
       "MultipleChoiceQuestion": {
         "type": "object",
         "properties": {
@@ -1357,28 +2036,24 @@
             "type": "integer",
             "format": "int64"
           },
-          "answerA": {
-            "type": "string",
-            "nullable": true
-          },
-          "answerB": {
-            "type": "string",
-            "nullable": true
-          },
-          "answerC": {
-            "type": "string",
-            "nullable": true
-          },
-          "answerD": {
-            "type": "string",
-            "nullable": true
-          },
-          "answerKey": {
-            "type": "string",
-            "nullable": true
-          },
           "idNavigation": {
             "$ref": "#/components/schemas/Question"
+          },
+          "correctAnswer": {
+            "type": "string",
+            "nullable": true
+          },
+          "wrongAnswer1": {
+            "type": "string",
+            "nullable": true
+          },
+          "wrongAnswer2": {
+            "type": "string",
+            "nullable": true
+          },
+          "wrongAnswer3": {
+            "type": "string",
+            "nullable": true
           }
         },
         "additionalProperties": false
@@ -1400,8 +2075,7 @@
             "nullable": true
           },
           "type": {
-            "type": "integer",
-            "format": "int32",
+            "type": "string",
             "nullable": true
           },
           "difficulty": {
@@ -1417,7 +2091,7 @@
             "type": "string",
             "nullable": true
           },
-          "explaination": {
+          "explanation": {
             "type": "string",
             "nullable": true
           },
@@ -1431,24 +2105,113 @@
             "format": "date-time",
             "nullable": true
           },
-          "answerA": {
+          "correctAnswer": {
             "type": "string",
             "nullable": true
           },
-          "answerB": {
+          "wrongAnswer1": {
             "type": "string",
             "nullable": true
           },
-          "answerC": {
+          "wrongAnswer2": {
             "type": "string",
             "nullable": true
           },
-          "answerD": {
+          "wrongAnswer3": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "PdfExamAttempt": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "examId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "studentId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "score": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "duration": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "submittedAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "comment": {
+            "type": "string",
+            "nullable": true
+          },
+          "codeId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "studentAnswer": {
+            "type": "string",
+            "nullable": true
+          },
+          "correctBoard": {
+            "type": "array",
+            "items": {
+              "type": "boolean"
+            },
+            "nullable": true
+          },
+          "code": {
+            "$ref": "#/components/schemas/PdfExamCode"
+          },
+          "exam": {
+            "$ref": "#/components/schemas/Exam"
+          },
+          "student": {
+            "$ref": "#/components/schemas/Student"
+          }
+        },
+        "additionalProperties": false
+      },
+      "PdfExamCode": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "examId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "code": {
             "type": "string",
             "nullable": true
           },
           "answerKey": {
             "type": "string",
+            "nullable": true
+          },
+          "exam": {
+            "$ref": "#/components/schemas/Exam"
+          },
+          "pdfExamAttempts": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PdfExamAttempt"
+            },
             "nullable": true
           }
         },
@@ -1471,8 +2234,7 @@
             "nullable": true
           },
           "type": {
-            "type": "integer",
-            "format": "int32",
+            "type": "string",
             "nullable": true
           },
           "difficulty": {
@@ -1488,7 +2250,7 @@
             "type": "string",
             "nullable": true
           },
-          "explaination": {
+          "explanation": {
             "type": "string",
             "nullable": true
           },
@@ -1502,14 +2264,18 @@
             "format": "date-time",
             "nullable": true
           },
-          "constructedResponseQuestion": {
-            "$ref": "#/components/schemas/ConstructedResponseQuestion"
-          },
-          "fillInTheBlankQuestion": {
-            "$ref": "#/components/schemas/FillInTheBlankQuestion"
+          "examQuestions": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ExamQuestion"
+            },
+            "nullable": true
           },
           "groupQuestion": {
             "$ref": "#/components/schemas/GroupQuestion"
+          },
+          "manualResponseQuestion": {
+            "$ref": "#/components/schemas/ManualResponseQuestion"
           },
           "multipleChoiceQuestion": {
             "$ref": "#/components/schemas/MultipleChoiceQuestion"
@@ -1528,6 +2294,9 @@
           },
           "trueFalseQuestion": {
             "$ref": "#/components/schemas/TrueFalseQuestion"
+          },
+          "trueFalseTHPTQuestion": {
+            "$ref": "#/components/schemas/TrueFalseTHPTQuestion"
           }
         },
         "additionalProperties": false
@@ -1549,8 +2318,7 @@
             "nullable": true
           },
           "type": {
-            "type": "integer",
-            "format": "int32",
+            "type": "string",
             "nullable": true
           },
           "difficulty": {
@@ -1566,7 +2334,7 @@
             "type": "string",
             "nullable": true
           },
-          "explaination": {
+          "explanation": {
             "type": "string",
             "nullable": true
           },
@@ -1590,12 +2358,12 @@
             "type": "integer",
             "format": "int64"
           },
+          "idNavigation": {
+            "$ref": "#/components/schemas/Question"
+          },
           "answerKey": {
             "type": "number",
             "format": "double"
-          },
-          "idNavigation": {
-            "$ref": "#/components/schemas/Question"
           }
         },
         "additionalProperties": false
@@ -1617,8 +2385,7 @@
             "nullable": true
           },
           "type": {
-            "type": "integer",
-            "format": "int32",
+            "type": "string",
             "nullable": true
           },
           "difficulty": {
@@ -1634,7 +2401,7 @@
             "type": "string",
             "nullable": true
           },
-          "explaination": {
+          "explanation": {
             "type": "string",
             "nullable": true
           },
@@ -1662,15 +2429,72 @@
             "type": "integer",
             "format": "int64"
           },
+          "idNavigation": {
+            "$ref": "#/components/schemas/Question"
+          },
           "correctOrder": {
             "type": "array",
             "items": {
               "type": "string"
             },
             "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "SortingQuestionDTO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
           },
-          "idNavigation": {
-            "$ref": "#/components/schemas/Question"
+          "title": {
+            "type": "string",
+            "nullable": true
+          },
+          "grade": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "type": {
+            "type": "string",
+            "nullable": true
+          },
+          "difficulty": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "topicId": {
+            "type": "string",
+            "nullable": true
+          },
+          "subjectId": {
+            "type": "string",
+            "nullable": true
+          },
+          "explanation": {
+            "type": "string",
+            "nullable": true
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "correctOrder": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
           }
         },
         "additionalProperties": false
@@ -1686,8 +2510,73 @@
             "type": "string",
             "nullable": true
           },
+          "examAttempts": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ExamAttempt"
+            },
+            "nullable": true
+          },
           "idNavigation": {
             "$ref": "#/components/schemas/User"
+          },
+          "pdfExamAttempts": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PdfExamAttempt"
+            },
+            "nullable": true
+          },
+          "studentProcesses": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/StudentProcess"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "StudentProcess": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "studentId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "subjectId": {
+            "type": "string",
+            "nullable": true
+          },
+          "avgScore": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "correctRate": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "streakDays": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "lastActivity": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "student": {
+            "$ref": "#/components/schemas/Student"
+          },
+          "subject": {
+            "$ref": "#/components/schemas/Subject"
           }
         },
         "additionalProperties": false
@@ -1756,6 +2645,13 @@
             },
             "nullable": true
           },
+          "studentProcesses": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/StudentProcess"
+            },
+            "nullable": true
+          },
           "teachers": {
             "type": "array",
             "items": {
@@ -1796,6 +2692,10 @@
             },
             "nullable": true
           },
+          "introduction": {
+            "type": "string",
+            "nullable": true
+          },
           "examApprovedByNavigations": {
             "type": "array",
             "items": {
@@ -1815,6 +2715,41 @@
           },
           "subject": {
             "$ref": "#/components/schemas/Subject"
+          }
+        },
+        "additionalProperties": false
+      },
+      "TeacherDTO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "role": {
+            "type": "string",
+            "nullable": true
+          },
+          "subjectId": {
+            "type": "string",
+            "nullable": true
+          },
+          "grades": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "nullable": true
+          },
+          "introduction": {
+            "type": "string",
+            "nullable": true
           }
         },
         "additionalProperties": false
@@ -1902,12 +2837,12 @@
             "type": "integer",
             "format": "int64"
           },
+          "idNavigation": {
+            "$ref": "#/components/schemas/Question"
+          },
           "answerKey": {
             "type": "boolean",
             "nullable": true
-          },
-          "idNavigation": {
-            "$ref": "#/components/schemas/Question"
           }
         },
         "additionalProperties": false
@@ -1929,8 +2864,7 @@
             "nullable": true
           },
           "type": {
-            "type": "integer",
-            "format": "int32",
+            "type": "string",
             "nullable": true
           },
           "difficulty": {
@@ -1946,7 +2880,7 @@
             "type": "string",
             "nullable": true
           },
-          "explaination": {
+          "explanation": {
             "type": "string",
             "nullable": true
           },
@@ -1962,6 +2896,97 @@
           },
           "answerKey": {
             "type": "boolean",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "TrueFalseTHPTQuestion": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "idNavigation": {
+            "$ref": "#/components/schemas/Question"
+          },
+          "statements": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          },
+          "answerKeys": {
+            "type": "array",
+            "items": {
+              "type": "boolean"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "TrueFalseTHPTQuestionDTO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "title": {
+            "type": "string",
+            "nullable": true
+          },
+          "grade": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "type": {
+            "type": "string",
+            "nullable": true
+          },
+          "difficulty": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "topicId": {
+            "type": "string",
+            "nullable": true
+          },
+          "subjectId": {
+            "type": "string",
+            "nullable": true
+          },
+          "explanation": {
+            "type": "string",
+            "nullable": true
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "statements": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          },
+          "answerKeys": {
+            "type": "array",
+            "items": {
+              "type": "boolean"
+            },
             "nullable": true
           }
         },
@@ -1996,22 +3021,15 @@
             "format": "date-time",
             "nullable": true
           },
-          "commentReplyToNavigations": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/Comment"
-            },
-            "nullable": true
-          },
-          "commentUsers": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/Comment"
-            },
-            "nullable": true
-          },
           "admin": {
             "$ref": "#/components/schemas/Admin"
+          },
+          "comments": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Comment"
+            },
+            "nullable": true
           },
           "student": {
             "$ref": "#/components/schemas/Student"

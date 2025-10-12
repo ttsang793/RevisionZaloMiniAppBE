@@ -37,19 +37,19 @@ public class QuestionDb
         return await _dbContext.ShortAnswerQuestions.FirstAsync(q => q.Id == id);
     }
 
-    public async Task<FillInTheBlankQuestion> GetFillInTheBlankQuestionById(ulong id)
+    public async Task<ManualResponseQuestion> GetManualResponseQuestionById(ulong id)
     {
-        return await _dbContext.FillInTheBlankQuestions.FirstAsync(q => q.Id == id);
-    }
-
-    public async Task<ConstructedResponseQuestion> GetConstructedResponseQuestionById(ulong id)
-    {
-        return await _dbContext.ConstructedResponseQuestions.FirstAsync(q => q.Id == id);
+        return await _dbContext.ManualResponseQuestions.FirstAsync(q => q.Id == id);
     }
 
     public async Task<SortingQuestion> GetSortingQuestionById(ulong id)
     {
         return await _dbContext.SortingQuestions.FirstAsync(q => q.Id == id);
+    }
+
+    public async Task<TrueFalseTHPTQuestion> GetTrueFalseTHPTQuestionById(ulong id)
+    {
+        return await _dbContext.TrueFalseTHPTQuestions.FirstAsync(q => q.Id == id);
     }
 
     public async Task<ulong> GetLastIndex()
@@ -96,154 +96,58 @@ public class QuestionDb
         return await _dbContext.SaveChangesAsync() > 0;
     }
 
-    public async Task<bool> AddFillInTheBlankQuestion(Question q, FillInTheBlankQuestion fitbq)
+    public async Task<bool> AddManualResponseQuestion(Question q, ManualResponseQuestion mrq)
     {
         _dbContext.Questions.Add(q);
 
         if (await _dbContext.SaveChangesAsync() > 0)
         {
-            fitbq.Id = await GetLastIndex();
-            _dbContext.FillInTheBlankQuestions.Add(fitbq);
+            mrq.Id = await GetLastIndex();
+            _dbContext.ManualResponseQuestions.Add(mrq);
         }
 
         return await _dbContext.SaveChangesAsync() > 0;
     }
 
-    public async Task<bool> AddConstructedResponseQuestion(Question q, ConstructedResponseQuestion crq)
+    public async Task<bool> AddSortingQuestion(Question q, SortingQuestion sq)
     {
         _dbContext.Questions.Add(q);
 
         if (await _dbContext.SaveChangesAsync() > 0)
         {
-            crq.Id = await GetLastIndex();
-            _dbContext.ConstructedResponseQuestions.Add(crq);
+            sq.Id = await GetLastIndex();
+            _dbContext.SortingQuestions.Add(sq);
         }
 
         return await _dbContext.SaveChangesAsync() > 0;
     }
 
-    public async Task<bool> UpdateMultipleChoiceQuestion(Question q, MultipleChoiceQuestion mcq)
+    public async Task<bool> AddTrueFalseTHPTQuestion(Question q, TrueFalseTHPTQuestion tfq)
     {
-        var existingQuestion = await _dbContext.Questions.AsNoTracking().FirstOrDefaultAsync(x => x.Id == q.Id);
-        if (existingQuestion == null) return false;
+        _dbContext.Questions.Add(q);
 
-        q.CreatedAt = existingQuestion.CreatedAt;
-        q.UpdatedAt = DateTime.Now;
-
-        using var transaction = await _dbContext.Database.BeginTransactionAsync();
-
-        try
+        if (await _dbContext.SaveChangesAsync() > 0)
         {
-            _dbContext.Entry(q).State = EntityState.Modified;
-            _dbContext.Entry(mcq).State = EntityState.Modified;
-
-            var result = await _dbContext.SaveChangesAsync() > 0;
-            await transaction.CommitAsync();
-
-            return result;
+            tfq.Id = await GetLastIndex();
+            _dbContext.TrueFalseTHPTQuestions.Add(tfq);
         }
-        catch
-        {
-            await transaction.RollbackAsync();
-            throw;
-        }
+
+        return await _dbContext.SaveChangesAsync() > 0;
     }
 
-    public async Task<bool> UpdateTrueFalseQuestion(Question q, TrueFalseQuestion tfq)
+    public async Task<bool> UpdateQuestion(Question q, TypeQuestion tq)
     {
         var existingQuestion = await _dbContext.Questions.AsNoTracking().FirstOrDefaultAsync(x => x.Id == q.Id);
         if (existingQuestion == null) return false;
 
         q.CreatedAt = existingQuestion.CreatedAt;
-        q.UpdatedAt = DateTime.Now;
 
         using var transaction = await _dbContext.Database.BeginTransactionAsync();
 
         try
         {
             _dbContext.Entry(q).State = EntityState.Modified;
-            _dbContext.Entry(tfq).State = EntityState.Modified;
-
-            var result = await _dbContext.SaveChangesAsync() > 0;
-            await transaction.CommitAsync();
-
-            return result;
-        }
-        catch
-        {
-            await transaction.RollbackAsync();
-            throw;
-        }
-    }
-
-    public async Task<bool> UpdateShortAnswerQuestion(Question q, ShortAnswerQuestion saq)
-    {
-        var existingQuestion = await _dbContext.Questions.AsNoTracking().FirstOrDefaultAsync(x => x.Id == q.Id);
-        if (existingQuestion == null) return false;
-
-        q.CreatedAt = existingQuestion.CreatedAt;
-        q.UpdatedAt = DateTime.Now;
-
-        using var transaction = await _dbContext.Database.BeginTransactionAsync();
-
-        try
-        {
-            _dbContext.Entry(q).State = EntityState.Modified;
-            _dbContext.Entry(saq).State = EntityState.Modified;
-
-            var result = await _dbContext.SaveChangesAsync() > 0;
-            await transaction.CommitAsync();
-
-            return result;
-        }
-        catch
-        {
-            await transaction.RollbackAsync();
-            throw;
-        }
-    }
-
-    public async Task<bool> UpdateFillInTheBlankQuestion(Question q, FillInTheBlankQuestion fitbq)
-    {
-        var existingQuestion = await _dbContext.Questions.AsNoTracking().FirstOrDefaultAsync(x => x.Id == q.Id);
-        if (existingQuestion == null) return false;
-
-        q.CreatedAt = existingQuestion.CreatedAt;
-        q.UpdatedAt = DateTime.Now;
-
-        using var transaction = await _dbContext.Database.BeginTransactionAsync();
-
-        try
-        {
-            _dbContext.Entry(q).State = EntityState.Modified;
-            _dbContext.Entry(fitbq).State = EntityState.Modified;
-
-            var result = await _dbContext.SaveChangesAsync() > 0;
-            await transaction.CommitAsync();
-
-            return result;
-        }
-        catch
-        {
-            await transaction.RollbackAsync();
-            throw;
-        }
-    }
-
-    public async Task<bool> UpdateConstructedResponseQuestion(Question q, ConstructedResponseQuestion crq)
-    {
-        var existingQuestion = await _dbContext.Questions.AsNoTracking().FirstOrDefaultAsync(x => x.Id == q.Id);
-        if (existingQuestion == null) return false;
-
-        q.CreatedAt = existingQuestion.CreatedAt;
-        q.UpdatedAt = DateTime.Now;
-
-        using var transaction = await _dbContext.Database.BeginTransactionAsync();
-
-        try
-        {
-            _dbContext.Entry(q).State = EntityState.Modified;
-            _dbContext.Entry(crq).State = EntityState.Modified;
+            _dbContext.Entry(tq).State = EntityState.Modified;
 
             var result = await _dbContext.SaveChangesAsync() > 0;
             await transaction.CommitAsync();

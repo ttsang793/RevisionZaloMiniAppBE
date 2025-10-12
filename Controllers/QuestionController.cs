@@ -28,13 +28,16 @@ public class QuestionController : Controller
     public async Task<QuestionDTO> GetQuestionById(ulong id)
     {
         var question = await _questionDb.GetQuestionById(id);
+
         switch (question.Type)
         {
-            case 1: return await GetMultipleChoiceQuestionById(question);
-            case 2: return await GetTrueFalseQuestionById(question);
-            case 3: return await GetShortAnswerQuestionById(question);
-            case 4: return await GetFillInTheBlankQuestionById(question);
-            case 5: return await GetConstructedResponseQuestionById(question);
+            case "multiple-choice": return await GetMultipleChoiceQuestionById(question);
+            case "true-false": return await GetTrueFalseQuestionById(question);
+            case "short-answer": return await GetShortAnswerQuestionById(question);
+            case "fill-in-the-blank": case "constructed-response": return await GetManualResponseQuestionById(question);
+            case "sorting": return await GetSortingQuestionById(question);
+            //case "group": return await GetSortingQuestionById(question);
+            case "true-false-thpt": return await GetTrueFalseTHPTQuestionById(question);
             default: break;
         }
         return null;
@@ -52,12 +55,11 @@ public class QuestionController : Controller
             Difficulty = q.Difficulty,
             TopicId = q.TopicId,
             SubjectId = q.SubjectId,
-            Explaination = q.Explaination,
-            AnswerA = answer.AnswerA,
-            AnswerB = answer.AnswerB,
-            AnswerC = answer.AnswerC,
-            AnswerD = answer.AnswerD,
-            AnswerKey = answer.AnswerKey
+            Explanation = q.Explanation,
+            CorrectAnswer = answer.CorrectAnswer,
+            WrongAnswer1 = answer.WrongAnswer1,
+            WrongAnswer2 = answer.WrongAnswer2,
+            WrongAnswer3 = answer.WrongAnswer3,
         };
     }
 
@@ -73,7 +75,7 @@ public class QuestionController : Controller
             Difficulty = q.Difficulty,
             TopicId = q.TopicId,
             SubjectId = q.SubjectId,
-            Explaination = q.Explaination,
+            Explanation = q.Explanation,
             AnswerKey = answer.AnswerKey
         };
     }
@@ -90,15 +92,15 @@ public class QuestionController : Controller
             Difficulty = q.Difficulty,
             TopicId = q.TopicId,
             SubjectId = q.SubjectId,
-            Explaination = q.Explaination,
+            Explanation = q.Explanation,
             AnswerKey = answer.AnswerKey
         };
     }
 
-    private async Task<FillInTheBlankQuestionDTO> GetFillInTheBlankQuestionById(Question q)
+    private async Task<ManualResponseQuestionDTO> GetManualResponseQuestionById(Question q)
     {
-        var answer = await _questionDb.GetFillInTheBlankQuestionById(q.Id);
-        return new FillInTheBlankQuestionDTO
+        var answer = await _questionDb.GetManualResponseQuestionById(q.Id);
+        return new ManualResponseQuestionDTO
         {
             Id = q.Id,
             Title = q.Title,
@@ -107,16 +109,16 @@ public class QuestionController : Controller
             Difficulty = q.Difficulty,
             TopicId = q.TopicId,
             SubjectId = q.SubjectId,
-            Explaination = q.Explaination,
+            Explanation = q.Explanation,
             AnswerKeys = answer.AnswerKeys,
             MarkAsWrong = answer.MarkAsWrong
         };
     }
 
-    private async Task<ConstructedResponseQuestionDTO> GetConstructedResponseQuestionById(Question q)
+    private async Task<SortingQuestionDTO> GetSortingQuestionById(Question q)
     {
-        var answer = await _questionDb.GetConstructedResponseQuestionById(q.Id);
-        return new ConstructedResponseQuestionDTO
+        var answer = await _questionDb.GetSortingQuestionById(q.Id);
+        return new SortingQuestionDTO
         {
             Id = q.Id,
             Title = q.Title,
@@ -125,11 +127,26 @@ public class QuestionController : Controller
             Difficulty = q.Difficulty,
             TopicId = q.TopicId,
             SubjectId = q.SubjectId,
-            Explaination = q.Explaination,
-            AnswerKeys = answer.AnswerKeys,
-            AllowTakePhoto = answer.AllowTakePhoto,
-            AllowEnter = answer.AllowEnter,
-            MarkAsWrong = answer.MarkAsWrong
+            Explanation = q.Explanation,
+            CorrectOrder = answer.CorrectOrder
+        };
+    }
+
+    private async Task<TrueFalseTHPTQuestionDTO> GetTrueFalseTHPTQuestionById(Question q)
+    {
+        var answer = await _questionDb.GetTrueFalseTHPTQuestionById(q.Id);
+        return new TrueFalseTHPTQuestionDTO
+        {
+            Id = q.Id,
+            Title = q.Title,
+            Grade = q.Grade,
+            Type = q.Type,
+            Difficulty = q.Difficulty,
+            TopicId = q.TopicId,
+            SubjectId = q.SubjectId,
+            Explanation = q.Explanation,
+            Statements = answer.Statements,
+            AnswerKeys = answer.AnswerKeys
         };
     }
 
@@ -146,19 +163,16 @@ public class QuestionController : Controller
             Difficulty = questionDTO.Difficulty,
             TopicId = questionDTO.TopicId,
             SubjectId = questionDTO.SubjectId,
-            Explaination = questionDTO.Explaination,
-            CreatedAt = DateTime.Now,
-            UpdatedAt = DateTime.Now
+            Explanation = questionDTO.Explanation
         };
 
         MultipleChoiceQuestion mcq = new MultipleChoiceQuestion
         {
             Id = questionDTO.Id,
-            AnswerA = questionDTO.AnswerA,
-            AnswerB = questionDTO.AnswerB,
-            AnswerC = questionDTO.AnswerC,
-            AnswerD = questionDTO.AnswerD,
-            AnswerKey = questionDTO.AnswerKey
+            CorrectAnswer = questionDTO.CorrectAnswer,
+            WrongAnswer1 = questionDTO.WrongAnswer1,
+            WrongAnswer2 = questionDTO.WrongAnswer2,
+            WrongAnswer3 = questionDTO.WrongAnswer3
         };
 
         return await _questionDb.AddMultipleChoiceQuestion(q, mcq) ? StatusCode(201) : StatusCode(400);
@@ -176,9 +190,7 @@ public class QuestionController : Controller
             Difficulty = questionDTO.Difficulty,
             TopicId = questionDTO.TopicId,
             SubjectId = questionDTO.SubjectId,
-            Explaination = questionDTO.Explaination,
-            CreatedAt = DateTime.Now,
-            UpdatedAt = DateTime.Now
+            Explanation = questionDTO.Explanation
         };
 
         TrueFalseQuestion tfq = new TrueFalseQuestion
@@ -202,9 +214,7 @@ public class QuestionController : Controller
             Difficulty = questionDTO.Difficulty,
             TopicId = questionDTO.TopicId,
             SubjectId = questionDTO.SubjectId,
-            Explaination = questionDTO.Explaination,
-            CreatedAt = DateTime.Now,
-            UpdatedAt = DateTime.Now
+            Explanation = questionDTO.Explanation
         };
 
         ShortAnswerQuestion saq = new ShortAnswerQuestion
@@ -216,8 +226,8 @@ public class QuestionController : Controller
         return await _questionDb.AddShortAnswerQuestion(q, saq) ? StatusCode(201) : StatusCode(400);
     }
 
-    [HttpPost("fill-in-the-blank")]
-    public async Task<IActionResult> AddFillInTheBlankQuestion(FillInTheBlankQuestionDTO questionDTO)
+    [HttpPost("manual-response")]
+    public async Task<IActionResult> AddManualResponseQuestion(ManualResponseQuestionDTO questionDTO)
     {
         Question q = new Question
         {
@@ -228,39 +238,10 @@ public class QuestionController : Controller
             Difficulty = questionDTO.Difficulty,
             TopicId = questionDTO.TopicId,
             SubjectId = questionDTO.SubjectId,
-            Explaination = questionDTO.Explaination,
-            CreatedAt = DateTime.Now,
-            UpdatedAt = DateTime.Now
+            Explanation = questionDTO.Explanation
         };
 
-        FillInTheBlankQuestion fitbq = new FillInTheBlankQuestion
-        {
-            Id = questionDTO.Id,
-            AnswerKeys = questionDTO.AnswerKeys,
-            MarkAsWrong = questionDTO.MarkAsWrong
-        };
-
-        return await _questionDb.AddFillInTheBlankQuestion(q, fitbq) ? StatusCode(201) : StatusCode(400);
-    }
-
-    [HttpPost("constructed-response")]
-    public async Task<IActionResult> AddConstructedResponseQuestion(ConstructedResponseQuestionDTO questionDTO)
-    {
-        Question q = new Question
-        {
-            Id = questionDTO.Id,
-            Title = questionDTO.Title,
-            Grade = questionDTO.Grade,
-            Type = questionDTO.Type,
-            Difficulty = questionDTO.Difficulty,
-            TopicId = questionDTO.TopicId,
-            SubjectId = questionDTO.SubjectId,
-            Explaination = questionDTO.Explaination,
-            CreatedAt = DateTime.Now,
-            UpdatedAt = DateTime.Now
-        };
-
-        ConstructedResponseQuestion crq = new ConstructedResponseQuestion
+        ManualResponseQuestion crq = new ManualResponseQuestion
         {
             Id = questionDTO.Id,
             AnswerKeys = questionDTO.AnswerKeys,
@@ -269,7 +250,58 @@ public class QuestionController : Controller
             MarkAsWrong = questionDTO.MarkAsWrong
         };
 
-        return await _questionDb.AddConstructedResponseQuestion(q, crq) ? StatusCode(201) : StatusCode(400);
+        return await _questionDb.AddManualResponseQuestion(q, crq) ? StatusCode(201) : StatusCode(400);
+    }
+
+    [HttpPost("sorting")]
+    public async Task<IActionResult> AddSortingQuestion(SortingQuestionDTO questionDTO)
+    {
+        Question q = new Question
+        {
+            Id = questionDTO.Id,
+            Title = questionDTO.Title,
+            Grade = questionDTO.Grade,
+            Type = questionDTO.Type,
+            Difficulty = questionDTO.Difficulty,
+            TopicId = questionDTO.TopicId,
+            SubjectId = questionDTO.SubjectId,
+            Explanation = questionDTO.Explanation
+        };
+
+        SortingQuestion sq = new SortingQuestion
+        {
+            Id = questionDTO.Id,
+            CorrectOrder = questionDTO.CorrectOrder
+        };
+
+        return await _questionDb.AddSortingQuestion(q, sq) ? StatusCode(201) : StatusCode(400);
+    }
+
+    [HttpPost("true-false-THPT")]
+    public async Task<IActionResult> AddTrueFalseTHPTQuestion(TrueFalseTHPTQuestionDTO questionDTO)
+    {
+        Question q = new Question
+        {
+            Id = questionDTO.Id,
+            Title = questionDTO.Title,
+            Grade = questionDTO.Grade,
+            Type = questionDTO.Type,
+            Difficulty = questionDTO.Difficulty,
+            TopicId = questionDTO.TopicId,
+            SubjectId = questionDTO.SubjectId,
+            Explanation = questionDTO.Explanation,
+            CreatedAt = DateTime.Now,
+            UpdatedAt = DateTime.Now
+        };
+
+        TrueFalseTHPTQuestion tfq = new TrueFalseTHPTQuestion
+        {
+            Id = questionDTO.Id,
+            Statements = questionDTO.Statements,
+            AnswerKeys = questionDTO.AnswerKeys
+        };
+
+        return await _questionDb.AddTrueFalseTHPTQuestion(q, tfq) ? StatusCode(201) : StatusCode(400);
     }
 
     // PUT
@@ -285,21 +317,20 @@ public class QuestionController : Controller
             Difficulty = questionDTO.Difficulty,
             TopicId = questionDTO.TopicId,
             SubjectId = questionDTO.SubjectId,
-            Explaination = questionDTO.Explaination,
+            Explanation = questionDTO.Explanation,
             UpdatedAt = DateTime.Now
         };
 
         MultipleChoiceQuestion mcq = new MultipleChoiceQuestion
         {
             Id = id,
-            AnswerA = questionDTO.AnswerA,
-            AnswerB = questionDTO.AnswerB,
-            AnswerC = questionDTO.AnswerC,
-            AnswerD = questionDTO.AnswerD,
-            AnswerKey = questionDTO.AnswerKey
+            CorrectAnswer = questionDTO.CorrectAnswer,
+            WrongAnswer1 = questionDTO.WrongAnswer1,
+            WrongAnswer2 = questionDTO.WrongAnswer2,
+            WrongAnswer3 = questionDTO.WrongAnswer3,
         };
 
-        return await _questionDb.UpdateMultipleChoiceQuestion(q, mcq) ? StatusCode(201) : StatusCode(400);
+        return await _questionDb.UpdateQuestion(q, mcq) ? StatusCode(201) : StatusCode(400);
     }
 
     [HttpPut("true-false/{id}")]
@@ -314,8 +345,7 @@ public class QuestionController : Controller
             Difficulty = questionDTO.Difficulty,
             TopicId = questionDTO.TopicId,
             SubjectId = questionDTO.SubjectId,
-            Explaination = questionDTO.Explaination,
-            UpdatedAt = DateTime.Now
+            Explanation = questionDTO.Explanation
         };
 
         TrueFalseQuestion tfq = new TrueFalseQuestion
@@ -324,7 +354,7 @@ public class QuestionController : Controller
             AnswerKey = questionDTO.AnswerKey
         };
 
-        return await _questionDb.UpdateTrueFalseQuestion(q, tfq) ? StatusCode(201) : StatusCode(400);
+        return await _questionDb.UpdateQuestion(q, tfq) ? StatusCode(201) : StatusCode(400);
     }
 
     [HttpPut("short-answer/{id}")]
@@ -339,8 +369,7 @@ public class QuestionController : Controller
             Difficulty = questionDTO.Difficulty,
             TopicId = questionDTO.TopicId,
             SubjectId = questionDTO.SubjectId,
-            Explaination = questionDTO.Explaination,
-            UpdatedAt = DateTime.Now
+            Explanation = questionDTO.Explanation
         };
 
         ShortAnswerQuestion saq = new ShortAnswerQuestion
@@ -349,11 +378,11 @@ public class QuestionController : Controller
             AnswerKey = questionDTO.AnswerKey
         };
 
-        return await _questionDb.UpdateShortAnswerQuestion(q, saq) ? StatusCode(201) : StatusCode(400);
+        return await _questionDb.UpdateQuestion(q, saq) ? StatusCode(201) : StatusCode(400);
     }
 
-    [HttpPut("fill-in-the-blank/{id}")]
-    public async Task<IActionResult> UpdateFillInTheBlankQuestion(FillInTheBlankQuestionDTO questionDTO, ulong id)
+    [HttpPut("manual-response/{id}")]
+    public async Task<IActionResult> UpdateManualResponseQuestion(ManualResponseQuestionDTO questionDTO, ulong id)
     {
         Question q = new Question
         {
@@ -364,37 +393,10 @@ public class QuestionController : Controller
             Difficulty = questionDTO.Difficulty,
             TopicId = questionDTO.TopicId,
             SubjectId = questionDTO.SubjectId,
-            Explaination = questionDTO.Explaination,
-            UpdatedAt = DateTime.Now
+            Explanation = questionDTO.Explanation
         };
 
-        FillInTheBlankQuestion fitbq = new FillInTheBlankQuestion
-        {
-            Id = id,
-            AnswerKeys = questionDTO.AnswerKeys,
-            MarkAsWrong = questionDTO.MarkAsWrong
-        };
-
-        return await _questionDb.UpdateFillInTheBlankQuestion(q, fitbq) ? StatusCode(201) : StatusCode(400);
-    }
-
-    [HttpPut("constructed-response/{id}")]
-    public async Task<IActionResult> UpdateConstructedResponseQuestion(ConstructedResponseQuestionDTO questionDTO, ulong id)
-    {
-        Question q = new Question
-        {
-            Id = id,
-            Title = questionDTO.Title,
-            Grade = questionDTO.Grade,
-            Type = questionDTO.Type,
-            Difficulty = questionDTO.Difficulty,
-            TopicId = questionDTO.TopicId,
-            SubjectId = questionDTO.SubjectId,
-            Explaination = questionDTO.Explaination,
-            UpdatedAt = DateTime.Now
-        };
-
-        ConstructedResponseQuestion crq = new ConstructedResponseQuestion
+        ManualResponseQuestion crq = new ManualResponseQuestion
         {
             Id = id,
             AnswerKeys = questionDTO.AnswerKeys,
@@ -403,7 +405,56 @@ public class QuestionController : Controller
             MarkAsWrong = questionDTO.MarkAsWrong
         };
 
-        return await _questionDb.UpdateConstructedResponseQuestion(q, crq) ? StatusCode(201) : StatusCode(400);
+        return await _questionDb.UpdateQuestion(q, crq) ? StatusCode(201) : StatusCode(400);
+    }
+
+    [HttpPut("sorting/{id}")]
+    public async Task<IActionResult> UpdateSortingQuestion(SortingQuestionDTO questionDTO, ulong id)
+    {
+        Question q = new Question
+        {
+            Id = id,
+            Title = questionDTO.Title,
+            Grade = questionDTO.Grade,
+            Type = questionDTO.Type,
+            Difficulty = questionDTO.Difficulty,
+            TopicId = questionDTO.TopicId,
+            SubjectId = questionDTO.SubjectId,
+            Explanation = questionDTO.Explanation
+        };
+
+        SortingQuestion sq = new SortingQuestion
+        {
+            Id = questionDTO.Id,
+            CorrectOrder = questionDTO.CorrectOrder
+        };
+
+        return await _questionDb.UpdateQuestion(q, sq) ? StatusCode(201) : StatusCode(400);
+    }
+
+    [HttpPut("true-false-THPT/{id}")]
+    public async Task<IActionResult> UpdateTrueFalseTHPTQuestion(TrueFalseTHPTQuestionDTO questionDTO, ulong id)
+    {
+        Question q = new Question
+        {
+            Id = id,
+            Title = questionDTO.Title,
+            Grade = questionDTO.Grade,
+            Type = questionDTO.Type,
+            Difficulty = questionDTO.Difficulty,
+            TopicId = questionDTO.TopicId,
+            SubjectId = questionDTO.SubjectId,
+            Explanation = questionDTO.Explanation
+        };
+
+        TrueFalseTHPTQuestion tfq = new TrueFalseTHPTQuestion
+        {
+            Id = questionDTO.Id,
+            Statements = questionDTO.Statements,
+            AnswerKeys = questionDTO.AnswerKeys
+        };
+
+        return await _questionDb.UpdateQuestion(q, tfq) ? StatusCode(201) : StatusCode(400);
     }
 
     // DELETE

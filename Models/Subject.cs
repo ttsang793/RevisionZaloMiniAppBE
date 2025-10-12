@@ -19,6 +19,7 @@ public partial class Subject
     public DateTime? UpdatedAt { get; set; } = null!;    
     public virtual ICollection<Exam> Exams { get; set; } = [];
     public virtual ICollection<Question> Questions { get; set; } = [];
+    public virtual ICollection<StudentProcess> StudentProcesses { get; set; } = [];
     public virtual ICollection<Teacher> Teachers { get; set; } = [];
     public virtual ICollection<Topic> Topics { get; set; } = [];
 

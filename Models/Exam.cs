@@ -7,17 +7,19 @@ public partial class Exam
 {
     public ulong Id { get; set; }
 
-    public byte? ExamType { get; set; }
+    public byte ExamType { get; set; }
 
     public string DisplayType { get; set; } = null!;
 
-    public string? Title { get; set; }
+    public string Title { get; set; } = null!;
 
-    public byte? Grade { get; set; }
+    public byte Grade { get; set; }
 
-    public ushort? TimeLimit { get; set; }
+    public ushort TimeLimit { get; set; }
 
-    public ushort? AllowTurnInTime { get; set; }
+    public ushort? EarlyTurnIn { get; set; }
+
+    public ICollection<string>? PartTitle { get; set; } = [];
 
     public bool? AllowShowScore { get; set; }
 
@@ -37,9 +39,17 @@ public partial class Exam
 
     public DateTime? UpdatedAt { get; set; }
 
+    public ushort State { get; set; } = 1;
+
     public virtual Teacher? ApprovedByNavigation { get; set; }
 
-    public virtual ICollection<Comment> Comments { get; set; } = new List<Comment>();
+    public virtual ICollection<Comment> Comments { get; set; } = [];
+
+    public virtual ICollection<ExamAttempt> ExamAttempts { get; set; } = [];
+
+    public virtual ICollection<PdfExamAttempt> PdfExamAttempts { get; set; } = [];
+
+    public virtual ICollection<PdfExamCode> PdfExamCodes { get; set; } = [];
 
     public virtual Subject? Subject { get; set; }
 

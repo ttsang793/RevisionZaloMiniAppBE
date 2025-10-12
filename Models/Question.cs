@@ -11,7 +11,7 @@ public partial class Question
 
     public byte? Grade { get; set; }
 
-    public byte? Type { get; set; }
+    public string? Type { get; set; }
 
     public byte? Difficulty { get; set; }
 
@@ -19,17 +19,17 @@ public partial class Question
 
     public string? SubjectId { get; set; }
 
-    public string? Explaination { get; set; }
+    public string? Explanation { get; set; }
 
     public DateTime? CreatedAt { get; set; }
 
     public DateTime? UpdatedAt { get; set; }
 
-    public virtual ConstructedResponseQuestion? ConstructedResponseQuestion { get; set; }
-
-    public virtual FillInTheBlankQuestion? FillInTheBlankQuestion { get; set; }
+    public virtual ICollection<ExamQuestion> ExamQuestions { get; set; } = [];
 
     public virtual GroupQuestion? GroupQuestion { get; set; }
+
+    public virtual ManualResponseQuestion? ManualResponseQuestion { get; set; }
 
     public virtual MultipleChoiceQuestion? MultipleChoiceQuestion { get; set; }
 
@@ -42,59 +42,41 @@ public partial class Question
     public virtual Topic? Topic { get; set; }
 
     public virtual TrueFalseQuestion? TrueFalseQuestion { get; set; }
+
+    public virtual TrueFalseTHPTQuestion? TrueFalseTHPTQuestion { get; set; }
 }
 
-public partial class MultipleChoiceQuestion
+public abstract class TypeQuestion
 {
     public ulong Id { get; set; }
-
-    public string AnswerA { get; set; } = null!;
-
-    public string AnswerB { get; set; } = null!;
-
-    public string AnswerC { get; set; } = null!;
-
-    public string AnswerD { get; set; } = null!;
-
-    public string AnswerKey { get; set; } = null!;
 
     public virtual Question IdNavigation { get; set; } = null!;
 }
 
-public partial class TrueFalseQuestion
+public partial class MultipleChoiceQuestion : TypeQuestion
 {
-    public ulong Id { get; set; }
 
+    public string CorrectAnswer { get; set; } = null!;
+
+    public string WrongAnswer1 { get; set; } = null!;
+
+    public string WrongAnswer2 { get; set; } = null!;
+
+    public string WrongAnswer3 { get; set; } = null!;
+}
+
+public partial class TrueFalseQuestion : TypeQuestion
+{
     public bool? AnswerKey { get; set; }
-
-    public virtual Question IdNavigation { get; set; } = null!;
 }
 
-public partial class ShortAnswerQuestion
+public partial class ShortAnswerQuestion : TypeQuestion
 {
-    public ulong Id { get; set; }
-
     public decimal AnswerKey { get; set; }
-
-    public virtual Question IdNavigation { get; set; } = null!;
 }
 
-public partial class FillInTheBlankQuestion
+public partial class ManualResponseQuestion : TypeQuestion
 {
-    public ulong Id { get; set; }
-
-    public ICollection<string> AnswerKeys { get; set; } = [];
-
-    public bool? MarkAsWrong { get; set; }
-
-    public virtual Question IdNavigation { get; set; } = null!;
-}
-
-
-public partial class ConstructedResponseQuestion
-{
-    public ulong Id { get; set; }
-
     public ICollection<string> AnswerKeys { get; set; } = [];
 
     public bool? AllowTakePhoto { get; set; }
@@ -102,16 +84,17 @@ public partial class ConstructedResponseQuestion
     public bool? AllowEnter { get; set; }
 
     public bool? MarkAsWrong { get; set; }
-
-    public virtual Question IdNavigation { get; set; } = null!;
 }
 
 
-public partial class SortingQuestion
+public partial class SortingQuestion : TypeQuestion
 {
-    public ulong Id { get; set; }
-
     public ICollection<string> CorrectOrder { get; set; } = [];
+}
 
-    public virtual Question IdNavigation { get; set; } = null!;
+public partial class TrueFalseTHPTQuestion : TypeQuestion
+{
+    public ICollection<string> Statements { get; set; } = [];
+
+    public ICollection<bool> AnswerKeys { get; set; } = [];
 }

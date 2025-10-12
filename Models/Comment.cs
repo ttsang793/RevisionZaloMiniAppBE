@@ -13,13 +13,15 @@ public partial class Comment
 
     public ulong? ReplyTo { get; set; }
 
-    public string? Content { get; set; }
+    public string Content { get; set; } = null!;
 
     public DateTime? CreatedAt { get; set; }
 
     public virtual Exam Exam { get; set; } = null!;
 
-    public virtual User? ReplyToNavigation { get; set; }
+    public virtual ICollection<Comment> InverseReplyToNavigation { get; set; } = [];
+
+    public virtual Comment? ReplyToNavigation { get; set; }
 
     public virtual User User { get; set; } = null!;
 }

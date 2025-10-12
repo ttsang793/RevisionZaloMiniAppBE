@@ -17,12 +17,10 @@ public partial class User
 
     public DateTime? UpdatedAt { get; set; }
 
-    public virtual ICollection<Comment> CommentReplyToNavigations { get; set; } = new List<Comment>();
-
-    public virtual ICollection<Comment> CommentUsers { get; set; } = new List<Comment>();
-
     public virtual Admin? Admin { get; set; }
-    
+
+    public virtual ICollection<Comment> Comments { get; set; } = new List<Comment>();
+
     public virtual Student? Student { get; set; }
 
     public virtual Teacher? Teacher { get; set; }
