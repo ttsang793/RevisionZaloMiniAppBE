@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace backend.Models;
+﻿namespace backend.Models;
 
 public partial class StudentProcess
 {
@@ -19,7 +16,7 @@ public partial class StudentProcess
 
     public DateTime? LastActivity { get; set; }
 
-    public virtual Student Student { get; set; } = null!;
+    public virtual User Student { get; set; } = null!;
 
     public virtual Subject? Subject { get; set; }
 }

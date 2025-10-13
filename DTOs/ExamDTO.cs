@@ -1,13 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using backend.Models;
 
 namespace backend.DTOs;
 
 public partial class ExamReadDTO
 {
-    public ulong Id { get; set; }
+    public ulong? Id { get; set; }
 
-    public byte ExamType { get; set; }
+    public string ExamType { get; set; } = null!;
 
     public string DisplayType { get; set; } = null!;
 
@@ -19,8 +18,6 @@ public partial class ExamReadDTO
 
     public ushort? EarlyTurnIn { get; set; }
 
-    public ICollection<string>? PartTitle { get; set; } = [];
-
     public bool? AllowShowScore { get; set; }
 
     public bool? AllowPartSwap { get; set; }
@@ -31,20 +28,22 @@ public partial class ExamReadDTO
 
     public ulong? TeacherId { get; set; }
 
+    public string SubjectId { get; set; } = null!;
+
+    public ulong? ApprovedBy { get; set; }
+
+    public byte State { get; set; } = 1;
+
     public string? TeacherName { get; set; }
 
-    public string? SubjectId { get; set; }
-
     public string? SubjectName { get; set; }
-
-    public ushort? State { get; set; }
 }
 
 public partial class ExamInsertDTO
 {
     public ulong? Id { get; set; }
 
-    public byte ExamType { get; set; }
+    public string ExamType { get; set; } = null!;
 
     public string DisplayType { get; set; } = null!;
 
@@ -66,17 +65,18 @@ public partial class ExamInsertDTO
 
     public ulong? TeacherId { get; set; }
 
-    public string? SubjectId { get; set; }
+    public string SubjectId { get; set; } = null!;
 
     public ulong? ApprovedBy { get; set; }
 
-    public ushort? State { get; set; }
+    public byte State { get; set; } = 1;
 }
 
-/*
-public partial class ExamQuestionDTO
+public partial class ExamQuestionsInsertDTO
 {
-    public ICollection<string> PartTitle { get; set; } = null!;
+    public ulong? ExamId { get; set; }
 
-    public ICollection
-}*/
+    public ICollection<string> PartTitles { get; set; } = [];
+
+    public ICollection<ExamQuestion> ExamQuestions { get; set; } = [];
+}

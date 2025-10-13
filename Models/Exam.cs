@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace backend.Models;
+﻿namespace backend.Models;
 
 public partial class Exam
 {
     public ulong Id { get; set; }
 
-    public byte ExamType { get; set; }
+    public string ExamType { get; set; } = null!;
 
     public string DisplayType { get; set; } = null!;
 
@@ -19,8 +16,6 @@ public partial class Exam
 
     public ushort? EarlyTurnIn { get; set; }
 
-    public ICollection<string>? PartTitle { get; set; } = [];
-
     public bool? AllowShowScore { get; set; }
 
     public bool? AllowPartSwap { get; set; }
@@ -31,7 +26,7 @@ public partial class Exam
 
     public ulong? TeacherId { get; set; }
 
-    public string? SubjectId { get; set; }
+    public string SubjectId { get; set; } = null!;
 
     public ulong? ApprovedBy { get; set; }
 
@@ -39,7 +34,7 @@ public partial class Exam
 
     public DateTime? UpdatedAt { get; set; }
 
-    public ushort State { get; set; } = 1;
+    public byte State { get; set; } = 1;
 
     public virtual Teacher? ApprovedByNavigation { get; set; }
 

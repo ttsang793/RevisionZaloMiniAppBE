@@ -11,7 +11,7 @@ public partial class ExamPart
 
     public byte PartIndex { get; set; }
 
-    public ICollection<decimal> Points { get; set; } = [];
+    public string? PartTitle { get; set; }
 
     public virtual ICollection<ExamQuestion> ExamQuestions { get; set; } = [];
 }

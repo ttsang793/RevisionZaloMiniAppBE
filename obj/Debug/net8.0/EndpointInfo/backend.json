@@ -408,6 +408,48 @@
         }
       }
     },
+    "/api/Exam/question/${id}": {
+      "post": {
+        "tags": [
+          "Exam"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExamQuestionsInsertDTO"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExamQuestionsInsertDTO"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExamQuestionsInsertDTO"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/api/Question": {
       "get": {
         "tags": [
@@ -1491,8 +1533,8 @@
             "format": "int64"
           },
           "examType": {
-            "type": "integer",
-            "format": "int32"
+            "type": "string",
+            "nullable": true
           },
           "displayType": {
             "type": "string",
@@ -1513,13 +1555,6 @@
           "earlyTurnIn": {
             "type": "integer",
             "format": "int32",
-            "nullable": true
-          },
-          "partTitle": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
             "nullable": true
           },
           "allowShowScore": {
@@ -1651,7 +1686,7 @@
             "nullable": true
           },
           "student": {
-            "$ref": "#/components/schemas/Student"
+            "$ref": "#/components/schemas/User"
           }
         },
         "additionalProperties": false
@@ -1697,8 +1732,8 @@
             "nullable": true
           },
           "examType": {
-            "type": "integer",
-            "format": "int32"
+            "type": "string",
+            "nullable": true
           },
           "displayType": {
             "type": "string",
@@ -1753,8 +1788,7 @@
           },
           "state": {
             "type": "integer",
-            "format": "int32",
-            "nullable": true
+            "format": "int32"
           }
         },
         "additionalProperties": false
@@ -1774,12 +1808,8 @@
             "type": "integer",
             "format": "int32"
           },
-          "points": {
-            "type": "array",
-            "items": {
-              "type": "number",
-              "format": "double"
-            },
+          "partTitle": {
+            "type": "string",
             "nullable": true
           },
           "examQuestions": {
@@ -1811,6 +1841,10 @@
             "type": "integer",
             "format": "int32"
           },
+          "points": {
+            "type": "number",
+            "format": "double"
+          },
           "examAttemptAnswers": {
             "type": "array",
             "items": {
@@ -1827,16 +1861,42 @@
         },
         "additionalProperties": false
       },
+      "ExamQuestionsInsertDTO": {
+        "type": "object",
+        "properties": {
+          "examId": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "partTitles": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          },
+          "examQuestions": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ExamQuestion"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
       "ExamReadDTO": {
         "type": "object",
         "properties": {
           "id": {
             "type": "integer",
-            "format": "int64"
+            "format": "int64",
+            "nullable": true
           },
           "examType": {
-            "type": "integer",
-            "format": "int32"
+            "type": "string",
+            "nullable": true
           },
           "displayType": {
             "type": "string",
@@ -1857,13 +1917,6 @@
           "earlyTurnIn": {
             "type": "integer",
             "format": "int32",
-            "nullable": true
-          },
-          "partTitle": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
             "nullable": true
           },
           "allowShowScore": {
@@ -1887,21 +1940,25 @@
             "format": "int64",
             "nullable": true
           },
-          "teacherName": {
+          "subjectId": {
             "type": "string",
             "nullable": true
           },
-          "subjectId": {
+          "approvedBy": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "state": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "teacherName": {
             "type": "string",
             "nullable": true
           },
           "subjectName": {
             "type": "string",
-            "nullable": true
-          },
-          "state": {
-            "type": "integer",
-            "format": "int32",
             "nullable": true
           }
         },
@@ -1913,6 +1970,18 @@
           "id": {
             "type": "integer",
             "format": "int64"
+          },
+          "passageTitle": {
+            "type": "string",
+            "nullable": true
+          },
+          "passageContent": {
+            "type": "string",
+            "nullable": true
+          },
+          "passageAuthor": {
+            "type": "string",
+            "nullable": true
           },
           "questions": {
             "type": "array",
@@ -2180,7 +2249,7 @@
             "$ref": "#/components/schemas/Exam"
           },
           "student": {
-            "$ref": "#/components/schemas/Student"
+            "$ref": "#/components/schemas/User"
           }
         },
         "additionalProperties": false
@@ -2499,44 +2568,6 @@
         },
         "additionalProperties": false
       },
-      "Student": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int64"
-          },
-          "realName": {
-            "type": "string",
-            "nullable": true
-          },
-          "examAttempts": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/ExamAttempt"
-            },
-            "nullable": true
-          },
-          "idNavigation": {
-            "$ref": "#/components/schemas/User"
-          },
-          "pdfExamAttempts": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/PdfExamAttempt"
-            },
-            "nullable": true
-          },
-          "studentProcesses": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/StudentProcess"
-            },
-            "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
       "StudentProcess": {
         "type": "object",
         "properties": {
@@ -2573,7 +2604,7 @@
             "nullable": true
           },
           "student": {
-            "$ref": "#/components/schemas/Student"
+            "$ref": "#/components/schemas/User"
           },
           "subject": {
             "$ref": "#/components/schemas/Subject"
@@ -2675,10 +2706,6 @@
           "id": {
             "type": "integer",
             "format": "int64"
-          },
-          "role": {
-            "type": "string",
-            "nullable": true
           },
           "subjectId": {
             "type": "string",
@@ -2911,6 +2938,18 @@
           "idNavigation": {
             "$ref": "#/components/schemas/Question"
           },
+          "passageTitle": {
+            "type": "string",
+            "nullable": true
+          },
+          "passageContent": {
+            "type": "string",
+            "nullable": true
+          },
+          "passageAuthor": {
+            "type": "string",
+            "nullable": true
+          },
           "statements": {
             "type": "array",
             "items": {
@@ -2975,6 +3014,18 @@
             "format": "date-time",
             "nullable": true
           },
+          "passageTitle": {
+            "type": "string",
+            "nullable": true
+          },
+          "passageContent": {
+            "type": "string",
+            "nullable": true
+          },
+          "passageAuthor": {
+            "type": "string",
+            "nullable": true
+          },
           "statements": {
             "type": "array",
             "items": {
@@ -3011,6 +3062,10 @@
             "type": "string",
             "nullable": true
           },
+          "role": {
+            "type": "string",
+            "nullable": true
+          },
           "createdAt": {
             "type": "string",
             "format": "date-time",
@@ -3020,6 +3075,9 @@
             "type": "string",
             "format": "date-time",
             "nullable": true
+          },
+          "teacher": {
+            "$ref": "#/components/schemas/Teacher"
           },
           "admin": {
             "$ref": "#/components/schemas/Admin"
@@ -3031,11 +3089,26 @@
             },
             "nullable": true
           },
-          "student": {
-            "$ref": "#/components/schemas/Student"
+          "examAttempts": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ExamAttempt"
+            },
+            "nullable": true
           },
-          "teacher": {
-            "$ref": "#/components/schemas/Teacher"
+          "pdfExamAttempts": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PdfExamAttempt"
+            },
+            "nullable": true
+          },
+          "studentProcesses": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/StudentProcess"
+            },
+            "nullable": true
           }
         },
         "additionalProperties": false

@@ -29,7 +29,6 @@ public class TeacherDb
         var teacher = await GetTeacherByIdAsync((ulong)t.Id);
 
         user.Name = t.Name;
-        teacher.Role = t.Role;
         teacher.SubjectId = t.SubjectId;
         teacher.Grades = t.Grades;
         teacher.Introduction = t.Introduction;

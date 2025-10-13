@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace backend.Models;
+﻿namespace backend.Models;
 
 public partial class Subject
 {
@@ -15,8 +12,8 @@ public partial class Subject
     public bool QuestionTL { get; set; }
     public bool QuestionSX { get; set; }
     public bool IsVisible { get; set; } = true;
-    public DateTime? CreatedAt { get; set; } = null!;
-    public DateTime? UpdatedAt { get; set; } = null!;    
+    public DateTime? CreatedAt { get; set; }
+    public DateTime? UpdatedAt { get; set; }    
     public virtual ICollection<Exam> Exams { get; set; } = [];
     public virtual ICollection<Question> Questions { get; set; } = [];
     public virtual ICollection<StudentProcess> StudentProcesses { get; set; } = [];

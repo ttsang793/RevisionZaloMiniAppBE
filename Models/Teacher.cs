@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace backend.Models;
+﻿namespace backend.Models;
 
 public partial class Teacher
 {
     public ulong Id { get; set; }
-
-    public string Role { get; set; } = null!;
 
     public string? SubjectId { get; set; }
 
@@ -15,9 +10,9 @@ public partial class Teacher
 
     public string? Introduction { get; set; }
 
-    public virtual ICollection<Exam> ExamApprovedByNavigations { get; set; } = new List<Exam>();
+    public virtual ICollection<Exam> ExamApprovedByNavigations { get; set; } = [];
 
-    public virtual ICollection<Exam> ExamTeachers { get; set; } = new List<Exam>();
+    public virtual ICollection<Exam> ExamTeachers { get; set; } = [];
 
     public virtual User IdNavigation { get; set; } = null!;
 

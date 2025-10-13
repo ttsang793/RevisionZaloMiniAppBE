@@ -1,4 +1,5 @@
 ﻿using backend.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace backend.Services;
 
@@ -13,6 +14,8 @@ public class ExamQuestionDb
 
     public async Task<bool> AddExamQuestion(ExamQuestion eq)
     {
+        _dbContext.ExamQuestions.Add(eq);
+
         return await _dbContext.SaveChangesAsync() > 0;
     }
 }

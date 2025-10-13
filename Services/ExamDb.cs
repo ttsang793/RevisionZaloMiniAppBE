@@ -29,7 +29,6 @@ public class ExamDb
                                 Grade = e.Grade,
                                 TimeLimit = e.TimeLimit,
                                 EarlyTurnIn = e.EarlyTurnIn,
-                                PartTitle = e.PartTitle,
                                 AllowShowScore = e.AllowShowScore,
                                 AllowPartSwap = e.AllowPartSwap,
                                 TeacherId = u.Id,
@@ -60,7 +59,6 @@ public class ExamDb
                                 Grade = e.Grade,
                                 TimeLimit = e.TimeLimit,
                                 EarlyTurnIn = e.EarlyTurnIn,
-                                PartTitle = e.PartTitle,
                                 AllowShowScore = e.AllowShowScore,
                                 AllowPartSwap = e.AllowPartSwap,
                                 TeacherId = u.Id,
@@ -80,6 +78,7 @@ public class ExamDb
 
     public async Task<bool> AddExam(Exam exam)
     {
+        Console.WriteLine(exam.Title);
         _dbContext.Exams.Add(exam);
         return await _dbContext.SaveChangesAsync() > 0;
     }

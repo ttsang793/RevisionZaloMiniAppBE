@@ -1,23 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace backend.Models;
+﻿namespace backend.Models;
 
 public partial class Question
 {
     public ulong Id { get; set; }
 
-    public string Title { get; set; } = null!;
+    public string? Title { get; set; }
 
     public byte? Grade { get; set; }
 
-    public string? Type { get; set; }
+    public string Type { get; set; } = null!;
 
     public byte? Difficulty { get; set; }
 
-    public string? TopicId { get; set; }
+    public string? TopicId { get; set; } = null!;
 
-    public string? SubjectId { get; set; }
+    public string SubjectId { get; set; } = null!;
 
     public string? Explanation { get; set; }
 
@@ -94,6 +91,12 @@ public partial class SortingQuestion : TypeQuestion
 
 public partial class TrueFalseTHPTQuestion : TypeQuestion
 {
+    public string? PassageTitle { get; set; }
+
+    public string? PassageContent { get; set; }
+
+    public string? PassageAuthor { get; set; }
+
     public ICollection<string> Statements { get; set; } = [];
 
     public ICollection<bool> AnswerKeys { get; set; } = [];

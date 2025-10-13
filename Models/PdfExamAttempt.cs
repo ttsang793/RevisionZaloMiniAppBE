@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace backend.Models;
+﻿namespace backend.Models;
 
 public partial class PdfExamAttempt
 {
@@ -13,7 +10,7 @@ public partial class PdfExamAttempt
 
     public decimal? Score { get; set; }
 
-    public int? Duration { get; set; }
+    public ushort? Duration { get; set; }
 
     public DateTime? SubmittedAt { get; set; }
 
@@ -29,5 +26,5 @@ public partial class PdfExamAttempt
 
     public virtual Exam Exam { get; set; } = null!;
 
-    public virtual Student Student { get; set; } = null!;
+    public virtual User Student { get; set; } = null!;
 }

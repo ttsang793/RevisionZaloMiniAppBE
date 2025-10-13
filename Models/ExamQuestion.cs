@@ -13,7 +13,9 @@ public partial class ExamQuestion
 
     public byte OrderIndex { get; set; }
 
-    public virtual ICollection<ExamAttemptAnswer> ExamAttemptAnswers { get; set; } = new List<ExamAttemptAnswer>();
+    public decimal Points { get; set; }
+
+    public virtual ICollection<ExamAttemptAnswer> ExamAttemptAnswers { get; set; } = [];
 
     public virtual ExamPart ExamPart { get; set; } = null!;
 

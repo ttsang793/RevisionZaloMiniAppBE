@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace backend.Models;
+﻿namespace backend.Models;
 
 public partial class ExamAttempt
 {
@@ -13,7 +10,7 @@ public partial class ExamAttempt
 
     public decimal? Score { get; set; }
 
-    public uint? Duration { get; set; }
+    public ushort? Duration { get; set; }
 
     public DateTime? SubmittedAt { get; set; }
 
@@ -21,7 +18,7 @@ public partial class ExamAttempt
 
     public virtual Exam Exam { get; set; } = null!;
 
-    public virtual ICollection<ExamAttemptAnswer> ExamAttemptAnswers { get; set; } = new List<ExamAttemptAnswer>();
+    public virtual ICollection<ExamAttemptAnswer> ExamAttemptAnswers { get; set; } = [];
 
-    public virtual Student Student { get; set; } = null!;
+    public virtual User Student { get; set; } = null!;
 }
