@@ -235,17 +235,17 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/Exam"
+                  "$ref": "#/components/schemas/ExamReadDTO"
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Exam"
+                  "$ref": "#/components/schemas/ExamReadDTO"
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Exam"
+                  "$ref": "#/components/schemas/ExamReadDTO"
                 }
               }
             }
@@ -454,6 +454,62 @@
       "get": {
         "tags": [
           "Question"
+        ],
+        "parameters": [
+          {
+            "name": "title",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Question"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Question"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Question"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Question/filter": {
+      "get": {
+        "tags": [
+          "Question"
+        ],
+        "parameters": [
+          {
+            "name": "title",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
         ],
         "responses": {
           "200": {
@@ -693,6 +749,37 @@
             "application/*+json": {
               "schema": {
                 "$ref": "#/components/schemas/SortingQuestionDTO"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Question/group": {
+      "post": {
+        "tags": [
+          "Question"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GroupQuestionDTO"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GroupQuestionDTO"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/GroupQuestionDTO"
               }
             }
           }
@@ -945,6 +1032,48 @@
         }
       }
     },
+    "/api/Question/group/{id}": {
+      "put": {
+        "tags": [
+          "Question"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GroupQuestionDTO"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GroupQuestionDTO"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/GroupQuestionDTO"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/api/Question/true-false-THPT/{id}": {
       "put": {
         "tags": [
@@ -1150,6 +1279,46 @@
         "responses": {
           "200": {
             "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Teacher/{id}": {
+      "get": {
+        "tags": [
+          "Teacher"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/TeacherDTO"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TeacherDTO"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TeacherDTO"
+                }
+              }
+            }
           }
         }
       }
@@ -1971,6 +2140,9 @@
             "type": "integer",
             "format": "int64"
           },
+          "idNavigation": {
+            "$ref": "#/components/schemas/Question"
+          },
           "passageTitle": {
             "type": "string",
             "nullable": true
@@ -1990,9 +2162,77 @@
               "format": "int64"
             },
             "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "GroupQuestionDTO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
           },
-          "idNavigation": {
-            "$ref": "#/components/schemas/Question"
+          "title": {
+            "type": "string",
+            "nullable": true
+          },
+          "grade": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "type": {
+            "type": "string",
+            "nullable": true
+          },
+          "difficulty": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "topicId": {
+            "type": "string",
+            "nullable": true
+          },
+          "subjectId": {
+            "type": "string",
+            "nullable": true
+          },
+          "explanation": {
+            "type": "string",
+            "nullable": true
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "passageTitle": {
+            "type": "string",
+            "nullable": true
+          },
+          "passageContent": {
+            "type": "string",
+            "nullable": true
+          },
+          "passageAuthor": {
+            "type": "string",
+            "nullable": true
+          },
+          "questions": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "nullable": true
           }
         },
         "additionalProperties": false
@@ -2034,7 +2274,8 @@
         "properties": {
           "id": {
             "type": "integer",
-            "format": "int64"
+            "format": "int64",
+            "nullable": true
           },
           "title": {
             "type": "string",
@@ -2132,7 +2373,8 @@
         "properties": {
           "id": {
             "type": "integer",
-            "format": "int64"
+            "format": "int64",
+            "nullable": true
           },
           "title": {
             "type": "string",
@@ -2375,7 +2617,8 @@
         "properties": {
           "id": {
             "type": "integer",
-            "format": "int64"
+            "format": "int64",
+            "nullable": true
           },
           "title": {
             "type": "string",
@@ -2442,7 +2685,8 @@
         "properties": {
           "id": {
             "type": "integer",
-            "format": "int64"
+            "format": "int64",
+            "nullable": true
           },
           "title": {
             "type": "string",
@@ -2516,7 +2760,8 @@
         "properties": {
           "id": {
             "type": "integer",
-            "format": "int64"
+            "format": "int64",
+            "nullable": true
           },
           "title": {
             "type": "string",
@@ -2879,7 +3124,8 @@
         "properties": {
           "id": {
             "type": "integer",
-            "format": "int64"
+            "format": "int64",
+            "nullable": true
           },
           "title": {
             "type": "string",
@@ -2972,7 +3218,8 @@
         "properties": {
           "id": {
             "type": "integer",
-            "format": "int64"
+            "format": "int64",
+            "nullable": true
           },
           "title": {
             "type": "string",

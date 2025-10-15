@@ -2,7 +2,7 @@
 
 public abstract partial class QuestionDTO
 {
-    public ulong Id { get; set; }
+    public ulong? Id { get; set; }
 
     public string? Title { get; set; }
 
@@ -68,7 +68,7 @@ public partial class GroupQuestionDTO : QuestionDTO
 
     public string? PassageAuthor { get; set; }
 
-    public ICollection<ulong> Quesitons { get; set; } = [];
+    public ICollection<ulong> Questions { get; set; } = [];
 }
 
 public partial class TrueFalseTHPTQuestionDTO : QuestionDTO

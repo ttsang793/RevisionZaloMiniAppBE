@@ -19,9 +19,15 @@ public class QuestionController : Controller
 
     // GET
     [HttpGet]
-    public async Task<List<Question>> GetAllQuestionsByTeacher()
+    public async Task<List<Question>> GetAllQuestionsByTeacher(string? title)
     {
-        return await _questionDb.GetAllQuestionsByTeacher();
+        return await _questionDb.GetAllQuestionsByTeacher(title);
+    }
+
+    [HttpGet("filter")]
+    public async Task<List<Question>> GetFilterQuestionsByTeacher(string? title)
+    {
+        return await _questionDb.GetFilterQuestionsByTeacher(title);
     }
 
     [HttpGet("{id}")]
@@ -36,7 +42,7 @@ public class QuestionController : Controller
             case "short-answer": return await GetShortAnswerQuestionById(question);
             case "fill-in-the-blank": case "constructed-response": return await GetManualResponseQuestionById(question);
             case "sorting": return await GetSortingQuestionById(question);
-            //case "group": return await GetSortingQuestionById(question);
+            case "group": return await GetGroupQuestionById(question);
             case "true-false-thpt": return await GetTrueFalseTHPTQuestionById(question);
             default: break;
         }
@@ -132,6 +138,23 @@ public class QuestionController : Controller
         };
     }
 
+    private async Task<GroupQuestionDTO> GetGroupQuestionById(Question q)
+    {
+        var answer = await _questionDb.GetGroupQuestionById(q.Id);
+        return new GroupQuestionDTO
+        {
+            Id = q.Id,
+            Title = q.Title,
+            Grade = q.Grade,
+            Type = q.Type,
+            SubjectId = q.SubjectId,
+            PassageTitle = answer.PassageTitle,
+            PassageContent = answer.PassageContent,
+            PassageAuthor = answer.PassageAuthor,
+            Questions = answer.Questions
+        };
+    }
+
     private async Task<TrueFalseTHPTQuestionDTO> GetTrueFalseTHPTQuestionById(Question q)
     {
         var answer = await _questionDb.GetTrueFalseTHPTQuestionById(q.Id);
@@ -156,7 +179,6 @@ public class QuestionController : Controller
     {
         Question q = new Question
         {
-            Id = questionDTO.Id,
             Title = questionDTO.Title,
             Grade = questionDTO.Grade,
             Type = questionDTO.Type,
@@ -168,7 +190,6 @@ public class QuestionController : Controller
 
         MultipleChoiceQuestion mcq = new MultipleChoiceQuestion
         {
-            Id = questionDTO.Id,
             CorrectAnswer = questionDTO.CorrectAnswer,
             WrongAnswer1 = questionDTO.WrongAnswer1,
             WrongAnswer2 = questionDTO.WrongAnswer2,
@@ -183,7 +204,6 @@ public class QuestionController : Controller
     {
         Question q = new Question
         {
-            Id = questionDTO.Id,
             Title = questionDTO.Title,
             Grade = questionDTO.Grade,
             Type = questionDTO.Type,
@@ -195,7 +215,6 @@ public class QuestionController : Controller
 
         TrueFalseQuestion tfq = new TrueFalseQuestion
         {
-            Id = questionDTO.Id,
             AnswerKey = questionDTO.AnswerKey
         };
 
@@ -207,7 +226,6 @@ public class QuestionController : Controller
     {
         Question q = new Question
         {
-            Id = questionDTO.Id,
             Title = questionDTO.Title,
             Grade = questionDTO.Grade,
             Type = questionDTO.Type,
@@ -219,7 +237,6 @@ public class QuestionController : Controller
 
         ShortAnswerQuestion saq = new ShortAnswerQuestion
         {
-            Id = questionDTO.Id,
             AnswerKey = questionDTO.AnswerKey
         };
 
@@ -231,7 +248,6 @@ public class QuestionController : Controller
     {
         Question q = new Question
         {
-            Id = questionDTO.Id,
             Title = questionDTO.Title,
             Grade = questionDTO.Grade,
             Type = questionDTO.Type,
@@ -243,7 +259,6 @@ public class QuestionController : Controller
 
         ManualResponseQuestion crq = new ManualResponseQuestion
         {
-            Id = questionDTO.Id,
             AnswerKeys = questionDTO.AnswerKeys,
             AllowTakePhoto = questionDTO.AllowTakePhoto,
             AllowEnter = questionDTO.AllowEnter,
@@ -258,7 +273,6 @@ public class QuestionController : Controller
     {
         Question q = new Question
         {
-            Id = questionDTO.Id,
             Title = questionDTO.Title,
             Grade = questionDTO.Grade,
             Type = questionDTO.Type,
@@ -270,11 +284,32 @@ public class QuestionController : Controller
 
         SortingQuestion sq = new SortingQuestion
         {
-            Id = questionDTO.Id,
             CorrectOrder = questionDTO.CorrectOrder
         };
 
         return await _questionDb.AddSortingQuestion(q, sq) ? StatusCode(201) : StatusCode(400);
+    }
+
+    [HttpPost("group")]
+    public async Task<IActionResult> AddGroupQuestion(GroupQuestionDTO questionDTO)
+    {
+        Question q = new Question
+        {
+            Title = questionDTO.Title,
+            Grade = questionDTO.Grade,
+            Type = questionDTO.Type,
+            SubjectId = questionDTO.SubjectId
+        };
+
+        GroupQuestion gq = new GroupQuestion
+        {
+            PassageTitle = questionDTO.PassageTitle,
+            PassageContent = questionDTO.PassageContent,
+            PassageAuthor = questionDTO.PassageAuthor,
+            Questions = questionDTO.Questions
+        };
+
+        return await _questionDb.AddGroupQuestion(q, gq) ? StatusCode(201) : StatusCode(400);
     }
 
     [HttpPost("true-false-THPT")]
@@ -282,21 +317,17 @@ public class QuestionController : Controller
     {
         Question q = new Question
         {
-            Id = questionDTO.Id,
             Title = questionDTO.Title,
             Grade = questionDTO.Grade,
             Type = questionDTO.Type,
             Difficulty = questionDTO.Difficulty,
             TopicId = questionDTO.TopicId,
             SubjectId = questionDTO.SubjectId,
-            Explanation = questionDTO.Explanation,
-            CreatedAt = DateTime.Now,
-            UpdatedAt = DateTime.Now
+            Explanation = questionDTO.Explanation
         };
 
         TrueFalseTHPTQuestion tfq = new TrueFalseTHPTQuestion
         {
-            Id = questionDTO.Id,
             Statements = questionDTO.Statements,
             AnswerKeys = questionDTO.AnswerKeys
         };
@@ -317,8 +348,7 @@ public class QuestionController : Controller
             Difficulty = questionDTO.Difficulty,
             TopicId = questionDTO.TopicId,
             SubjectId = questionDTO.SubjectId,
-            Explanation = questionDTO.Explanation,
-            UpdatedAt = DateTime.Now
+            Explanation = questionDTO.Explanation
         };
 
         MultipleChoiceQuestion mcq = new MultipleChoiceQuestion
@@ -425,11 +455,35 @@ public class QuestionController : Controller
 
         SortingQuestion sq = new SortingQuestion
         {
-            Id = questionDTO.Id,
+            Id = id,
             CorrectOrder = questionDTO.CorrectOrder
         };
 
         return await _questionDb.UpdateQuestion(q, sq) ? StatusCode(201) : StatusCode(400);
+    }
+
+    [HttpPut("group/{id}")]
+    public async Task<IActionResult> UpdateGroupQuestion(GroupQuestionDTO questionDTO, ulong id)
+    {
+        Question q = new Question
+        {
+            Id = id,
+            Title = questionDTO.Title,
+            Grade = questionDTO.Grade,
+            Type = questionDTO.Type,
+            SubjectId = questionDTO.SubjectId
+        };
+
+        GroupQuestion gq = new GroupQuestion
+        {
+            Id = id,
+            PassageTitle = questionDTO.PassageTitle,
+            PassageContent = questionDTO.PassageContent,
+            PassageAuthor = questionDTO.PassageAuthor,
+            Questions = questionDTO.Questions
+        };
+
+        return await _questionDb.UpdateQuestion(q, gq) ? StatusCode(201) : StatusCode(400);
     }
 
     [HttpPut("true-false-THPT/{id}")]
@@ -449,7 +503,7 @@ public class QuestionController : Controller
 
         TrueFalseTHPTQuestion tfq = new TrueFalseTHPTQuestion
         {
-            Id = questionDTO.Id,
+            Id = id,
             Statements = questionDTO.Statements,
             AnswerKeys = questionDTO.AnswerKeys
         };

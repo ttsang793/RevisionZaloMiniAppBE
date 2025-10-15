@@ -12,9 +12,18 @@ public class QuestionDb
         _dbContext = dbContext;
     }
 
-    public async Task<List<Question>> GetAllQuestionsByTeacher()
+    public async Task<List<Question>> GetAllQuestionsByTeacher(string? title)
     {
+        if (!string.IsNullOrEmpty(title))
+            return await _dbContext.Questions.Where(q => EF.Functions.Like(q.Title, $"%{title}%")).ToListAsync();
         return await _dbContext.Questions.ToListAsync();
+    }
+
+    public async Task<List<Question>> GetFilterQuestionsByTeacher(string? title)
+    {
+        if (!string.IsNullOrEmpty(title))
+            return await _dbContext.Questions.Where(q => EF.Functions.Like(q.Title, $"%{title}%") && q.Type != "group" && q.Type != "true-false-thpt").ToListAsync();
+        return await _dbContext.Questions.Where(q => q.Type != "group" && q.Type != "true-false-thpt").ToListAsync();
     }
 
     public async Task<Question> GetQuestionById(ulong id)
@@ -45,6 +54,11 @@ public class QuestionDb
     public async Task<SortingQuestion> GetSortingQuestionById(ulong id)
     {
         return await _dbContext.SortingQuestions.FirstAsync(q => q.Id == id);
+    }
+
+    public async Task<GroupQuestion> GetGroupQuestionById(ulong id)
+    {
+        return await _dbContext.GroupQuestions.FirstAsync(q => q.Id == id);
     }
 
     public async Task<TrueFalseTHPTQuestion> GetTrueFalseTHPTQuestionById(ulong id)
@@ -117,6 +131,19 @@ public class QuestionDb
         {
             sq.Id = await GetLastIndex();
             _dbContext.SortingQuestions.Add(sq);
+        }
+
+        return await _dbContext.SaveChangesAsync() > 0;
+    }
+
+    public async Task<bool> AddGroupQuestion(Question q, GroupQuestion gq)
+    {
+        _dbContext.Questions.Add(q);
+
+        if (await _dbContext.SaveChangesAsync() > 0)
+        {
+            gq.Id = await GetLastIndex();
+            _dbContext.GroupQuestions.Add(gq);
         }
 
         return await _dbContext.SaveChangesAsync() > 0;

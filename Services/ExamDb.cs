@@ -43,7 +43,6 @@ public class ExamDb
 
     public async Task<List<ExamReadDTO>> GetExamsByTeacherAsync(ulong teacherId)
     {
-
         var result = await (from e in _dbContext.Exams
                             join u in _dbContext.Users
                             on e.TeacherId equals u.Id
@@ -71,9 +70,33 @@ public class ExamDb
         return result;
     }
 
-    public async Task<Exam> GetExamById(ulong id)
+    public async Task<ExamReadDTO> GetExamById(ulong id)
     {
-        return await _dbContext.Exams.FirstOrDefaultAsync(s => s.Id == id);
+        var result = await (from e in _dbContext.Exams
+                            join u in _dbContext.Users
+                            on e.TeacherId equals u.Id
+                            join s in _dbContext.Subjects
+                            on e.SubjectId equals s.Id
+                            where e.Id == id
+                            select new ExamReadDTO
+                            {
+                                Id = e.Id,
+                                ExamType = e.ExamType,
+                                DisplayType = e.DisplayType,
+                                Title = e.Title,
+                                Grade = e.Grade,
+                                TimeLimit = e.TimeLimit,
+                                EarlyTurnIn = e.EarlyTurnIn,
+                                AllowShowScore = e.AllowShowScore,
+                                AllowPartSwap = e.AllowPartSwap,
+                                TeacherId = u.Id,
+                                TeacherName = u.Name,
+                                SubjectId = s.Id,
+                                SubjectName = s.Name,
+                                State = e.State
+                            }).FirstAsync();
+
+        return result;
     }
 
     public async Task<bool> AddExam(Exam exam)
@@ -91,7 +114,7 @@ public class ExamDb
 
     public async Task<bool> DeleteExam(ulong id)
     {
-        var deleteExam = await GetExamById(id);
+        var deleteExam = await _dbContext.Exams.FirstAsync(e => e.Id == id);
 
         _dbContext.Exams.Remove(deleteExam);
         return await _dbContext.SaveChangesAsync() > 0;

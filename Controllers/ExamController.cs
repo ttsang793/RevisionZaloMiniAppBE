@@ -30,7 +30,7 @@ public class ExamController : Controller
     }
 
     [HttpGet("{id}")]
-    public async Task<Exam> GetExamByIdAsync(ulong id)
+    public async Task<ExamReadDTO> GetExamByIdAsync(ulong id)
     {
         return await _examDb.GetExamById(id);
     }

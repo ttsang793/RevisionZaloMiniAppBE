@@ -18,9 +18,23 @@ public class TeacherDb
         return await _dbContext.Users.FirstOrDefaultAsync(u => u.Id == id);
     }
 
-    public async Task<Teacher> GetTeacherByIdAsync(ulong id)
+    public async Task<TeacherDTO> GetTeacherByIdAsync(ulong id)
     {
-        return await _dbContext.Teachers.FirstOrDefaultAsync(t => t.Id == id);
+        var result = await (from t in _dbContext.Teachers
+                            join u in _dbContext.Users
+                            on t.Id equals u.Id
+                            where t.Id == id
+                            select new TeacherDTO
+                            {
+                                Id = id,
+                                Name = u.Name,
+                                Role = u.Role,
+                                SubjectId = t.SubjectId,
+                                Grades = t.Grades,
+                                Introduction = t.Introduction
+                            }).FirstAsync();
+
+        return result;
     }
 
     public async Task<bool> UpdateTeacher(TeacherDTO t)
