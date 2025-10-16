@@ -12,6 +12,7 @@ public class QuestionDb
         _dbContext = dbContext;
     }
 
+    // GET LIST<QUESTION>
     public async Task<List<Question>> GetAllQuestionsByTeacher(string? title)
     {
         if (!string.IsNullOrEmpty(title))
@@ -19,16 +20,78 @@ public class QuestionDb
         return await _dbContext.Questions.ToListAsync();
     }
 
-    public async Task<List<Question>> GetFilterQuestionsByTeacher(string? title)
+    public async Task<List<Question>> GetMultipleChoiceQuestionsByTeacher(string? title)
     {
         if (!string.IsNullOrEmpty(title))
-            return await _dbContext.Questions.Where(q => EF.Functions.Like(q.Title, $"%{title}%") && q.Type != "group" && q.Type != "true-false-thpt").ToListAsync();
-        return await _dbContext.Questions.Where(q => q.Type != "group" && q.Type != "true-false-thpt").ToListAsync();
+            return await _dbContext.Questions.Where(q => EF.Functions.Like(q.Title, $"%{title}%") && q.Type == "multiple-choice").ToListAsync();
+        return await _dbContext.Questions.Where(q => q.Type == "multiple-choice").ToListAsync();
     }
 
+    public async Task<List<Question>> GetTrueFalseQuestionsByTeacher(string? title)
+    {
+        if (!string.IsNullOrEmpty(title))
+            return await _dbContext.Questions.Where(q => EF.Functions.Like(q.Title, $"%{title}%") && q.Type == "true-false").ToListAsync();
+        return await _dbContext.Questions.Where(q => q.Type == "true-false").ToListAsync();
+    }
+
+    public async Task<List<Question>> GetShortAnswerQuestionsByTeacher(string? title)
+    {
+        if (!string.IsNullOrEmpty(title))
+            return await _dbContext.Questions.Where(q => EF.Functions.Like(q.Title, $"%{title}%") && q.Type == "short-answer").ToListAsync();
+        return await _dbContext.Questions.Where(q => q.Type == "short-answer").ToListAsync();
+    }
+
+    public async Task<List<Question>> GetFillInTheBlankQuestionsByTeacher(string? title)
+    {
+        if (!string.IsNullOrEmpty(title))
+            return await _dbContext.Questions.Where(q => EF.Functions.Like(q.Title, $"%{title}%") && q.Type == "fill-in-the-blank").ToListAsync();
+        return await _dbContext.Questions.Where(q => q.Type == "fill-in-the-blank").ToListAsync();
+    }
+
+    public async Task<List<Question>> GetConstructedResponseQuestionsByTeacher(string? title)
+    {
+        if (!string.IsNullOrEmpty(title))
+            return await _dbContext.Questions.Where(q => EF.Functions.Like(q.Title, $"%{title}%") && q.Type == "constructed-response").ToListAsync();
+        return await _dbContext.Questions.Where(q => q.Type == "constructed-response").ToListAsync();
+    }
+
+    public async Task<List<Question>> GetSortingQuestionsByTeacher(string? title)
+    {
+        if (!string.IsNullOrEmpty(title))
+            return await _dbContext.Questions.Where(q => EF.Functions.Like(q.Title, $"%{title}%") && q.Type == "sorting").ToListAsync();
+        return await _dbContext.Questions.Where(q => q.Type == "sorting").ToListAsync();
+    }
+
+    public async Task<List<Question>> GetDefaultQuestionsByTeacher(string? title)
+    {
+        if (!string.IsNullOrEmpty(title))
+            return await _dbContext.Questions.Where(q => EF.Functions.Like(q.Title, $"%{title}%") && q.Type != "true-false-thpt" && q.Type != "group").ToListAsync();
+        return await _dbContext.Questions.Where(q => q.Type != "true-false-thpt" && q.Type != "group").ToListAsync();
+    }
+
+    public async Task<List<Question>> GetGroupQuestionsByTeacher(string? title)
+    {
+        if (!string.IsNullOrEmpty(title))
+            return await _dbContext.Questions.Where(q => EF.Functions.Like(q.Title, $"%{title}%") && q.Type == "group").ToListAsync();
+        return await _dbContext.Questions.Where(q => q.Type == "group").ToListAsync();
+    }
+
+    public async Task<List<Question>> GetTrueFalseTHPTQuestionsByTeacher(string? title)
+    {
+        if (!string.IsNullOrEmpty(title))
+            return await _dbContext.Questions.Where(q => EF.Functions.Like(q.Title, $"%{title}%") && q.Type == "true-false-thpt").ToListAsync();
+        return await _dbContext.Questions.Where(q => q.Type == "true-false-thpt").ToListAsync();
+    }
+
+    // GET BY ID
     public async Task<Question> GetQuestionById(ulong id)
     {
         return await _dbContext.Questions.FirstAsync(q => q.Id == id);
+    }
+
+    public async Task<List<Question>> GetQuestionByMultipleIds(ICollection<ulong> id)
+    {
+        return await _dbContext.Questions.Where(q => id.Contains(q.Id)).ToListAsync();
     }
 
     public async Task<MultipleChoiceQuestion> GetMultipleChoiceQuestionById(ulong id)
@@ -66,11 +129,12 @@ public class QuestionDb
         return await _dbContext.TrueFalseTHPTQuestions.FirstAsync(q => q.Id == id);
     }
 
-    public async Task<ulong> GetLastIndex()
+    private async Task<ulong> GetLastIndex()
     {
         return (await _dbContext.Questions.OrderBy(s => s.Id).LastAsync()).Id;
     }
 
+    // POST
     public async Task<bool> AddMultipleChoiceQuestion(Question q, MultipleChoiceQuestion mcq)
     {
         _dbContext.Questions.Add(q);
@@ -162,6 +226,7 @@ public class QuestionDb
         return await _dbContext.SaveChangesAsync() > 0;
     }
 
+    // PUT AND DELETE
     public async Task<bool> UpdateQuestion(Question q, TypeQuestion tq)
     {
         var existingQuestion = await _dbContext.Questions.AsNoTracking().FirstOrDefaultAsync(x => x.Id == q.Id);

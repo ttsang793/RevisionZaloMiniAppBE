@@ -72,11 +72,33 @@ public partial class ExamInsertDTO
     public byte State { get; set; } = 1;
 }
 
+public partial class ExamQuestionsGetDTO
+{
+    public ICollection<string> PartTitles { get; set; } = [];
+
+    public ICollection<string[]> QuestionTypes { get; set; } = [];
+
+    public ICollection<ExamQuestionInsertItemDTO> ExamQuestions { get; set; } = [];
+}
+
 public partial class ExamQuestionsInsertDTO
 {
     public ulong? ExamId { get; set; }
 
     public ICollection<string> PartTitles { get; set; } = [];
 
-    public ICollection<ExamQuestion> ExamQuestions { get; set; } = [];
+    public ICollection<string[]> QuestionTypes { get; set; } = [];
+
+    public ICollection<ExamQuestionInsertItemDTO> ExamQuestions { get; set; } = [];
+}
+
+public class ExamQuestionInsertItemDTO
+{
+    public string PartTitle { get; set; } = null!;
+
+    public ulong QuestionId { get; set; }
+
+    public byte OrderIndex { get; set; }
+
+    public decimal Point { get; set; }
 }

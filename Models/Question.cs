@@ -69,7 +69,7 @@ public partial class TrueFalseQuestion : TypeQuestion
 
 public partial class ShortAnswerQuestion : TypeQuestion
 {
-    public decimal AnswerKey { get; set; }
+    public string AnswerKey { get; set; } = null!;
 }
 
 public partial class ManualResponseQuestion : TypeQuestion
@@ -87,6 +87,17 @@ public partial class ManualResponseQuestion : TypeQuestion
 public partial class SortingQuestion : TypeQuestion
 {
     public ICollection<string> CorrectOrder { get; set; } = [];
+}
+
+public partial class GroupQuestion : TypeQuestion
+{
+    public string? PassageTitle { get; set; }
+
+    public string? PassageContent { get; set; }
+
+    public string? PassageAuthor { get; set; }
+
+    public ICollection<ulong> Questions { get; set; } = [];
 }
 
 public partial class TrueFalseTHPTQuestion : TypeQuestion

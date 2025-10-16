@@ -194,8 +194,34 @@
   },
   {
     "ContainingType": "backend.Controllers.ExamController",
+    "Method": "GetQuestionForExam",
+    "RelativePath": "api/Exam/question/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.UInt64",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.List\u00601[[backend.Models.ExamPart, backend, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "backend.Controllers.ExamController",
     "Method": "UpdateQuestionForExam",
-    "RelativePath": "api/Exam/question/${id}",
+    "RelativePath": "api/Exam/question/{id}",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
@@ -332,6 +358,11 @@
     "Order": 0,
     "Parameters": [
       {
+        "Name": "type",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
         "Name": "title",
         "Type": "System.String",
         "IsRequired": false
@@ -359,7 +390,7 @@
     "Parameters": [
       {
         "Name": "questionDTO",
-        "Type": "backend.DTOs.GroupQuestionDTO",
+        "Type": "backend.DTOs.GroupQuestionPostDTO",
         "IsRequired": true
       }
     ],
@@ -375,7 +406,7 @@
     "Parameters": [
       {
         "Name": "questionDTO",
-        "Type": "backend.DTOs.GroupQuestionDTO",
+        "Type": "backend.DTOs.GroupQuestionPostDTO",
         "IsRequired": true
       },
       {

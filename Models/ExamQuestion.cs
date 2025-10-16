@@ -13,7 +13,7 @@ public partial class ExamQuestion
 
     public byte OrderIndex { get; set; }
 
-    public decimal Points { get; set; }
+    public decimal Point { get; set; }
 
     public virtual ICollection<ExamAttemptAnswer> ExamAttemptAnswers { get; set; } = [];
 

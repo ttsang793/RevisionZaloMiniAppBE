@@ -6,19 +6,19 @@ namespace backend.Services;
 
 public class ExamDb
 {
-    private ZaloRevisionAppDbContext _dbContext;
+    public ZaloRevisionAppDbContext DbContext { get; }
 
     public ExamDb(ZaloRevisionAppDbContext dbContext)
     {
-        _dbContext = dbContext;
+        DbContext = dbContext;
     }
 
     public async Task<List<ExamReadDTO>> GetExamsAsync()
     {
-        var result = await (from e in _dbContext.Exams
-                            join u in _dbContext.Users
+        var result = await (from e in DbContext.Exams
+                            join u in DbContext.Users
                             on e.TeacherId equals u.Id
-                            join s in _dbContext.Subjects
+                            join s in DbContext.Subjects
                             on e.SubjectId equals s.Id
                             select new ExamReadDTO
                             {
@@ -43,10 +43,10 @@ public class ExamDb
 
     public async Task<List<ExamReadDTO>> GetExamsByTeacherAsync(ulong teacherId)
     {
-        var result = await (from e in _dbContext.Exams
-                            join u in _dbContext.Users
+        var result = await (from e in DbContext.Exams
+                            join u in DbContext.Users
                             on e.TeacherId equals u.Id
-                            join s in _dbContext.Subjects
+                            join s in DbContext.Subjects
                             on e.SubjectId equals s.Id
                             where e.TeacherId == teacherId
                             select new ExamReadDTO
@@ -72,10 +72,10 @@ public class ExamDb
 
     public async Task<ExamReadDTO> GetExamById(ulong id)
     {
-        var result = await (from e in _dbContext.Exams
-                            join u in _dbContext.Users
+        var result = await (from e in DbContext.Exams
+                            join u in DbContext.Users
                             on e.TeacherId equals u.Id
-                            join s in _dbContext.Subjects
+                            join s in DbContext.Subjects
                             on e.SubjectId equals s.Id
                             where e.Id == id
                             select new ExamReadDTO
@@ -102,35 +102,43 @@ public class ExamDb
     public async Task<bool> AddExam(Exam exam)
     {
         Console.WriteLine(exam.Title);
-        _dbContext.Exams.Add(exam);
-        return await _dbContext.SaveChangesAsync() > 0;
+        DbContext.Exams.Add(exam);
+        return await DbContext.SaveChangesAsync() > 0;
     }
 
     public async Task<bool> UpdateExam(Exam exam)
     {
-        _dbContext.Exams.Update(exam);
-        return await _dbContext.SaveChangesAsync() > 0;
+        DbContext.Exams.Update(exam);
+        return await DbContext.SaveChangesAsync() > 0;
+    }
+
+    public async Task<bool> UpdateExam(ulong id)
+    {
+        var updateExam = await DbContext.Exams.FirstAsync(e => e.Id == id);
+
+        DbContext.Exams.Update(updateExam);
+        return await DbContext.SaveChangesAsync() > 0;
     }
 
     public async Task<bool> DeleteExam(ulong id)
     {
-        var deleteExam = await _dbContext.Exams.FirstAsync(e => e.Id == id);
+        var deleteExam = await DbContext.Exams.FirstAsync(e => e.Id == id);
 
-        _dbContext.Exams.Remove(deleteExam);
-        return await _dbContext.SaveChangesAsync() > 0;
+        DbContext.Exams.Remove(deleteExam);
+        return await DbContext.SaveChangesAsync() > 0;
     }
 
     public async Task<bool> UnpublishExam(ulong id)
     {
         var unpublishExam = await GetExamById(id);
         unpublishExam.State = 1;
-        return await _dbContext.SaveChangesAsync() > 0;
+        return await DbContext.SaveChangesAsync() > 0;
     }
 
     public async Task<bool> PublishExam(ulong id)
     {
         var publishExam = await GetExamById(id);
         publishExam.State = 2;
-        return await _dbContext.SaveChangesAsync() > 0;
+        return await DbContext.SaveChangesAsync() > 0;
     }
 }

@@ -25,9 +25,23 @@ public class QuestionController : Controller
     }
 
     [HttpGet("filter")]
-    public async Task<List<Question>> GetFilterQuestionsByTeacher(string? title)
+    public async Task<List<Question>> GetFilterQuestionsByTeacher(string type = "default", string title = "")
     {
-        return await _questionDb.GetFilterQuestionsByTeacher(title);
+        switch (type)
+        {
+            case "multiple-choice": return await _questionDb.GetMultipleChoiceQuestionsByTeacher(title);
+            case "true-false": return await _questionDb.GetTrueFalseQuestionsByTeacher(title);
+            case "short-answer": return await _questionDb.GetShortAnswerQuestionsByTeacher(title);
+            case "fill-in-the-blank": return await _questionDb.GetFillInTheBlankQuestionsByTeacher(title);
+            case "constructed-response": return await _questionDb.GetConstructedResponseQuestionsByTeacher(title);
+            case "sorting": return await _questionDb.GetSortingQuestionsByTeacher(title);
+            case "default": return await _questionDb.GetDefaultQuestionsByTeacher(title);
+            case "group": return await _questionDb.GetGroupQuestionsByTeacher(title);
+            case "true-false-thpt": return await _questionDb.GetTrueFalseTHPTQuestionsByTeacher(title);
+            default: break;
+        }
+        
+        return null;
     }
 
     [HttpGet("{id}")]
@@ -138,10 +152,11 @@ public class QuestionController : Controller
         };
     }
 
-    private async Task<GroupQuestionDTO> GetGroupQuestionById(Question q)
+    private async Task<GroupQuestionGetDTO> GetGroupQuestionById(Question q)
     {
         var answer = await _questionDb.GetGroupQuestionById(q.Id);
-        return new GroupQuestionDTO
+
+        return new GroupQuestionGetDTO
         {
             Id = q.Id,
             Title = q.Title,
@@ -151,7 +166,7 @@ public class QuestionController : Controller
             PassageTitle = answer.PassageTitle,
             PassageContent = answer.PassageContent,
             PassageAuthor = answer.PassageAuthor,
-            Questions = answer.Questions
+            Questions = await _questionDb.GetQuestionByMultipleIds(answer.Questions)
         };
     }
 
@@ -291,7 +306,7 @@ public class QuestionController : Controller
     }
 
     [HttpPost("group")]
-    public async Task<IActionResult> AddGroupQuestion(GroupQuestionDTO questionDTO)
+    public async Task<IActionResult> AddGroupQuestion(GroupQuestionPostDTO questionDTO)
     {
         Question q = new Question
         {
@@ -463,7 +478,7 @@ public class QuestionController : Controller
     }
 
     [HttpPut("group/{id}")]
-    public async Task<IActionResult> UpdateGroupQuestion(GroupQuestionDTO questionDTO, ulong id)
+    public async Task<IActionResult> UpdateGroupQuestion(GroupQuestionPostDTO questionDTO, ulong id)
     {
         Question q = new Question
         {

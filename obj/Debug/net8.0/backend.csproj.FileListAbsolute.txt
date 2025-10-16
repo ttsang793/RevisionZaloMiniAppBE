@@ -260,7 +260,6 @@ D:\Khóa luận\backend\obj\Debug\net8.0\staticwebassets.build.json
 D:\Khóa luận\backend\obj\Debug\net8.0\staticwebassets.build.json.cache
 D:\Khóa luận\backend\obj\Debug\net8.0\staticwebassets.development.json
 D:\Khóa luận\backend\obj\Debug\net8.0\staticwebassets.build.endpoints.json
-D:\Khóa luận\backend\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt
 D:\Khóa luận\backend\obj\Debug\net8.0\backend.csproj.Up2Date
 D:\Khóa luận\backend\obj\Debug\net8.0\backend.dll
 D:\Khóa luận\backend\obj\Debug\net8.0\refint\backend.dll
@@ -268,3 +267,4 @@ D:\Khóa luận\backend\obj\Debug\net8.0\backend.pdb
 D:\Khóa luận\backend\obj\Debug\net8.0\backend.genruntimeconfig.cache
 D:\Khóa luận\backend\obj\Debug\net8.0\ref\backend.dll
 D:\Khóa luận\backend\obj\Debug\net8.0\backend.sourcelink.json
+D:\Khóa luận\backend\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt

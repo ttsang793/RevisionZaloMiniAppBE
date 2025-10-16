@@ -408,7 +408,54 @@
         }
       }
     },
-    "/api/Exam/question/${id}": {
+    "/api/Exam/question/{id}": {
+      "get": {
+        "tags": [
+          "Exam"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ExamPart"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ExamPart"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ExamPart"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
       "post": {
         "tags": [
           "Exam"
@@ -504,10 +551,19 @@
         ],
         "parameters": [
           {
+            "name": "type",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": "default"
+            }
+          },
+          {
             "name": "title",
             "in": "query",
             "schema": {
-              "type": "string"
+              "type": "string",
+              "default": ""
             }
           }
         ],
@@ -769,17 +825,17 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/GroupQuestionDTO"
+                "$ref": "#/components/schemas/GroupQuestionPostDTO"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/GroupQuestionDTO"
+                "$ref": "#/components/schemas/GroupQuestionPostDTO"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/GroupQuestionDTO"
+                "$ref": "#/components/schemas/GroupQuestionPostDTO"
               }
             }
           }
@@ -1052,17 +1108,17 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/GroupQuestionDTO"
+                "$ref": "#/components/schemas/GroupQuestionPostDTO"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/GroupQuestionDTO"
+                "$ref": "#/components/schemas/GroupQuestionPostDTO"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/GroupQuestionDTO"
+                "$ref": "#/components/schemas/GroupQuestionPostDTO"
               }
             }
           }
@@ -1981,6 +2037,13 @@
             "type": "string",
             "nullable": true
           },
+          "questionTypes": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          },
           "examQuestions": {
             "type": "array",
             "items": {
@@ -2010,7 +2073,7 @@
             "type": "integer",
             "format": "int32"
           },
-          "points": {
+          "point": {
             "type": "number",
             "format": "double"
           },
@@ -2030,6 +2093,28 @@
         },
         "additionalProperties": false
       },
+      "ExamQuestionInsertItemDTO": {
+        "type": "object",
+        "properties": {
+          "partTitle": {
+            "type": "string",
+            "nullable": true
+          },
+          "questionId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "orderIndex": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "point": {
+            "type": "number",
+            "format": "double"
+          }
+        },
+        "additionalProperties": false
+      },
       "ExamQuestionsInsertDTO": {
         "type": "object",
         "properties": {
@@ -2045,10 +2130,20 @@
             },
             "nullable": true
           },
+          "questionTypes": {
+            "type": "array",
+            "items": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "nullable": true
+          },
           "examQuestions": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/ExamQuestion"
+              "$ref": "#/components/schemas/ExamQuestionInsertItemDTO"
             },
             "nullable": true
           }
@@ -2166,7 +2261,7 @@
         },
         "additionalProperties": false
       },
-      "GroupQuestionDTO": {
+      "GroupQuestionPostDTO": {
         "type": "object",
         "properties": {
           "id": {
@@ -2674,8 +2769,8 @@
             "$ref": "#/components/schemas/Question"
           },
           "answerKey": {
-            "type": "number",
-            "format": "double"
+            "type": "string",
+            "nullable": true
           }
         },
         "additionalProperties": false
@@ -2729,8 +2824,8 @@
             "nullable": true
           },
           "answerKey": {
-            "type": "number",
-            "format": "double"
+            "type": "string",
+            "nullable": true
           }
         },
         "additionalProperties": false

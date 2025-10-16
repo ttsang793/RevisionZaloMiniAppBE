@@ -14,7 +14,15 @@ public class ExamPartDb
 
     public async Task<List<ExamPart>> GetExamPartsAsyncByExamId(ulong id)
     {
-        return await _dbContext.ExamParts.Where(e => e.ExamId == id).ToListAsync();
+        var result = await (from ep in _dbContext.ExamParts
+                            select new ExamPart
+                            {
+                                PartTitle = ep.PartTitle,
+                                QuestionTypes = ep.QuestionTypes,
+                                ExamQuestions = _dbContext.ExamQuestions.Where(eq => eq.ExamPartId == ep.Id).ToList()
+                            }).ToListAsync();
+
+        return result;
     }
 
     public async Task<ExamPart> GetExamPartById(ulong id)

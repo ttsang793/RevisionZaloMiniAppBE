@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 namespace backend.Controllers;
 
 [ApiController]
-[Route("/api/[controller]")]
+[Route("api/[controller]")]
 public class ExamController : Controller
 {
     private readonly ILogger<QuestionController> _logger;
@@ -108,30 +108,38 @@ public class ExamController : Controller
         return await _examDb.UnpublishExam(id) ? StatusCode(200) : StatusCode(400);
     }
 
-    [HttpPost("question/${id}")]
+    [HttpGet("question/{id}")]
+    public async Task<List<ExamPart>> GetQuestionForExam(ulong id)
+    {
+        return await _examPartDb.GetExamPartsAsyncByExamId(id);
+    }
+
+    [HttpPost("question/{id}")]
     public async Task<IActionResult> UpdateQuestionForExam(ulong id, [FromBody] ExamQuestionsInsertDTO e)
     {
-        if (e == null || e.ExamId == null || e.ExamId != id) return BadRequest("Invalid exam data.");
+        if (e == null) return BadRequest("Invalid exam data.");
         bool success = true;
-        var dbContext = new ZaloRevisionAppDbContext();
 
         try
         {
-            await using var transaction = await dbContext.Database.BeginTransactionAsync();
+            await using var transaction = await _examDb.DbContext.Database.BeginTransactionAsync();
 
             // 1. Get all existing parts for the exam
             var existingParts = await _examPartDb.GetExamPartsAsyncByExamId(id);
             var existingPartTitles = existingParts.Select(p => p.PartTitle).ToHashSet(StringComparer.OrdinalIgnoreCase);
 
             // 2. Add new parts if needed
-            foreach (var title in e.PartTitles)
+            for (byte i = 0; i < e.PartTitles.Count(); i++)
             {
+                var title = e.PartTitles.ElementAt(i);
                 if (!existingPartTitles.Contains(title))
                 {
                     var newPart = new ExamPart
                     {
                         ExamId = id,
-                        PartTitle = title
+                        PartIndex = (byte)(i + 1),
+                        PartTitle = title,
+                        QuestionTypes = e.QuestionTypes.ElementAt(i)
                     };
 
                     success &= await _examPartDb.AddExamPart(newPart);
@@ -144,17 +152,29 @@ public class ExamController : Controller
             // 4. Add questions
             foreach (var q in e.ExamQuestions)
             {
-                // Map part title → part ID
-                var part = updatedParts.FirstOrDefault(p => p.Id == q.Id);
-                if (part == null) continue;
+                var part = updatedParts.FirstOrDefault(p => p.PartTitle.Equals(q.PartTitle, StringComparison.OrdinalIgnoreCase));
 
-                q.ExamPartId = part.Id;
+                if (part == null)
+                {
+                    _logger.LogWarning($"No matching part found for question ${q.QuestionId} with part title {q.PartTitle}");
+                    success = false;
+                    break;
+                }
 
-                success &= await _examQuestionDb.AddExamQuestion(q);
+                var newExamQuestion = new ExamQuestion
+                {
+                    ExamPartId = part.Id,
+                    QuestionId = q.QuestionId,
+                    OrderIndex = q.OrderIndex,
+                    Point = q.Point
+                };
+
+                success &= await _examQuestionDb.AddExamQuestion(newExamQuestion);
             }
 
             if (success)
             {
+                await _examDb.UpdateExam((ulong)e.ExamId);
                 await transaction.CommitAsync();
                 return StatusCode(200);
             }
@@ -166,7 +186,7 @@ public class ExamController : Controller
         }
         catch (Exception ex)
         {
-            await dbContext.Database.RollbackTransactionAsync();
+            _logger.LogError(ex, $"Error updating exam questions for exam {id}");
             return StatusCode(500, "Error updating exam questions: " + ex.Message);
         }
     }

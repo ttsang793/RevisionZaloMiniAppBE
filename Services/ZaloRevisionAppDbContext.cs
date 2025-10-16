@@ -282,6 +282,13 @@ public partial class ZaloRevisionAppDbContext : DbContext
             entity.Property(e => e.PartTitle)
                 .HasMaxLength(255)
                 .HasColumnName("part_title");
+            entity.Property(e => e.QuestionTypes)
+                .HasColumnType("json")
+                .HasConversion(
+                      v => JsonSerializer.Serialize(v, new JsonSerializerOptions()),
+                      v => JsonSerializer.Deserialize<List<string>>(v!, new JsonSerializerOptions())
+                  )
+                .HasColumnName("question_types");
         });
 
         modelBuilder.Entity<ExamQuestion>(entity =>
@@ -297,7 +304,7 @@ public partial class ZaloRevisionAppDbContext : DbContext
             entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.ExamPartId).HasColumnName("exam_part_id");
             entity.Property(e => e.OrderIndex).HasColumnName("order_index");
-            entity.Property(e => e.Points)
+            entity.Property(e => e.Point)
                 .HasColumnType("decimal(4,2) unsigned")
                 .HasColumnName("points");
             entity.Property(e => e.QuestionId).HasColumnName("question_id");
@@ -519,7 +526,7 @@ public partial class ZaloRevisionAppDbContext : DbContext
 
             entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.AnswerKey)
-                .HasPrecision(4)
+                .HasMaxLength(4)
                 .HasColumnName("answer_key");
 
             entity.HasOne(d => d.IdNavigation).WithOne(p => p.ShortAnswerQuestion)

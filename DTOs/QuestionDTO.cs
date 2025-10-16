@@ -1,5 +1,6 @@
-﻿namespace backend.DTOs;
+﻿using backend.Models;
 
+namespace backend.DTOs;
 public abstract partial class QuestionDTO
 {
     public ulong? Id { get; set; }
@@ -41,7 +42,7 @@ public partial class TrueFalseQuestionDTO : QuestionDTO
 
 public partial class ShortAnswerQuestionDTO : QuestionDTO
 {
-    public decimal AnswerKey { get; set; }
+    public string AnswerKey { get; set; } = null!;
 }
 
 public partial class ManualResponseQuestionDTO : QuestionDTO
@@ -60,7 +61,18 @@ public partial class SortingQuestionDTO : QuestionDTO
     public ICollection<string> CorrectOrder { get; set; } = [];
 }
 
-public partial class GroupQuestionDTO : QuestionDTO
+public partial class GroupQuestionGetDTO : QuestionDTO
+{
+    public string? PassageTitle { get; set; }
+
+    public string? PassageContent { get; set; }
+
+    public string? PassageAuthor { get; set; }
+
+    public ICollection<Question> Questions { get; set; } = [];
+}
+
+public partial class GroupQuestionPostDTO : QuestionDTO
 {
     public string? PassageTitle { get; set; }
 
