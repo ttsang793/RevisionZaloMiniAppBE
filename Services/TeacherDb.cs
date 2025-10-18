@@ -49,4 +49,11 @@ public class TeacherDb
 
         return await _dbContext.SaveChangesAsync() > 0;
     }
+
+    public async Task<bool> NullifyUser(ulong id)
+    {
+        var deleteTeacher = await _dbContext.Teachers.FirstAsync(t => t.Id == id);
+        deleteTeacher.NullifyTeacher();
+        return await _dbContext.SaveChangesAsync() > 0;
+    }
 }

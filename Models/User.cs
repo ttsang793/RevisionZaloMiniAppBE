@@ -27,4 +27,13 @@ public partial class User
     public virtual ICollection<PdfExamAttempt> PdfExamAttempts { get; set; } = [];
 
     public virtual ICollection<StudentProcess> StudentProcesses { get; set; } = [];
+
+    public void NullifyUser()
+    {
+        ZaloId = null;
+        Name = "Người dùng đã xóa";
+        Avatar = null; //avatar là default.png
+        CreatedAt = null;
+        UpdatedAt = null;
+    }
 }

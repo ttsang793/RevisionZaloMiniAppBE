@@ -1,4 +1,5 @@
 ﻿using backend.Models;
+using backend.Services;
 
 namespace backend.DTOs;
 
@@ -72,14 +73,26 @@ public partial class ExamInsertDTO
     public byte State { get; set; } = 1;
 }
 
-public partial class ExamQuestionsGetDTO
+public partial class ExamPartDTO
 {
-    public ICollection<string> PartTitles { get; set; } = [];
+    public byte PartIndex { get; set; }
 
-    public ICollection<string[]> QuestionTypes { get; set; } = [];
+    public string? PartTitle { get; set; }
 
-    public ICollection<ExamQuestionInsertItemDTO> ExamQuestions { get; set; } = [];
+    public ICollection<string> QuestionTypes { get; set; } = [];
+
+    public ICollection<ExamQuestionDTO> ExamQuestions { get; set; } = [];
 }
+
+public partial class ExamQuestionDTO
+{
+    public int OrderIndex { get; set; }
+
+    public decimal Point { get; set; }
+
+    public QuestionDTO Question { get; set; } = null!;
+}
+
 
 public partial class ExamQuestionsInsertDTO
 {

@@ -241,6 +241,32 @@
   },
   {
     "ContainingType": "backend.Controllers.ExamController",
+    "Method": "GetQuestionListForExam",
+    "RelativePath": "api/Exam/question/{id}/detail",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.UInt64",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.List\u00601[[backend.DTOs.ExamPartDTO, backend, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "backend.Controllers.ExamController",
     "Method": "GetExamsByTeacherAsync",
     "RelativePath": "api/Exam/teacher/{teacherId}",
     "HttpMethod": "GET",

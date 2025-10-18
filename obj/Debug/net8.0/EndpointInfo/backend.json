@@ -408,6 +408,55 @@
         }
       }
     },
+    "/api/Exam/question/{id}/detail": {
+      "get": {
+        "tags": [
+          "Exam"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ExamPartDTO"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ExamPartDTO"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ExamPartDTO"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/Exam/question/{id}": {
       "get": {
         "tags": [
@@ -2054,6 +2103,34 @@
         },
         "additionalProperties": false
       },
+      "ExamPartDTO": {
+        "type": "object",
+        "properties": {
+          "partIndex": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "partTitle": {
+            "type": "string",
+            "nullable": true
+          },
+          "questionTypes": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          },
+          "examQuestions": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ExamQuestionDTO"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
       "ExamQuestion": {
         "type": "object",
         "properties": {
@@ -2089,6 +2166,23 @@
           },
           "question": {
             "$ref": "#/components/schemas/Question"
+          }
+        },
+        "additionalProperties": false
+      },
+      "ExamQuestionDTO": {
+        "type": "object",
+        "properties": {
+          "orderIndex": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "point": {
+            "type": "number",
+            "format": "double"
+          },
+          "question": {
+            "$ref": "#/components/schemas/QuestionDTO"
           }
         },
         "additionalProperties": false

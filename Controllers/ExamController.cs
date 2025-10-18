@@ -108,6 +108,12 @@ public class ExamController : Controller
         return await _examDb.UnpublishExam(id) ? StatusCode(200) : StatusCode(400);
     }
 
+    [HttpGet("question/{id}/detail")]
+    public async Task<List<ExamPartDTO>> GetQuestionListForExam(ulong id)
+    {
+        return await _examPartDb.GetExamPartDetailsAsyncByExamId(id);
+    }
+
     [HttpGet("question/{id}")]
     public async Task<List<ExamPart>> GetQuestionForExam(ulong id)
     {

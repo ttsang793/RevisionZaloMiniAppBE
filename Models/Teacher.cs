@@ -17,4 +17,11 @@ public partial class Teacher
     public virtual User IdNavigation { get; set; } = null!;
 
     public virtual Subject? Subject { get; set; }
+
+    public void NullifyTeacher()
+    {
+        SubjectId = null;
+        Grades = [];
+        Introduction = null;
+    }
 }
