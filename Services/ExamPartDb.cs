@@ -178,6 +178,7 @@ public class ExamPartDb
 
                 examQuestionsDTO.Add(new ExamQuestionDTO
                 {
+                    Id = eq.Id,
                     OrderIndex = eq.OrderIndex,
                     Point = eq.Point,
                     Question = questionDTO

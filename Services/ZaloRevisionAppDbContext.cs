@@ -249,20 +249,26 @@ public partial class ZaloRevisionAppDbContext : DbContext
 
             entity.ToTable("exam_attempt_answers");
 
-            entity.HasIndex(e => e.AttemptId, "attempt_id");
+            entity.HasIndex(e => e.ExamAttemptId, "exam_attempt_id");
 
             entity.HasIndex(e => e.ExamQuestionId, "exam_question_id");
 
             entity.Property(e => e.Id).HasColumnName("id");
-            entity.Property(e => e.AttemptId).HasColumnName("attempt_id");
+            entity.Property(e => e.AnswerType)
+                .HasDefaultValueSql("'string'")
+                .HasColumnType("enum('array','string')")
+                .HasColumnName("answer_type");
+            entity.Property(e => e.ExamAttemptId).HasColumnName("exam_attempt_id");
             entity.Property(e => e.ExamQuestionId).HasColumnName("exam_question_id");
-            entity.Property(e => e.IsCorrect).HasColumnName("is_correct");
+            entity.Property(e => e.IsCorrect)
+                .HasColumnType("text")
+                .HasColumnName("is_correct");
             entity.Property(e => e.StudentAnswer)
                 .HasColumnType("text")
                 .HasColumnName("student_answer");
 
-            entity.HasOne(d => d.Attempt).WithMany(p => p.ExamAttemptAnswers)
-                .HasForeignKey(d => d.AttemptId)
+            entity.HasOne(d => d.ExamAttempt).WithMany(p => p.ExamAttemptAnswers)
+                .HasForeignKey(d => d.ExamAttemptId)
                 .HasConstraintName("exam_attempt_answers_ibfk_1");
 
             entity.HasOne(d => d.ExamQuestion).WithMany(p => p.ExamAttemptAnswers)

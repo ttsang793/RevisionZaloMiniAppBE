@@ -86,6 +86,8 @@ public partial class ExamPartDTO
 
 public partial class ExamQuestionDTO
 {
+    public ulong Id { get; set; }
+
     public int OrderIndex { get; set; }
 
     public decimal Point { get; set; }

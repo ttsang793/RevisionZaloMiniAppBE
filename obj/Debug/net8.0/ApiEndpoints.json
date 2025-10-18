@@ -114,6 +114,22 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "backend.Controllers.ExamAttemptController",
+    "Method": "AddExam",
+    "RelativePath": "api/exam-attempt",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "examAttemptDTO",
+        "Type": "backend.DTOs.ExamAttemptDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "backend.Controllers.ExamController",
     "Method": "GetExamByIdAsync",
     "RelativePath": "api/Exam/{id}",

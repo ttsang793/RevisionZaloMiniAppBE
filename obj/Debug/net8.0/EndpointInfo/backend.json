@@ -546,6 +546,37 @@
         }
       }
     },
+    "/api/exam-attempt": {
+      "post": {
+        "tags": [
+          "ExamAttempt"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExamAttemptDTO"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExamAttemptDTO"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExamAttemptDTO"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/api/Question": {
       "get": {
         "tags": [
@@ -1972,7 +2003,7 @@
             "type": "integer",
             "format": "int64"
           },
-          "attemptId": {
+          "examAttemptId": {
             "type": "integer",
             "format": "int64"
           },
@@ -1984,15 +2015,72 @@
             "type": "string",
             "nullable": true
           },
-          "isCorrect": {
-            "type": "boolean",
+          "answerType": {
+            "type": "string",
             "nullable": true
           },
-          "attempt": {
+          "isCorrect": {
+            "type": "string",
+            "nullable": true
+          },
+          "examAttempt": {
             "$ref": "#/components/schemas/ExamAttempt"
           },
           "examQuestion": {
             "$ref": "#/components/schemas/ExamQuestion"
+          }
+        },
+        "additionalProperties": false
+      },
+      "ExamAttemptAnswerDTO": {
+        "type": "object",
+        "properties": {
+          "examQuestionId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "studentAnswer": {
+            "type": "string",
+            "nullable": true
+          },
+          "answerType": {
+            "type": "string",
+            "nullable": true
+          },
+          "isCorrect": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ExamAttemptDTO": {
+        "type": "object",
+        "properties": {
+          "examId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "studentId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "score": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "duration": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "examAttemptAnswers": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ExamAttemptAnswerDTO"
+            },
+            "nullable": true
           }
         },
         "additionalProperties": false
@@ -2173,6 +2261,10 @@
       "ExamQuestionDTO": {
         "type": "object",
         "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
           "orderIndex": {
             "type": "integer",
             "format": "int32"
