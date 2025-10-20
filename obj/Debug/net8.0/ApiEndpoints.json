@@ -115,6 +115,37 @@
   },
   {
     "ContainingType": "backend.Controllers.ExamAttemptController",
+    "Method": "GetLatestExamAttempt",
+    "RelativePath": "api/exam-attempt",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "studentId",
+        "Type": "System.UInt64",
+        "IsRequired": false
+      },
+      {
+        "Name": "examId",
+        "Type": "System.UInt64",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "backend.Models.ExamAttempt",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "backend.Controllers.ExamAttemptController",
     "Method": "AddExam",
     "RelativePath": "api/exam-attempt",
     "HttpMethod": "POST",

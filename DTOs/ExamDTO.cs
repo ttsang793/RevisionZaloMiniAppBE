@@ -75,6 +75,8 @@ public partial class ExamInsertDTO
 
 public partial class ExamPartDTO
 {
+    public ulong Id { get; set; }
+
     public byte PartIndex { get; set; }
 
     public string? PartTitle { get; set; }

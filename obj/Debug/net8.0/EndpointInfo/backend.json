@@ -547,6 +547,51 @@
       }
     },
     "/api/exam-attempt": {
+      "get": {
+        "tags": [
+          "ExamAttempt"
+        ],
+        "parameters": [
+          {
+            "name": "studentId",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "examId",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExamAttempt"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExamAttempt"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExamAttempt"
+                }
+              }
+            }
+          }
+        }
+      },
       "post": {
         "tags": [
           "ExamAttempt"
@@ -1966,18 +2011,31 @@
             "format": "double",
             "nullable": true
           },
+          "startedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
           "duration": {
             "type": "integer",
-            "format": "int32",
-            "nullable": true
+            "format": "int32"
           },
           "submittedAt": {
             "type": "string",
-            "format": "date-time",
-            "nullable": true
+            "format": "date-time"
+          },
+          "isPractice": {
+            "type": "boolean"
           },
           "comment": {
             "type": "string",
+            "nullable": true
+          },
+          "partOrder": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "format": "int64"
+            },
             "nullable": true
           },
           "exam": {
@@ -2011,6 +2069,13 @@
             "type": "integer",
             "format": "int64"
           },
+          "answerOrder": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          },
           "studentAnswer": {
             "type": "string",
             "nullable": true
@@ -2038,6 +2103,13 @@
           "examQuestionId": {
             "type": "integer",
             "format": "int64"
+          },
+          "answerOrder": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
           },
           "studentAnswer": {
             "type": "string",
@@ -2070,9 +2142,19 @@
             "format": "double",
             "nullable": true
           },
-          "duration": {
-            "type": "integer",
-            "format": "int32",
+          "startedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "isPractice": {
+            "type": "boolean"
+          },
+          "partOrder": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "format": "int64"
+            },
             "nullable": true
           },
           "examAttemptAnswers": {
@@ -2194,6 +2276,10 @@
       "ExamPartDTO": {
         "type": "object",
         "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
           "partIndex": {
             "type": "integer",
             "format": "int32"

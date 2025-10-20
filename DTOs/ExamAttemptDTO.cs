@@ -8,14 +8,20 @@ public class ExamAttemptDTO
 
     public decimal? Score { get; set; }
 
-    public ushort? Duration { get; set; }
+    public DateTime StartedAt { get; set; }
 
-    public ICollection<ExamAttemptAnswerDTO>? ExamAttemptAnswers { get; set; } = [];
+    public bool IsPractice { get; set; } = false;
+
+    public ICollection<ulong> PartOrder { get; set; } = [];
+
+    public ICollection<ExamAttemptAnswerDTO> ExamAttemptAnswers { get; set; } = [];
 }
 
 public class ExamAttemptAnswerDTO
 {
     public ulong ExamQuestionId { get; set; }
+
+    public ICollection<string>? AnswerOrder { get; set; }
 
     public string? StudentAnswer { get; set; }
 

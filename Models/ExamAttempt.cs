@@ -10,11 +10,17 @@ public partial class ExamAttempt
 
     public decimal? Score { get; set; }
 
-    public ushort? Duration { get; set; }
+    public DateTime StartedAt { get; set; }
 
-    public DateTime? SubmittedAt { get; set; }
+    public ushort Duration { get; set; }
+
+    public DateTime SubmittedAt { get; set; }
+
+    public bool IsPractice { get; set; } = false;
 
     public string? Comment { get; set; }
+
+    public ICollection<ulong> PartOrder { get; set; } = [];
 
     public virtual Exam Exam { get; set; } = null!;
 

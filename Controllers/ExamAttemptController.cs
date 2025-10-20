@@ -2,7 +2,6 @@
 using backend.Models;
 using backend.Services;
 using Microsoft.AspNetCore.Mvc;
-using System.Runtime.InteropServices;
 
 namespace backend.Controllers;
 
@@ -19,22 +18,33 @@ public class ExamAttemptController : Controller
         _examAttemptDb = new ExamAttemptDb(dbContext);
     }
 
+    [HttpGet]
+    public async Task<ExamAttempt> GetLatestExamAttempt(ulong studentId, ulong examId)
+    {
+        return await _examAttemptDb.GetLatestExamAttempt(studentId, examId);
+    }
+
     [HttpPost]
     public async Task<IActionResult> AddExam([FromBody] ExamAttemptDTO examAttemptDTO)
     {
+        double durationDouble = (DateTime.Now - examAttemptDTO.StartedAt.ToLocalTime()).TotalSeconds;
+        ushort duration = ((ushort)Math.Round(durationDouble));
+
         ExamAttempt examAttempt = new ExamAttempt
         {
             ExamId = examAttemptDTO.ExamId,
             StudentId = examAttemptDTO.StudentId,
             Score = examAttemptDTO.Score,
-            Duration = examAttemptDTO.Duration,
-            SubmittedAt = DateTime.Now
+            StartedAt = examAttemptDTO.StartedAt.ToLocalTime(),
+            IsPractice = examAttemptDTO.IsPractice,
+            Duration = duration,
+            SubmittedAt = DateTime.Now,
+            PartOrder = examAttemptDTO.PartOrder
         };
 
-        bool added = await _examAttemptDb.AddExamAttempt(examAttempt);
-        if (!added) return StatusCode(400, "Failed to add exam attempt.");
-        var newId = await _examAttemptDb.GetLastIdAsync();
-
+        var addedExam = await _examAttemptDb.AddExamAttempt(examAttempt);
+        if (addedExam == null) return StatusCode(400, "Failed to add exam attempt!");
+        var newId = addedExam.Id;
         try
         {
             await using var transaction = await _examAttemptDb.DbContext.Database.BeginTransactionAsync();
@@ -44,6 +54,7 @@ public class ExamAttemptController : Controller
                 {
                     ExamAttemptId = newId,
                     ExamQuestionId = examAttemptAnswerDTO.ExamQuestionId,
+                    AnswerOrder = examAttemptAnswerDTO.AnswerOrder,
                     StudentAnswer = examAttemptAnswerDTO.StudentAnswer,
                     AnswerType = examAttemptAnswerDTO.AnswerType,
                     IsCorrect = examAttemptAnswerDTO.IsCorrect
@@ -63,6 +74,7 @@ public class ExamAttemptController : Controller
         catch (Exception ex)
         {
             _logger.LogError(ex, $"Error submiting the exam on {DateTime.Now}");
+            await _examAttemptDb.RemoveLastIndex();
             return StatusCode(500);
         }
     }

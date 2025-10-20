@@ -187,6 +187,7 @@ public class ExamPartDb
 
             result.Add(new ExamPartDTO
             {
+                Id = ep.Id,
                 PartIndex = ep.PartIndex,
                 PartTitle = ep.PartTitle,
                 QuestionTypes = ep.QuestionTypes,

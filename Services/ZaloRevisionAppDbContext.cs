@@ -225,6 +225,19 @@ public partial class ZaloRevisionAppDbContext : DbContext
                 .HasColumnName("comment");
             entity.Property(e => e.Duration).HasColumnName("duration");
             entity.Property(e => e.ExamId).HasColumnName("exam_id");
+            entity.Property(e => e.IsPractice)
+                .HasDefaultValueSql("'0'")
+                .HasColumnName("is_practice");
+            entity.Property(e => e.PartOrder)
+                .HasColumnType("json")
+                .HasConversion(
+                      v => JsonSerializer.Serialize(v, new JsonSerializerOptions()),
+                      v => JsonSerializer.Deserialize<List<ulong>>(v!, new JsonSerializerOptions())
+                  )
+                .HasColumnName("part_order");
+            entity.Property(e => e.StartedAt)
+                .HasColumnType("datetime")
+                .HasColumnName("started_at");
             entity.Property(e => e.Score)
                 .HasColumnType("decimal(4,2) unsigned")
                 .HasColumnName("score");
@@ -254,6 +267,13 @@ public partial class ZaloRevisionAppDbContext : DbContext
             entity.HasIndex(e => e.ExamQuestionId, "exam_question_id");
 
             entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.AnswerOrder)
+                .HasColumnType("json")
+                .HasConversion(
+                      v => JsonSerializer.Serialize(v, new JsonSerializerOptions()),
+                      v => JsonSerializer.Deserialize<List<string>>(v!, new JsonSerializerOptions())
+                  )
+                .HasColumnName("answer_order");
             entity.Property(e => e.AnswerType)
                 .HasDefaultValueSql("'string'")
                 .HasColumnType("enum('array','string')")

@@ -12,20 +12,40 @@ public class ExamAttemptDb
         DbContext = dbContext;
     }
 
-    public async Task<ulong> GetLastIdAsync()
+    public async Task<ExamAttempt> GetLatestExamAttempt(ulong studentId, ulong examId)
     {
-        return (await DbContext.ExamAttempts.OrderByDescending(e => e.Id).ToListAsync())[0].Id;
+        var result = await (from ea in DbContext.ExamAttempts
+                            join eaa in DbContext.ExamAttemptAnswers
+                            on ea.Id equals eaa.ExamAttemptId
+                            where ea.StudentId == studentId && ea.ExamId == examId
+                            orderby ea.SubmittedAt descending
+                            select new ExamAttempt
+                            {
+                                Score = ea.Score,
+                                Comment = ea.Comment,
+                                PartOrder = ea.PartOrder,
+                                ExamAttemptAnswers = DbContext.ExamAttemptAnswers.Where(a => a.ExamAttemptId == ea.Id).ToList()
+                            }).FirstAsync();
+
+        return result;
     }
 
-    public async Task<bool> AddExamAttempt(ExamAttempt examAttempt)
+    public async Task<ExamAttempt?> AddExamAttempt(ExamAttempt examAttempt)
     {
         DbContext.ExamAttempts.Add(examAttempt);
-        return await DbContext.SaveChangesAsync() > 0;
+        bool saved = await DbContext.SaveChangesAsync() > 0;
+        return saved ? examAttempt : null;
     }
 
     public async Task<bool> AddExamAttemptAnswer(ExamAttemptAnswer examAttemptAnswer)
     {
         DbContext.ExamAttemptAnswers.Add(examAttemptAnswer);
+        return await DbContext.SaveChangesAsync() > 0;
+    }
+
+    public async Task<bool> RemoveLastIndex()
+    {
+        DbContext.ExamAttempts.Remove((await DbContext.ExamAttempts.OrderByDescending(e => e.Id).ToListAsync())[0]);
         return await DbContext.SaveChangesAsync() > 0;
     }
 }
