@@ -19,7 +19,7 @@ public class ExamAttemptController : Controller
     }
 
     [HttpGet]
-    public async Task<ExamAttempt> GetLatestExamAttempt(ulong studentId, ulong examId)
+    public async Task<ExamAttemptGetDTO> GetLatestExamAttempt(ulong studentId, ulong examId)
     {
         return await _examAttemptDb.GetLatestExamAttempt(studentId, examId);
     }

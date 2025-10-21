@@ -20,6 +20,22 @@
     ]
   },
   {
+    "ContainingType": "backend.Controllers.AdminController",
+    "Method": "Login",
+    "RelativePath": "api/Admin",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "adminDTO",
+        "Type": "backend.DTOs.AdminDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "CommentController",
     "Method": "AddComment",
     "RelativePath": "api/Comment",
@@ -134,7 +150,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "backend.Models.ExamAttempt",
+        "Type": "backend.DTOs.ExamAttemptGetDTO",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -713,6 +729,22 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "backend.Controllers.StudentController",
+    "Method": "AddStudent",
+    "RelativePath": "api/Student",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "user",
+        "Type": "backend.Models.User",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "backend.Controllers.SubjectController",
     "Method": "Get",
     "RelativePath": "api/Subject",
@@ -806,6 +838,22 @@
       {
         "Name": "id",
         "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "backend.Controllers.TeacherController",
+    "Method": "AddTeacher",
+    "RelativePath": "api/Teacher",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "t",
+        "Type": "backend.DTOs.TeacherDTO",
         "IsRequired": true
       }
     ],

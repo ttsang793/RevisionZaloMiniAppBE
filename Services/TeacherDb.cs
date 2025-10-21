@@ -37,6 +37,16 @@ public class TeacherDb
         return result;
     }
 
+    public async Task<bool> AddTeacher(User u, Teacher t)
+    {
+        _dbContext.Users.Add(u);
+        if (await _dbContext.SaveChangesAsync() <= 0) return false;
+
+        t.Id = u.Id;
+        _dbContext.Teachers.Add(t);
+        return await _dbContext.SaveChangesAsync() > 0;
+    }
+
     public async Task<bool> UpdateTeacher(TeacherDTO t)
     {
         var user = await GetUserByIdAsync((ulong)t.Id);

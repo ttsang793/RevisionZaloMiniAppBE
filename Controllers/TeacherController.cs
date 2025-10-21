@@ -24,6 +24,27 @@ public class TeacherController : Controller
         return await _teacherDb.GetTeacherByIdAsync(id);
     }
 
+    [HttpPost]
+    public async Task<IActionResult> AddTeacher(TeacherDTO t)
+    {
+        User user = new User
+        {
+            ZaloId = t.ZaloId,
+            Name = t.Name,
+            Avatar = t.Avatar,
+            Role = "teacher"
+        };
+
+        Teacher teacher = new Teacher
+        {
+            SubjectId = t.SubjectId,
+            Grades = t.Grades,
+            Introduction = t.Introduction
+        };
+
+        return await _teacherDb.AddTeacher(user, teacher) ? StatusCode(201) : StatusCode(400);
+    }
+
     [HttpPut]
     public async Task<IActionResult> UpdateTeacher(TeacherDTO t)
     {

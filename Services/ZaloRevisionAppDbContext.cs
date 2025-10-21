@@ -89,9 +89,6 @@ public partial class ZaloRevisionAppDbContext : DbContext
             entity.Property(e => e.Password)
                 .HasMaxLength(255)
                 .HasColumnName("password");
-            entity.Property(e => e.Username)
-                .HasMaxLength(255)
-                .HasColumnName("username");
 
             entity.HasOne(d => d.IdNavigation).WithOne(p => p.Admin)
                 .HasForeignKey<Admin>(d => d.Id)
