@@ -1,9 +1,8 @@
 {
   "build": {
-    "command": "dotnet build",
-    "output": "bin/Release/net8.0"
+    "command": "dotnet publish -c Release -o out"
   },
   "start": {
-    "command": "dotnet run"
+    "command": "dotnet out/backend.dll"
   }
 }
