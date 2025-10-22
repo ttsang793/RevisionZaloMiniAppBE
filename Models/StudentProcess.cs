@@ -16,6 +16,8 @@ public partial class StudentProcess
 
     public DateTime? LastActivity { get; set; }
 
+    public ICollection<ulong> FavoriteExams { get; set; } = [];
+
     public virtual User Student { get; set; } = null!;
 
     public virtual Subject? Subject { get; set; }

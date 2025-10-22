@@ -594,6 +594,13 @@ public partial class ZaloRevisionAppDbContext : DbContext
             entity.Property(e => e.CorrectRate)
                 .HasPrecision(5)
                 .HasColumnName("correct_rate");
+            entity.Property(e => e.FavoriteExams)
+                .HasColumnType("json")
+                .HasConversion(
+                      v => JsonSerializer.Serialize(v, new JsonSerializerOptions()),
+                      v => JsonSerializer.Deserialize<List<ulong>>(v!, new JsonSerializerOptions())
+                  )
+                .HasColumnName("favorite_exams");
             entity.Property(e => e.LastActivity)
                 .HasColumnType("datetime")
                 .HasColumnName("last_activity");

@@ -1,0 +1,9 @@
+{
+  "build": {
+    "command": "dotnet build",
+    "output": "bin/Release/net8.0"
+  },
+  "start": {
+    "command": "dotnet run"
+  }
+}
