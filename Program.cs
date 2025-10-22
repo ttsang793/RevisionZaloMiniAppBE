@@ -4,6 +4,10 @@ using System.Text.Json;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Configure Kestrel to use PORT environment variable
+var port = Environment.GetEnvironmentVariable("PORT") ?? "5273";
+builder.WebHost.UseUrls($"http://0.0.0.0:{port}");
+
 // Add services to the container.
 builder.Services.AddControllers()
     .AddJsonOptions(options =>
@@ -36,5 +40,4 @@ app.UseSession();
 
 app.UseCors();
 
-var port = Environment.GetEnvironmentVariable("PORT") ?? "5273";
-app.Run($"http://0.0.0.0:{port}");
+app.Run();
