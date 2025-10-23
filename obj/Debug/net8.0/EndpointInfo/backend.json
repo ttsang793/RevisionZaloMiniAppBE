@@ -653,6 +653,95 @@
         }
       }
     },
+    "/api/pdf-exam-code/{examId}": {
+      "get": {
+        "tags": [
+          "PdfExamCode"
+        ],
+        "parameters": [
+          {
+            "name": "examId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/PdfExamCode"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/PdfExamCode"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/PdfExamCode"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/pdf-exam-code": {
+      "post": {
+        "tags": [
+          "PdfExamCode"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/PdfExamCodeDTO"
+                }
+              }
+            },
+            "text/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/PdfExamCodeDTO"
+                }
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/PdfExamCodeDTO"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/api/Question": {
       "get": {
         "tags": [
@@ -3145,9 +3234,17 @@
             "type": "string",
             "nullable": true
           },
-          "answerKey": {
+          "taskPdf": {
             "type": "string",
             "nullable": true
+          },
+          "answerPdf": {
+            "type": "string",
+            "nullable": true
+          },
+          "numPart": {
+            "type": "integer",
+            "format": "int32"
           },
           "exam": {
             "$ref": "#/components/schemas/Exam"
@@ -3157,6 +3254,125 @@
             "items": {
               "$ref": "#/components/schemas/PdfExamAttempt"
             },
+            "nullable": true
+          },
+          "pdfExamCodeQuestions": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PdfExamCodeQuestion"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "PdfExamCodeDTO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "examId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "code": {
+            "type": "string",
+            "nullable": true
+          },
+          "taskPdf": {
+            "type": "string",
+            "nullable": true
+          },
+          "answerPdf": {
+            "type": "string",
+            "nullable": true
+          },
+          "numPart": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "questions": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PdfExamCodeQuestionDTO"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "PdfExamCodeQuestion": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "type": {
+            "type": "string",
+            "nullable": true
+          },
+          "partIndex": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "questionIndex": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "answerKey": {
+            "type": "string",
+            "nullable": true
+          },
+          "point": {
+            "type": "number",
+            "format": "double"
+          },
+          "pdfExamCodeId": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "pdfExamCode": {
+            "$ref": "#/components/schemas/PdfExamCode"
+          }
+        },
+        "additionalProperties": false
+      },
+      "PdfExamCodeQuestionDTO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "type": {
+            "type": "string",
+            "nullable": true
+          },
+          "partIndex": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "questionIndex": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "answerKey": {
+            "type": "string",
+            "nullable": true
+          },
+          "point": {
+            "type": "number",
+            "format": "double"
+          },
+          "pdfExamCodeId": {
+            "type": "integer",
+            "format": "int64",
             "nullable": true
           }
         },

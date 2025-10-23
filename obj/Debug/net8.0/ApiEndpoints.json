@@ -371,6 +371,48 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "backend.Controllers.PdfExamCodeController",
+    "Method": "AddPdfExamCodes",
+    "RelativePath": "api/pdf-exam-code",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "pdfExamCodeDTOList",
+        "Type": "System.Collections.Generic.List\u00601[[backend.DTOs.PdfExamCodeDTO, backend, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "backend.Controllers.PdfExamCodeController",
+    "Method": "GetExamCodeByExamId",
+    "RelativePath": "api/pdf-exam-code/{examId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "examId",
+        "Type": "System.UInt64",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.List\u00601[[backend.Models.PdfExamCode, backend, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
     "ContainingType": "backend.Controllers.QuestionController",
     "Method": "GetAllQuestionsByTeacher",
     "RelativePath": "api/Question",

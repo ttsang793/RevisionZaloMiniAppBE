@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace backend.Models;
+﻿namespace backend.Models;
 
 public partial class PdfExamCode
 {
@@ -11,9 +8,15 @@ public partial class PdfExamCode
 
     public string Code { get; set; } = null!;
 
-    public string AnswerKey { get; set; } = null!;
+    public string? TaskPdf { get; set; }
+
+    public string? AnswerPdf { get; set; }
+
+    public byte NumPart { get; set; }
 
     public virtual Exam Exam { get; set; } = null!;
 
     public virtual ICollection<PdfExamAttempt> PdfExamAttempts { get; set; } = new List<PdfExamAttempt>();
+
+    public virtual ICollection<PdfExamCodeQuestion> PdfExamCodeQuestions { get; set; } = new List<PdfExamCodeQuestion>();
 }

@@ -41,6 +41,8 @@ public partial class ZaloRevisionAppDbContext : DbContext
 
     public virtual DbSet<PdfExamCode> PdfExamCodes { get; set; }
 
+    public virtual DbSet<PdfExamCodeQuestion> PdfExamCodeQuestions { get; set; }
+
     public virtual DbSet<Question> Questions { get; set; }
 
     public virtual DbSet<ShortAnswerQuestion> ShortAnswerQuestions { get; set; }
@@ -478,18 +480,49 @@ public partial class ZaloRevisionAppDbContext : DbContext
             entity.HasIndex(e => e.ExamId, "exam_id");
 
             entity.Property(e => e.Id).HasColumnName("id");
-            entity.Property(e => e.AnswerKey)
-                .HasColumnType("json")
-                .HasColumnName("answer_keys");
+            entity.Property(e => e.AnswerPdf).HasColumnName("answer_pdf");
             entity.Property(e => e.Code)
                 .HasMaxLength(3)
                 .IsFixedLength()
                 .HasColumnName("code");
             entity.Property(e => e.ExamId).HasColumnName("exam_id");
+            entity.Property(e => e.NumPart).HasColumnName("num_part");
+            entity.Property(e => e.TaskPdf).HasColumnName("task_pdf");
 
             entity.HasOne(d => d.Exam).WithMany(p => p.PdfExamCodes)
                 .HasForeignKey(d => d.ExamId)
                 .HasConstraintName("pdf_exam_codes_ibfk_1");
+        });
+
+        modelBuilder.Entity<PdfExamCodeQuestion>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PRIMARY");
+
+            entity.ToTable("pdf_exam_codes_questions");
+
+            entity.HasIndex(e => e.PdfExamCodeId, "pdf_exam_code_id");
+
+            entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.AnswerKey)
+                .HasColumnType("text")
+                .HasColumnName("answerKey");
+            entity.Property(e => e.PartIndex)
+                .HasDefaultValueSql("'0'")
+                .HasColumnName("part_index");
+            entity.Property(e => e.PdfExamCodeId).HasColumnName("pdf_exam_code_id");
+            entity.Property(e => e.Point)
+                .HasPrecision(5)
+                .HasColumnName("point");
+            entity.Property(e => e.QuestionIndex)
+                .HasDefaultValueSql("'0'")
+                .HasColumnName("question_index");
+            entity.Property(e => e.Type)
+                .HasColumnType("enum('multiple-choice','true-false','short-answer','fill-in-the-blank','constructed-response','sorting','true-false-thpt')")
+                .HasColumnName("type");
+
+            entity.HasOne(d => d.PdfExamCode).WithMany(p => p.PdfExamCodeQuestions)
+                .HasForeignKey(d => d.PdfExamCodeId)
+                .HasConstraintName("pdf_exam_codes_questions_ibfk_1");
         });
 
         modelBuilder.Entity<Question>(entity =>

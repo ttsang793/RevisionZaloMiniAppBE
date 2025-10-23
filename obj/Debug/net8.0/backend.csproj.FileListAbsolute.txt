@@ -267,5 +267,4 @@ D:\Khóa luận\backend\obj\Debug\net8.0\backend.pdb
 D:\Khóa luận\backend\obj\Debug\net8.0\backend.genruntimeconfig.cache
 D:\Khóa luận\backend\obj\Debug\net8.0\ref\backend.dll
 D:\Khóa luận\backend\obj\Debug\net8.0\backend.sourcelink.json
-D:\Khóa luận\backend\bin\Debug\net8.0\railpack.json
 D:\Khóa luận\backend\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt
