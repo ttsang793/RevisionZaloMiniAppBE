@@ -24,8 +24,14 @@ public class ExamAttemptController : Controller
         return await _examAttemptDb.GetLatestExamAttempt(studentId, examId);
     }
 
+    [HttpGet("pdf")]
+    public async Task<PdfExamAttempt> GetLatestPdfExamAttempt(ulong studentId, ulong examId)
+    {
+        return await _examAttemptDb.GetLatestPdfExamAttempt(studentId, examId);
+    }
+
     [HttpPost]
-    public async Task<IActionResult> AddExam([FromBody] ExamAttemptDTO examAttemptDTO)
+    public async Task<IActionResult> AddExamAttempt([FromBody] ExamAttemptDTO examAttemptDTO)
     {
         double durationDouble = (DateTime.Now - examAttemptDTO.StartedAt.ToLocalTime()).TotalSeconds;
         ushort duration = ((ushort)Math.Round(durationDouble));
@@ -77,5 +83,27 @@ public class ExamAttemptController : Controller
             await _examAttemptDb.RemoveLastIndex();
             return StatusCode(500);
         }
+    }
+
+    [HttpPost("pdf")]
+    public async Task<IActionResult> AddPdfExamAttempt(PdfExamAttemptDTO pdfExamAttemptDTO)
+    {
+        double durationDouble = (DateTime.Now - pdfExamAttemptDTO.StartedAt.ToLocalTime()).TotalSeconds;
+        ushort duration = ((ushort)Math.Round(durationDouble));
+
+        var pdfExamAttempt = new PdfExamAttempt
+        {
+            ExamId = pdfExamAttemptDTO.ExamId,
+            StudentId = pdfExamAttemptDTO.StudentId,
+            Score = pdfExamAttemptDTO.Score,
+            StartedAt = pdfExamAttemptDTO.StartedAt.ToLocalTime(),
+            Duration = duration,
+            SubmittedAt = DateTime.Now,
+            StudentAnswer = pdfExamAttemptDTO.StudentAnswer,
+            ScoreBoard = pdfExamAttemptDTO.ScoreBoard,
+            CodeId = pdfExamAttemptDTO.CodeId
+        };
+
+        return await _examAttemptDb.AddPdfExamAttempt(pdfExamAttempt) ? StatusCode(201) : StatusCode(400);
     }
 }

@@ -10,18 +10,18 @@ namespace backend.Controllers;
 public class TeacherController : Controller
 {
     private readonly ILogger<TeacherController> _logger;
-    private readonly TeacherDb _teacherDb;
+    private readonly UserDb _userDb;
 
     public TeacherController(ILogger<TeacherController> logger, ZaloRevisionAppDbContext dbContext)
     {
         _logger = logger;
-        _teacherDb = new TeacherDb(dbContext);
+        _userDb = new UserDb(dbContext);
     }
 
     [HttpGet("{id}")]
     public async Task<TeacherDTO> GetTeacher(ulong id)
     {
-        return await _teacherDb.GetTeacherByIdAsync(id);
+        return await _userDb.GetTeacherDTOByIdAsync(id);
     }
 
     [HttpPost]
@@ -42,12 +42,34 @@ public class TeacherController : Controller
             Introduction = t.Introduction
         };
 
-        return await _teacherDb.AddTeacher(user, teacher) ? StatusCode(201) : StatusCode(400);
+        return await _userDb.AddTeacher(user, teacher) ? StatusCode(201) : StatusCode(400);
     }
 
-    [HttpPut]
-    public async Task<IActionResult> UpdateTeacher(TeacherDTO t)
+    [HttpPut("{id}")]
+    public async Task<IActionResult> UpdateTeacher(TeacherDTO t, ulong id)
     {
-        return await _teacherDb.UpdateTeacher(t) ? StatusCode(200) : StatusCode(400);
+
+        User user = new User
+        {
+            Id = id,
+            Name = t.Name,
+            Avatar = t.Avatar
+        };
+
+        Teacher teacher = new Teacher
+        {
+            Id = id,
+            SubjectId = t.SubjectId,
+            Grades = t.Grades,
+            Introduction = t.Introduction
+        };
+
+        return await _userDb.UpdateTeacher(user, teacher, id) ? StatusCode(200) : StatusCode(400);
+    }
+
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> DeleteTeacher(ulong id)
+    {
+        return await _userDb.NullifyTeacher(id) ? StatusCode(200) : StatusCode(400);
     }
 }

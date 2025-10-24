@@ -1,4 +1,5 @@
 ﻿using backend.Models;
+using backend.DTOs;
 using Microsoft.EntityFrameworkCore;
 
 namespace backend.Services;
@@ -12,14 +13,37 @@ public class PdfExamCodeDb
         DbContext = dbContext;
     }
 
-    public async Task<List<PdfExamCode>> GetExamCodeByExamId(ulong examId)
+    public async Task<PdfExamCodeDTO> GetExamCodeByExamId(ulong examId, ulong? pdfExamCodeId)
     {
-        List<string> examCodes = await DbContext.PdfExamCodes.Where(ec => ec.ExamId == examId).Select(ec => ec.Code).ToListAsync();
-        Console.WriteLine(examCodes.Count);
-        string currentCode = examCodes[new Random().Next(1, examCodes.Count) - 1];
-        Console.WriteLine(currentCode);
+        PdfExamCode currentCode;
+        if (pdfExamCodeId == null)
+        {
+            List<PdfExamCode> examCodes = await DbContext.PdfExamCodes.Where(ec => ec.ExamId == examId).ToListAsync();
+            currentCode = examCodes[new Random().Next(1, examCodes.Count + 1) - 1];
+            pdfExamCodeId = currentCode.Id;
+        }
+        else currentCode = await DbContext.PdfExamCodes.Where(ec => ec.Id == pdfExamCodeId).FirstAsync();
 
-        return await DbContext.PdfExamCodes.Where(ec => ec.ExamId == examId && ec.Code == currentCode).ToListAsync();
+        return new PdfExamCodeDTO
+        {
+            Id = pdfExamCodeId,
+            ExamId = currentCode.ExamId,
+            Code = currentCode.Code,
+            TaskPdf = currentCode.TaskPdf,
+            AnswerPdf = currentCode.AnswerPdf,
+            NumPart = currentCode.NumPart,
+            AllowShowScore = (bool)(await DbContext.Exams.Where(e => e.Id == examId).Select(e => e.AllowShowScore).FirstAsync()),
+            Questions = await (from q in DbContext.PdfExamCodeQuestions
+                                where q.PdfExamCodeId == currentCode.Id
+                                select new PdfExamCodeQuestionDTO
+                                {
+                                    Type = q.Type,
+                                    PartIndex = q.PartIndex,
+                                    QuestionIndex = q.QuestionIndex,
+                                    AnswerKey = q.AnswerKey,
+                                    Point = q.Point
+                                }).ToListAsync()
+        };
     }
 
     public async Task<PdfExamCode?> AddExamCode(PdfExamCode pdfExamCode)

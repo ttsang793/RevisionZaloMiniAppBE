@@ -207,4 +207,21 @@ public class ExamAttemptDb
         DbContext.ExamAttempts.Remove((await DbContext.ExamAttempts.OrderByDescending(e => e.Id).ToListAsync())[0]);
         return await DbContext.SaveChangesAsync() > 0;
     }
+
+    public async Task<PdfExamAttempt> GetLatestPdfExamAttempt(ulong studentId, ulong examId)
+    {
+        var result = await (from pea in DbContext.PdfExamAttempts
+                            join pe in DbContext.PdfExamCodes
+                            on pea.CodeId equals pe.Id
+                            where pea.StudentId == studentId && pe.ExamId == examId
+                            orderby pea.SubmittedAt descending
+                            select pea).FirstAsync();
+        return result;
+    }
+
+    public async Task<bool> AddPdfExamAttempt(PdfExamAttempt pdfExamAttempt)
+    {
+        DbContext.PdfExamAttempts.Add(pdfExamAttempt);
+        return await DbContext.SaveChangesAsync() > 0;
+    }
 }

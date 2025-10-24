@@ -162,7 +162,7 @@
   },
   {
     "ContainingType": "backend.Controllers.ExamAttemptController",
-    "Method": "AddExam",
+    "Method": "AddExamAttempt",
     "RelativePath": "api/exam-attempt",
     "HttpMethod": "POST",
     "IsController": true,
@@ -171,6 +171,53 @@
       {
         "Name": "examAttemptDTO",
         "Type": "backend.DTOs.ExamAttemptDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "backend.Controllers.ExamAttemptController",
+    "Method": "GetLatestPdfExamAttempt",
+    "RelativePath": "api/exam-attempt/pdf",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "studentId",
+        "Type": "System.UInt64",
+        "IsRequired": false
+      },
+      {
+        "Name": "examId",
+        "Type": "System.UInt64",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "backend.Models.PdfExamAttempt",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "backend.Controllers.ExamAttemptController",
+    "Method": "AddPdfExamAttempt",
+    "RelativePath": "api/exam-attempt/pdf",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "pdfExamAttemptDTO",
+        "Type": "backend.DTOs.PdfExamAttemptDTO",
         "IsRequired": true
       }
     ],
@@ -398,11 +445,16 @@
         "Name": "examId",
         "Type": "System.UInt64",
         "IsRequired": true
+      },
+      {
+        "Name": "pdfExamCodeId",
+        "Type": "System.Nullable\u00601[[System.UInt64, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
       }
     ],
     "ReturnTypes": [
       {
-        "Type": "System.Collections.Generic.List\u00601[[backend.Models.PdfExamCode, backend, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "backend.DTOs.PdfExamCodeDTO",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -788,6 +840,69 @@
   },
   {
     "ContainingType": "backend.Controllers.StudentController",
+    "Method": "GetStudentById",
+    "RelativePath": "api/Student/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.UInt64",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "backend.Models.User",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "backend.Controllers.StudentController",
+    "Method": "UpdateStudent",
+    "RelativePath": "api/Student/{id}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "user",
+        "Type": "backend.Models.User",
+        "IsRequired": true
+      },
+      {
+        "Name": "id",
+        "Type": "System.UInt64",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "backend.Controllers.StudentController",
+    "Method": "DeleteStudent",
+    "RelativePath": "api/Student/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.UInt64",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "backend.Controllers.StudentController",
     "Method": "HandleFavorite",
     "RelativePath": "api/Student/favorite",
     "HttpMethod": "PUT",
@@ -950,22 +1065,6 @@
   },
   {
     "ContainingType": "backend.Controllers.TeacherController",
-    "Method": "UpdateTeacher",
-    "RelativePath": "api/Teacher",
-    "HttpMethod": "PUT",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "t",
-        "Type": "backend.DTOs.TeacherDTO",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "backend.Controllers.TeacherController",
     "Method": "GetTeacher",
     "RelativePath": "api/Teacher/{id}",
     "HttpMethod": "GET",
@@ -989,6 +1088,43 @@
         "StatusCode": 200
       }
     ]
+  },
+  {
+    "ContainingType": "backend.Controllers.TeacherController",
+    "Method": "UpdateTeacher",
+    "RelativePath": "api/Teacher/{id}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "t",
+        "Type": "backend.DTOs.TeacherDTO",
+        "IsRequired": true
+      },
+      {
+        "Name": "id",
+        "Type": "System.UInt64",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "backend.Controllers.TeacherController",
+    "Method": "DeleteTeacher",
+    "RelativePath": "api/Teacher/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.UInt64",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
   },
   {
     "ContainingType": "backend.Controllers.TopicController",

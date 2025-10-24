@@ -32,7 +32,7 @@ public partial class User
     {
         ZaloId = null;
         Name = "Người dùng đã xóa";
-        Avatar = null; //avatar là default.png
+        Avatar = "/avatar/default.jpg";
         CreatedAt = null;
         UpdatedAt = null;
     }

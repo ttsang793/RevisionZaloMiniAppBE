@@ -437,13 +437,13 @@ public partial class ZaloRevisionAppDbContext : DbContext
             entity.Property(e => e.Comment)
                 .HasColumnType("text")
                 .HasColumnName("comment");
-            entity.Property(e => e.CorrectBoard)
+            entity.Property(e => e.ScoreBoard)
                 .HasColumnType("json")
                 .HasConversion(
                       v => JsonSerializer.Serialize(v, new JsonSerializerOptions()),
-                      v => JsonSerializer.Deserialize<List<bool>>(v!, new JsonSerializerOptions())
+                      v => JsonSerializer.Deserialize<List<decimal>>(v!, new JsonSerializerOptions())
                   )
-                .HasColumnName("correct_board");
+                .HasColumnName("score_board");
             entity.Property(e => e.Duration).HasColumnName("duration");
             entity.Property(e => e.ExamId).HasColumnName("exam_id");
             entity.Property(e => e.Score)
@@ -451,7 +451,15 @@ public partial class ZaloRevisionAppDbContext : DbContext
                 .HasColumnName("score");
             entity.Property(e => e.StudentAnswer)
                 .HasColumnType("json")
+                .HasConversion(
+                      v => JsonSerializer.Serialize(v, new JsonSerializerOptions()),
+                      v => JsonSerializer.Deserialize<List<string>>(v!, new JsonSerializerOptions())
+                  )
                 .HasColumnName("student_answer");
+            entity.Property(e => e.StartedAt)
+                .HasDefaultValueSql("CURRENT_TIMESTAMP")
+                .HasColumnType("datetime")
+                .HasColumnName("started_at");
             entity.Property(e => e.StudentId).HasColumnName("student_id");
             entity.Property(e => e.SubmittedAt)
                 .HasDefaultValueSql("CURRENT_TIMESTAMP")

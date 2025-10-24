@@ -10,6 +10,8 @@ public partial class PdfExamAttempt
 
     public decimal? Score { get; set; }
 
+    public DateTime? StartedAt { get; set; }
+
     public ushort? Duration { get; set; }
 
     public DateTime? SubmittedAt { get; set; }
@@ -18,9 +20,9 @@ public partial class PdfExamAttempt
 
     public ulong CodeId { get; set; }
 
-    public string StudentAnswer { get; set; } = null!;
+    public ICollection<string> StudentAnswer { get; set; } = [];
 
-    public ICollection<bool> CorrectBoard { get; set; } = null!;
+    public ICollection<decimal> ScoreBoard { get; set; } = [];
 
     public virtual PdfExamCode Code { get; set; } = null!;
 

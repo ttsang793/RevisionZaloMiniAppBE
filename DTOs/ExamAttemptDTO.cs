@@ -64,3 +64,20 @@ public class ExamAttemptAnswerDTO
 
     public string? IsCorrect { get; set; }
 }
+
+public partial class PdfExamAttemptDTO
+{
+    public ulong ExamId { get; set; }
+
+    public ulong StudentId { get; set; }
+
+    public decimal Score { get; set; }
+
+    public DateTime StartedAt { get; set; }
+
+    public ulong CodeId { get; set; }
+
+    public ICollection<string> StudentAnswer { get; set; } = [];
+
+    public ICollection<decimal> ScoreBoard { get; set; } = [];
+}

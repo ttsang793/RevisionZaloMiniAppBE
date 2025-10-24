@@ -14,6 +14,8 @@ public partial class PdfExamCodeDTO
 
     public byte NumPart { get; set; }
 
+    public bool AllowShowScore { get; set; } = true;
+
     public ICollection<PdfExamCodeQuestionDTO> Questions { get; set; } = [];
 }
 

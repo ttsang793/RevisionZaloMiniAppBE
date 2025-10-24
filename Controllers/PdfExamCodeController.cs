@@ -18,9 +18,9 @@ public class PdfExamCodeController : Controller
     }
 
     [HttpGet("{examId}")]
-    public async Task<List<PdfExamCode>> GetExamCodeByExamId(ulong examId)
+    public async Task<PdfExamCodeDTO> GetExamCodeByExamId(ulong examId, ulong? pdfExamCodeId)
     {
-        return await _pdfExamCodeDb.GetExamCodeByExamId(examId);
+        return await _pdfExamCodeDb.GetExamCodeByExamId(examId, pdfExamCodeId);
     }
 
     [HttpPost]
