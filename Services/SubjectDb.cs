@@ -19,7 +19,7 @@ public class SubjectDb
 
     public async Task<List<Subject>> GetActiveAsync()
     {
-        return await _dbContext.Subjects.Where(s => s.IsVisible).ToListAsync();
+        return await _dbContext.Subjects.Where(s => s.IsVisible == true).ToListAsync();
     }
 
     public async Task<Subject> GetByIdAsync(string id)

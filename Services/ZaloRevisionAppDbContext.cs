@@ -343,6 +343,9 @@ public partial class ZaloRevisionAppDbContext : DbContext
             entity.HasIndex(e => e.TeacherId, "teacher_id");
 
             entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.IsVisible)
+                .HasDefaultValueSql("'1'")
+                .HasColumnName("is_visible");
             entity.Property(e => e.StudentId).HasColumnName("student_id");
             entity.Property(e => e.TeacherId).HasColumnName("teacher_id");
 

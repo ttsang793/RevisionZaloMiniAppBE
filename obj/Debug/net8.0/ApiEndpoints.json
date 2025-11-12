@@ -1233,7 +1233,7 @@
   {
     "ContainingType": "backend.Controllers.TopicController",
     "Method": "Get",
-    "RelativePath": "api/Topic",
+    "RelativePath": "api/topic",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -1259,7 +1259,7 @@
   {
     "ContainingType": "backend.Controllers.TopicController",
     "Method": "Add",
-    "RelativePath": "api/Topic",
+    "RelativePath": "api/topic",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
@@ -1275,7 +1275,7 @@
   {
     "ContainingType": "backend.Controllers.TopicController",
     "Method": "GetById",
-    "RelativePath": "api/Topic/{id}",
+    "RelativePath": "api/topic/{id}",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -1301,7 +1301,7 @@
   {
     "ContainingType": "backend.Controllers.TopicController",
     "Method": "Update",
-    "RelativePath": "api/Topic/{id}",
+    "RelativePath": "api/topic/{id}",
     "HttpMethod": "PUT",
     "IsController": true,
     "Order": 0,
@@ -1322,7 +1322,7 @@
   {
     "ContainingType": "backend.Controllers.TopicController",
     "Method": "ChangeVisible",
-    "RelativePath": "api/Topic/{id}",
+    "RelativePath": "api/topic/{id}",
     "HttpMethod": "DELETE",
     "IsController": true,
     "Order": 0,
@@ -1337,8 +1337,8 @@
   },
   {
     "ContainingType": "backend.Controllers.TopicController",
-    "Method": "Get",
-    "RelativePath": "api/Topic/active",
+    "Method": "GetActive",
+    "RelativePath": "api/topic/active",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -1346,6 +1346,32 @@
     "ReturnTypes": [
       {
         "Type": "System.Collections.Generic.List\u00601[[backend.Models.Topic, backend, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "backend.Controllers.UserController",
+    "Method": "GetUserByZaloId",
+    "RelativePath": "api/user/{zaloId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "zaloId",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "backend.Models.User",
         "MediaTypes": [
           "text/plain",
           "application/json",

@@ -8,6 +8,8 @@ public partial class Follower
 
     public ulong TeacherId { get; set; }
 
+    public bool IsVisible { get; set; } = true;
+
     public virtual Student Student { get; set; } = null!;
 
     public virtual Teacher Teacher { get; set; } = null!;

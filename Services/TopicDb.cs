@@ -32,7 +32,7 @@ public class TopicDb
 
     public async Task<List<Topic>> GetActiveAsync()
     {
-        return await _dbContext.Topics.Where(t => t.IsVisible).ToListAsync();
+        return await _dbContext.Topics.Where(t => t.IsVisible == true).ToListAsync();
     }
 
     public async Task<Topic> GetByIdAsync(string id)

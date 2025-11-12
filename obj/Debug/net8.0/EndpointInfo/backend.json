@@ -2168,7 +2168,7 @@
         }
       }
     },
-    "/api/Topic": {
+    "/api/topic": {
       "get": {
         "tags": [
           "Topic"
@@ -2244,7 +2244,7 @@
         }
       }
     },
-    "/api/Topic/active": {
+    "/api/topic/active": {
       "get": {
         "tags": [
           "Topic"
@@ -2282,7 +2282,7 @@
         }
       }
     },
-    "/api/Topic/{id}": {
+    "/api/topic/{id}": {
       "get": {
         "tags": [
           "Topic"
@@ -2376,6 +2376,45 @@
         "responses": {
           "200": {
             "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/user/{zaloId}": {
+      "get": {
+        "tags": [
+          "User"
+        ],
+        "parameters": [
+          {
+            "name": "zaloId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
           }
         }
       }
@@ -3277,6 +3316,9 @@
           "teacherId": {
             "type": "integer",
             "format": "int64"
+          },
+          "isVisible": {
+            "type": "boolean"
           },
           "student": {
             "$ref": "#/components/schemas/Student"

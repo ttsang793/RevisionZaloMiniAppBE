@@ -23,6 +23,8 @@ public class TeacherDb : UserDb
                             {
                                 Id = id,
                                 Name = u.Name,
+                                Avatar = u.Avatar,
+                                Email = u.Email,
                                 Role = u.Role,
                                 SubjectId = t.SubjectId,
                                 Grades = t.Grades,

@@ -156,7 +156,11 @@ public class StudentDb : UserDb
 
         if (favoriteEntity == null)
             await _dbContext.Followers.AddAsync(new Follower { StudentId = studentId, TeacherId = teacherId });
-        else _dbContext.Followers.Remove(favoriteEntity);
+        else
+        {
+            favoriteEntity.IsVisible = !favoriteEntity.IsVisible;
+            _dbContext.Followers.Update(favoriteEntity);
+        }
 
         return await _dbContext.SaveChangesAsync() > 0;
     }

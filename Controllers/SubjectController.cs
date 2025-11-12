@@ -26,7 +26,7 @@ public class SubjectController : Controller
     [HttpGet("active")]
     public async Task<List<Subject>> GetActive()
     {
-        return await _subjectDb.GetAsync();
+        return await _subjectDb.GetActiveAsync();
     }
 
     [HttpGet("{id}")]

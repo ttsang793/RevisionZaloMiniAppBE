@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace backend.Services;
 
-public abstract class UserDb
+public class UserDb
 {
     private protected ZaloRevisionAppDbContext _dbContext;
 
@@ -13,6 +13,11 @@ public abstract class UserDb
     }
 
     #pragma warning disable CS8603 // Possible null reference return.
+    public async Task<User> GetUserByZaloId(string zaloId)
+    {
+        return await _dbContext.Users.FirstOrDefaultAsync(u => u.ZaloId == zaloId);
+    }
+
     private protected async Task<User> GetUserByIdAsync(ulong id)
     {
         return await _dbContext.Users.FirstOrDefaultAsync(u => u.Id == id);
