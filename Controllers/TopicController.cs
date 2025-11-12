@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace backend.Controllers;
 
 [ApiController]
-[Route("/api/[controller]")]
+[Route("/api/topic")]
 public class TopicController : Controller
 {
     private readonly ILogger<TopicController> _logger;
@@ -25,13 +25,19 @@ public class TopicController : Controller
         return await _topicDb.GetAsync();
     }
 
+    [HttpGet("active")]
+    public async Task<List<Topic>> GetActive()
+    {
+        return await _topicDb.GetActiveAsync();
+    }
+
     [HttpGet("{id}")]
     public async Task<Topic> GetById(string id)
     {
         return await _topicDb.GetByIdAsync(id);
     }
 
-    [HttpPost("")]
+    [HttpPost]
     public async Task<IActionResult> Add([Bind("Name", "Classes", "SubjectId")] TopicDTO topicDTO)
     {
         Topic topic = new Topic { Name = topicDTO.Name, Grades = topicDTO.Grades, SubjectId = topicDTO.SubjectId };
@@ -39,14 +45,14 @@ public class TopicController : Controller
     }
 
     [HttpPut("{id}")]
-    public async Task<IActionResult> Update([Bind("Id", "Name", "Classes", "SubjectId")] TopicDTO topicDTO)
+    public async Task<IActionResult> Update([Bind("Id", "Name", "Classes", "SubjectId")] TopicDTO topicDTO, string id)
     {
-        Topic topic = new Topic { Id = topicDTO.Id, Name = topicDTO.Name, Grades = topicDTO.Grades, SubjectId = topicDTO.SubjectId };
+        Topic topic = new Topic { Id = id, Name = topicDTO.Name, Grades = topicDTO.Grades, SubjectId = topicDTO.SubjectId };
         return await _topicDb.Update(topic) ? StatusCode(200) : StatusCode(400);
     }
 
 
-    [HttpDelete("visible/{id}")]
+    [HttpDelete("{id}")]
     public async Task<IActionResult> ChangeVisible(string id)
     {
         return await _topicDb.ChangeVisible(id) ? StatusCode(200) : StatusCode(400);

@@ -1,110 +1,45 @@
 ﻿using backend.Models;
-using backend.DTOs;
 using Microsoft.EntityFrameworkCore;
 
 namespace backend.Services;
 
-public class UserDb
+public abstract class UserDb
 {
-    private ZaloRevisionAppDbContext _dbContext;
+    private protected ZaloRevisionAppDbContext _dbContext;
 
     public UserDb(ZaloRevisionAppDbContext dbContext)
     {
         _dbContext = dbContext;
     }
 
-    // ALL ROLES
-    public async Task<User> GetUserByIdAsync(ulong id)
+    #pragma warning disable CS8603 // Possible null reference return.
+    private protected async Task<User> GetUserByIdAsync(ulong id)
     {
         return await _dbContext.Users.FirstOrDefaultAsync(u => u.Id == id);
     }
+    #pragma warning restore CS8603 // Possible null reference return.
 
-    public async Task<bool> UpdateUser(User user, ulong id)
-    {
-        User updateUser = await GetUserByIdAsync(id);
-        updateUser.Name = user.Name;
-        updateUser.Avatar = user.Avatar;
-
-        _dbContext.Users.Update(updateUser);
-        return await _dbContext.SaveChangesAsync() > 0;
-    }
-
-    public async Task<bool> NullifyUser(ulong id)
-    {
-        var deleteUser = await GetUserByIdAsync(id);
-        deleteUser.NullifyUser();
-        return await _dbContext.SaveChangesAsync() > 0;
-    }
-
-    // STUDENT
-    public async Task<bool> AddStudent(User user)
+    private protected async Task<bool> AddUser(User user)
     {
         await _dbContext.Users.AddAsync(user);
         return await _dbContext.SaveChangesAsync() > 0;
     }
 
-    public async Task<bool> UpdateStudentName(ulong id, string name)
+    private protected async Task<bool> UpdateUser(User user)
     {
-        var updateUser = await GetUserByIdAsync(id);
-        updateUser.Name = name;
+        User updateUser = await GetUserByIdAsync(user.Id);
+        updateUser.Name = user.Name;
+        updateUser.Avatar = user.Avatar;
+        updateUser.Email = user.Email;
+
         _dbContext.Users.Update(updateUser);
         return await _dbContext.SaveChangesAsync() > 0;
     }
 
-    // TEACHER
-    private async Task<Teacher> GetTeacherByIdAsync(ulong id)
+    private protected async Task<bool> NullifyUser(ulong id)
     {
-        return await _dbContext.Teachers.FirstAsync(t => t.Id == id);
-    }
-
-    public async Task<TeacherDTO> GetTeacherDTOByIdAsync(ulong id)
-    {
-        var result = await (from t in _dbContext.Teachers
-                            join u in _dbContext.Users
-                            on t.Id equals u.Id
-                            where t.Id == id
-                            select new TeacherDTO
-                            {
-                                Id = id,
-                                Name = u.Name,
-                                Role = u.Role,
-                                SubjectId = t.SubjectId,
-                                Grades = t.Grades,
-                                Introduction = t.Introduction
-                            }).FirstAsync();
-
-        return result;
-    }
-
-    public async Task<bool> AddTeacher(User u, Teacher t)
-    {
-        _dbContext.Users.Add(u);
-        if (await _dbContext.SaveChangesAsync() <= 0) return false;
-
-        t.Id = u.Id;
-        _dbContext.Teachers.Add(t);
-        return await _dbContext.SaveChangesAsync() > 0;
-    }
-
-    public async Task<bool> UpdateTeacher(User u, Teacher t, ulong id)
-    {
-        if (!(await UpdateUser(u, id))) return false;
-
-        var teacher = await GetTeacherByIdAsync(t.Id);
-
-        teacher.SubjectId = t.SubjectId;
-        teacher.Grades = t.Grades;
-        teacher.Introduction = t.Introduction;
-
-        return await _dbContext.SaveChangesAsync() > 0;
-    }
-
-    public async Task<bool> NullifyTeacher(ulong id)
-    {
-        if (!(await NullifyUser(id))) return false;
-
-        var deleteTeacher = await GetTeacherByIdAsync(id);
-        deleteTeacher.NullifyTeacher();
+        var deleteUser = await GetUserByIdAsync(id);
+        deleteUser.NullifyUser();
         return await _dbContext.SaveChangesAsync() > 0;
     }
 }

@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace backend.Controllers;
 
 [ApiController]
-[Route("api/[controller]")]
+[Route("api/exam")]
 public class ExamController : Controller
 {
     private readonly ILogger<QuestionController> _logger;
@@ -56,9 +56,7 @@ public class ExamController : Controller
             AllowQuestionSwap = examDTO.AllowQuestionSwap,
             AllowAnswerSwap = examDTO.AllowAnswerSwap,
             TeacherId = examDTO.TeacherId,
-            SubjectId = examDTO.SubjectId,
-            ApprovedBy = null,
-            State = 1
+            SubjectId = examDTO.SubjectId
         };
 
         return await _examDb.AddExam(exam) ? StatusCode(201) : StatusCode(400);
@@ -82,8 +80,7 @@ public class ExamController : Controller
             AllowAnswerSwap = examDTO.AllowAnswerSwap,
             TeacherId = examDTO.TeacherId,
             SubjectId = examDTO.SubjectId,
-            ApprovedBy = null,
-            State = examDTO.State
+            Status = examDTO.Status
         };
 
         return await _examDb.UpdateExam(exam) ? StatusCode(200) : StatusCode(400);
@@ -142,9 +139,7 @@ public class ExamController : Controller
                     var newPart = new ExamPart
                     {
                         ExamId = id,
-                        PartIndex = (byte)(i + 1),
-                        PartTitle = title,
-                        QuestionTypes = e.QuestionTypes.ElementAt(i)
+                        PartTitle = title
                     };
 
                     success &= await _examPartDb.AddExamPart(newPart);

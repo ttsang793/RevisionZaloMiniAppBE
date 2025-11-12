@@ -8,7 +8,7 @@ public partial class PdfExamAttempt
 
     public ulong StudentId { get; set; }
 
-    public decimal? Score { get; set; }
+    public decimal? TotalPoint { get; set; }
 
     public DateTime? StartedAt { get; set; }
 
@@ -18,15 +18,15 @@ public partial class PdfExamAttempt
 
     public string? Comment { get; set; }
 
-    public ulong CodeId { get; set; }
+    public ulong PdfExamCodeId { get; set; }
 
     public ICollection<string> StudentAnswer { get; set; } = [];
 
-    public ICollection<decimal> ScoreBoard { get; set; } = [];
+    public ICollection<decimal> PointBoard { get; set; } = [];
 
     public virtual PdfExamCode Code { get; set; } = null!;
 
     public virtual Exam Exam { get; set; } = null!;
 
-    public virtual User Student { get; set; } = null!;
+    public virtual Student Student { get; set; } = null!;
 }

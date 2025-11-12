@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace backend.Controllers;
 
 [ApiController]
-[Route("/api/[controller]")]
+[Route("/api/subject")]
 public class SubjectController : Controller
 {
     private readonly ILogger<SubjectController> _logger;
@@ -19,6 +19,12 @@ public class SubjectController : Controller
 
     [HttpGet("")]
     public async Task<List<Subject>> Get()
+    {
+        return await _subjectDb.GetAsync();
+    }
+
+    [HttpGet("active")]
+    public async Task<List<Subject>> GetActive()
     {
         return await _subjectDb.GetAsync();
     }
@@ -41,7 +47,7 @@ public class SubjectController : Controller
         return await _subjectDb.Update(subject) ? StatusCode(200) : StatusCode(400);
     }
 
-    [HttpDelete("visible/{id}")]
+    [HttpDelete("{id}")]
     public async Task<IActionResult> ChangeVisible(string id)
     {
         return await _subjectDb.ChangeVisible(id) ? StatusCode(200) : StatusCode(400);

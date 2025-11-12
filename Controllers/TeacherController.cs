@@ -6,22 +6,22 @@ using Microsoft.AspNetCore.Mvc;
 namespace backend.Controllers;
 
 [ApiController]
-[Route("/api/[controller]")]
+[Route("/api/teacher")]
 public class TeacherController : Controller
 {
     private readonly ILogger<TeacherController> _logger;
-    private readonly UserDb _userDb;
+    private readonly TeacherDb _teacherDb;
 
     public TeacherController(ILogger<TeacherController> logger, ZaloRevisionAppDbContext dbContext)
     {
         _logger = logger;
-        _userDb = new UserDb(dbContext);
+        _teacherDb = new TeacherDb(dbContext);
     }
 
     [HttpGet("{id}")]
     public async Task<TeacherDTO> GetTeacher(ulong id)
     {
-        return await _userDb.GetTeacherDTOByIdAsync(id);
+        return await _teacherDb.GetTeacherDTOByIdAsync(id);
     }
 
     [HttpPost]
@@ -32,7 +32,8 @@ public class TeacherController : Controller
             ZaloId = t.ZaloId,
             Name = t.Name,
             Avatar = t.Avatar,
-            Role = "teacher"
+            Email = t.Email,
+            Role = "GV"
         };
 
         Teacher teacher = new Teacher
@@ -42,7 +43,7 @@ public class TeacherController : Controller
             Introduction = t.Introduction
         };
 
-        return await _userDb.AddTeacher(user, teacher) ? StatusCode(201) : StatusCode(400);
+        return await _teacherDb.AddTeacher(user, teacher) ? StatusCode(201) : StatusCode(400);
     }
 
     [HttpPut("{id}")]
@@ -53,7 +54,8 @@ public class TeacherController : Controller
         {
             Id = id,
             Name = t.Name,
-            Avatar = t.Avatar
+            Avatar = t.Avatar,
+            Email = t.Email
         };
 
         Teacher teacher = new Teacher
@@ -64,12 +66,12 @@ public class TeacherController : Controller
             Introduction = t.Introduction
         };
 
-        return await _userDb.UpdateTeacher(user, teacher, id) ? StatusCode(200) : StatusCode(400);
+        return await _teacherDb.UpdateTeacher(user, teacher) ? StatusCode(200) : StatusCode(400);
     }
 
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteTeacher(ulong id)
     {
-        return await _userDb.NullifyTeacher(id) ? StatusCode(200) : StatusCode(400);
+        return await _teacherDb.NullifyTeacher(id) ? StatusCode(200) : StatusCode(400);
     }
 }

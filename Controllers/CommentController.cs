@@ -4,7 +4,7 @@ using backend.Services;
 using Microsoft.AspNetCore.Mvc;
 
 [ApiController]
-[Route("/api/[controller]")]
+[Route("/api/comment")]
 public class CommentController : Controller
 {
     private readonly ILogger<CommentController> _logger;

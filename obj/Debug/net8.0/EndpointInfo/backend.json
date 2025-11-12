@@ -5,7 +5,7 @@
     "version": "1.0"
   },
   "paths": {
-    "/api/Achievement": {
+    "/api/achivement": {
       "get": {
         "tags": [
           "Achievement"
@@ -43,7 +43,7 @@
         }
       }
     },
-    "/api/Admin": {
+    "/api/admin": {
       "post": {
         "tags": [
           "Admin"
@@ -74,7 +74,7 @@
         }
       }
     },
-    "/api/Comment/{examId}": {
+    "/api/comment/{examId}": {
       "get": {
         "tags": [
           "Comment"
@@ -123,7 +123,7 @@
         }
       }
     },
-    "/api/Comment": {
+    "/api/comment": {
       "post": {
         "tags": [
           "Comment"
@@ -154,7 +154,7 @@
         }
       }
     },
-    "/api/Comment/{id}": {
+    "/api/comment/{id}": {
       "delete": {
         "tags": [
           "Comment"
@@ -177,7 +177,7 @@
         }
       }
     },
-    "/api/Exam": {
+    "/api/exam": {
       "get": {
         "tags": [
           "Exam"
@@ -244,7 +244,7 @@
         }
       }
     },
-    "/api/Exam/{id}": {
+    "/api/exam/{id}": {
       "get": {
         "tags": [
           "Exam"
@@ -344,7 +344,7 @@
         }
       }
     },
-    "/api/Exam/teacher/{teacherId}": {
+    "/api/exam/teacher/{teacherId}": {
       "get": {
         "tags": [
           "Exam"
@@ -393,7 +393,7 @@
         }
       }
     },
-    "/api/Exam/publish/{id}": {
+    "/api/exam/publish/{id}": {
       "put": {
         "tags": [
           "Exam"
@@ -416,7 +416,7 @@
         }
       }
     },
-    "/api/Exam/unpublish/{id}": {
+    "/api/exam/unpublish/{id}": {
       "delete": {
         "tags": [
           "Exam"
@@ -439,7 +439,7 @@
         }
       }
     },
-    "/api/Exam/question/{id}/detail": {
+    "/api/exam/question/{id}/detail": {
       "get": {
         "tags": [
           "Exam"
@@ -488,7 +488,7 @@
         }
       }
     },
-    "/api/Exam/question/{id}": {
+    "/api/exam/question/{id}": {
       "get": {
         "tags": [
           "Exam"
@@ -817,7 +817,7 @@
         }
       }
     },
-    "/api/Question": {
+    "/api/question": {
       "get": {
         "tags": [
           "Question"
@@ -864,7 +864,7 @@
         }
       }
     },
-    "/api/Question/filter": {
+    "/api/question/filter": {
       "get": {
         "tags": [
           "Question"
@@ -920,7 +920,7 @@
         }
       }
     },
-    "/api/Question/{id}": {
+    "/api/question/{id}": {
       "get": {
         "tags": [
           "Question"
@@ -981,7 +981,7 @@
         }
       }
     },
-    "/api/Question/multiple-choice": {
+    "/api/question/multiple-choice": {
       "post": {
         "tags": [
           "Question"
@@ -1012,7 +1012,7 @@
         }
       }
     },
-    "/api/Question/true-false": {
+    "/api/question/true-false": {
       "post": {
         "tags": [
           "Question"
@@ -1043,7 +1043,7 @@
         }
       }
     },
-    "/api/Question/short-answer": {
+    "/api/question/short-answer": {
       "post": {
         "tags": [
           "Question"
@@ -1074,7 +1074,7 @@
         }
       }
     },
-    "/api/Question/manual-response": {
+    "/api/question/manual-response": {
       "post": {
         "tags": [
           "Question"
@@ -1105,7 +1105,7 @@
         }
       }
     },
-    "/api/Question/sorting": {
+    "/api/question/sorting": {
       "post": {
         "tags": [
           "Question"
@@ -1136,38 +1136,7 @@
         }
       }
     },
-    "/api/Question/group": {
-      "post": {
-        "tags": [
-          "Question"
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/GroupQuestionPostDTO"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/GroupQuestionPostDTO"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/GroupQuestionPostDTO"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
-    "/api/Question/true-false-THPT": {
+    "/api/question/true-false-THPT": {
       "post": {
         "tags": [
           "Question"
@@ -1198,7 +1167,7 @@
         }
       }
     },
-    "/api/Question/multiple-choice/{id}": {
+    "/api/question/multiple-choice/{id}": {
       "put": {
         "tags": [
           "Question"
@@ -1240,7 +1209,7 @@
         }
       }
     },
-    "/api/Question/true-false/{id}": {
+    "/api/question/true-false/{id}": {
       "put": {
         "tags": [
           "Question"
@@ -1282,7 +1251,7 @@
         }
       }
     },
-    "/api/Question/short-answer/{id}": {
+    "/api/question/short-answer/{id}": {
       "put": {
         "tags": [
           "Question"
@@ -1324,7 +1293,7 @@
         }
       }
     },
-    "/api/Question/manual-response/{id}": {
+    "/api/question/manual-response/{id}": {
       "put": {
         "tags": [
           "Question"
@@ -1366,7 +1335,7 @@
         }
       }
     },
-    "/api/Question/sorting/{id}": {
+    "/api/question/sorting/{id}": {
       "put": {
         "tags": [
           "Question"
@@ -1408,7 +1377,7 @@
         }
       }
     },
-    "/api/Question/group/{id}": {
+    "/api/question/group/{id}": {
       "put": {
         "tags": [
           "Question"
@@ -1450,7 +1419,7 @@
         }
       }
     },
-    "/api/Question/true-false-THPT/{id}": {
+    "/api/question/true-false-THPT/{id}": {
       "put": {
         "tags": [
           "Question"
@@ -1492,7 +1461,7 @@
         }
       }
     },
-    "/api/Student/{id}": {
+    "/api/student/{id}": {
       "get": {
         "tags": [
           "Student"
@@ -1550,17 +1519,17 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/User"
+                "$ref": "#/components/schemas/UserDTO"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/User"
+                "$ref": "#/components/schemas/UserDTO"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/User"
+                "$ref": "#/components/schemas/UserDTO"
               }
             }
           }
@@ -1593,7 +1562,7 @@
         }
       }
     },
-    "/api/Student": {
+    "/api/student": {
       "post": {
         "tags": [
           "Student"
@@ -1602,17 +1571,17 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/User"
+                "$ref": "#/components/schemas/UserDTO"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/User"
+                "$ref": "#/components/schemas/UserDTO"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/User"
+                "$ref": "#/components/schemas/UserDTO"
               }
             }
           }
@@ -1624,7 +1593,7 @@
         }
       }
     },
-    "/api/Student/favorite/{studentId}": {
+    "/api/student/favorite/{studentId}": {
       "get": {
         "tags": [
           "Student"
@@ -1673,23 +1642,25 @@
         }
       }
     },
-    "/api/Student/favorite": {
+    "/api/student/favorite/{studentId}/{examId}": {
       "put": {
         "tags": [
           "Student"
         ],
         "parameters": [
           {
-            "name": "examId",
-            "in": "query",
+            "name": "studentId",
+            "in": "path",
+            "required": true,
             "schema": {
               "type": "integer",
               "format": "int64"
             }
           },
           {
-            "name": "studentId",
-            "in": "query",
+            "name": "examId",
+            "in": "path",
+            "required": true,
             "schema": {
               "type": "integer",
               "format": "int64"
@@ -1703,7 +1674,166 @@
         }
       }
     },
-    "/api/Subject": {
+    "/api/student/history/{studentId}": {
+      "get": {
+        "tags": [
+          "Student"
+        ],
+        "parameters": [
+          {
+            "name": "studentId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ExamReadDTO"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ExamReadDTO"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ExamReadDTO"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/student/history/{studentId}/{examId}": {
+      "put": {
+        "tags": [
+          "Student"
+        ],
+        "parameters": [
+          {
+            "name": "studentId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "examId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/student/history/{id}": {
+      "delete": {
+        "tags": [
+          "Student"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/student/history/all/{studentId}": {
+      "delete": {
+        "tags": [
+          "Student"
+        ],
+        "parameters": [
+          {
+            "name": "studentId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/student/follow/{studentId}/{teacherId}": {
+      "put": {
+        "tags": [
+          "Student"
+        ],
+        "parameters": [
+          {
+            "name": "studentId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "teacherId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/subject": {
       "get": {
         "tags": [
           "Subject"
@@ -1770,7 +1900,45 @@
         }
       }
     },
-    "/api/Subject/{id}": {
+    "/api/subject/active": {
+      "get": {
+        "tags": [
+          "Subject"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Subject"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Subject"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Subject"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/subject/{id}": {
       "get": {
         "tags": [
           "Subject"
@@ -1846,9 +2014,7 @@
             "description": "OK"
           }
         }
-      }
-    },
-    "/api/Subject/visible/{id}": {
+      },
       "delete": {
         "tags": [
           "Subject"
@@ -1870,7 +2036,7 @@
         }
       }
     },
-    "/api/Teacher/{id}": {
+    "/api/teacher/{id}": {
       "get": {
         "tags": [
           "Teacher"
@@ -1971,7 +2137,7 @@
         }
       }
     },
-    "/api/Teacher": {
+    "/api/teacher": {
       "post": {
         "tags": [
           "Teacher"
@@ -2078,6 +2244,44 @@
         }
       }
     },
+    "/api/Topic/active": {
+      "get": {
+        "tags": [
+          "Topic"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Topic"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Topic"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Topic"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/Topic/{id}": {
       "get": {
         "tags": [
@@ -2154,9 +2358,7 @@
             "description": "OK"
           }
         }
-      }
-    },
-    "/api/Topic/visible/{id}": {
+      },
       "delete": {
         "tags": [
           "Topic"
@@ -2237,6 +2439,10 @@
             "nullable": true
           },
           "avatar": {
+            "type": "string",
+            "nullable": true
+          },
+          "email": {
             "type": "string",
             "nullable": true
           },
@@ -2422,11 +2628,6 @@
             "type": "string",
             "nullable": true
           },
-          "approvedBy": {
-            "type": "integer",
-            "format": "int64",
-            "nullable": true
-          },
           "createdAt": {
             "type": "string",
             "format": "date-time",
@@ -2437,12 +2638,9 @@
             "format": "date-time",
             "nullable": true
           },
-          "state": {
+          "status": {
             "type": "integer",
             "format": "int32"
-          },
-          "approvedByNavigation": {
-            "$ref": "#/components/schemas/Teacher"
           },
           "comments": {
             "type": "array",
@@ -2472,6 +2670,13 @@
             },
             "nullable": true
           },
+          "studentHistories": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/StudentHistory"
+            },
+            "nullable": true
+          },
           "subject": {
             "$ref": "#/components/schemas/Subject"
           },
@@ -2496,7 +2701,7 @@
             "type": "integer",
             "format": "int64"
           },
-          "score": {
+          "totalPoint": {
             "type": "number",
             "format": "double",
             "nullable": true
@@ -2512,9 +2717,6 @@
           "submittedAt": {
             "type": "string",
             "format": "date-time"
-          },
-          "isPractice": {
-            "type": "boolean"
           },
           "comment": {
             "type": "string",
@@ -2539,7 +2741,7 @@
             "nullable": true
           },
           "student": {
-            "$ref": "#/components/schemas/User"
+            "$ref": "#/components/schemas/Student"
           }
         },
         "additionalProperties": false
@@ -2567,15 +2769,23 @@
             "nullable": true
           },
           "studentAnswer": {
-            "type": "string",
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
             "nullable": true
           },
-          "answerType": {
-            "type": "string",
+          "correct": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "format": "int32"
+            },
             "nullable": true
           },
-          "isCorrect": {
-            "type": "string",
+          "point": {
+            "type": "number",
+            "format": "double",
             "nullable": true
           },
           "examAttempt": {
@@ -2602,16 +2812,23 @@
             "nullable": true
           },
           "studentAnswer": {
-            "type": "string",
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
             "nullable": true
           },
-          "answerType": {
-            "type": "string",
+          "correct": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "format": "int32"
+            },
             "nullable": true
           },
-          "isCorrect": {
-            "type": "string",
-            "nullable": true
+          "point": {
+            "type": "number",
+            "format": "double"
           }
         },
         "additionalProperties": false
@@ -2634,15 +2851,18 @@
             "nullable": true
           },
           "studentAnswer": {
-            "type": "string",
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
             "nullable": true
           },
-          "answerType": {
-            "type": "string",
-            "nullable": true
-          },
-          "isCorrect": {
-            "type": "string",
+          "correct": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "format": "int32"
+            },
             "nullable": true
           }
         },
@@ -2659,7 +2879,7 @@
             "type": "integer",
             "format": "int64"
           },
-          "score": {
+          "totalPoint": {
             "type": "number",
             "format": "double",
             "nullable": true
@@ -2692,7 +2912,7 @@
       "ExamAttemptGetDTO": {
         "type": "object",
         "properties": {
-          "score": {
+          "totalPoint": {
             "type": "number",
             "format": "double"
           },
@@ -2789,12 +3009,7 @@
             "type": "string",
             "nullable": true
           },
-          "approvedBy": {
-            "type": "integer",
-            "format": "int64",
-            "nullable": true
-          },
-          "state": {
+          "status": {
             "type": "integer",
             "format": "int32"
           }
@@ -2812,19 +3027,8 @@
             "type": "integer",
             "format": "int64"
           },
-          "partIndex": {
-            "type": "integer",
-            "format": "int32"
-          },
           "partTitle": {
             "type": "string",
-            "nullable": true
-          },
-          "questionTypes": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
             "nullable": true
           },
           "examQuestions": {
@@ -3044,12 +3248,7 @@
             "type": "string",
             "nullable": true
           },
-          "approvedBy": {
-            "type": "integer",
-            "format": "int64",
-            "nullable": true
-          },
-          "state": {
+          "status": {
             "type": "integer",
             "format": "int32"
           },
@@ -3064,35 +3263,26 @@
         },
         "additionalProperties": false
       },
-      "GroupQuestion": {
+      "Follower": {
         "type": "object",
         "properties": {
           "id": {
             "type": "integer",
             "format": "int64"
           },
-          "idNavigation": {
-            "$ref": "#/components/schemas/Question"
+          "studentId": {
+            "type": "integer",
+            "format": "int64"
           },
-          "passageTitle": {
-            "type": "string",
-            "nullable": true
+          "teacherId": {
+            "type": "integer",
+            "format": "int64"
           },
-          "passageContent": {
-            "type": "string",
-            "nullable": true
+          "student": {
+            "$ref": "#/components/schemas/Student"
           },
-          "passageAuthor": {
-            "type": "string",
-            "nullable": true
-          },
-          "questions": {
-            "type": "array",
-            "items": {
-              "type": "integer",
-              "format": "int64"
-            },
-            "nullable": true
+          "teacher": {
+            "$ref": "#/components/schemas/Teacher"
           }
         },
         "additionalProperties": false
@@ -3124,10 +3314,6 @@
             "nullable": true
           },
           "topicId": {
-            "type": "string",
-            "nullable": true
-          },
-          "subjectId": {
             "type": "string",
             "nullable": true
           },
@@ -3230,10 +3416,6 @@
             "type": "string",
             "nullable": true
           },
-          "subjectId": {
-            "type": "string",
-            "nullable": true
-          },
           "explanation": {
             "type": "string",
             "nullable": true
@@ -3284,16 +3466,11 @@
             "type": "string",
             "nullable": true
           },
-          "wrongAnswer1": {
-            "type": "string",
-            "nullable": true
-          },
-          "wrongAnswer2": {
-            "type": "string",
-            "nullable": true
-          },
-          "wrongAnswer3": {
-            "type": "string",
+          "wrongAnswer": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
             "nullable": true
           }
         },
@@ -3329,10 +3506,6 @@
             "type": "string",
             "nullable": true
           },
-          "subjectId": {
-            "type": "string",
-            "nullable": true
-          },
           "explanation": {
             "type": "string",
             "nullable": true
@@ -3351,16 +3524,11 @@
             "type": "string",
             "nullable": true
           },
-          "wrongAnswer1": {
-            "type": "string",
-            "nullable": true
-          },
-          "wrongAnswer2": {
-            "type": "string",
-            "nullable": true
-          },
-          "wrongAnswer3": {
-            "type": "string",
+          "wrongAnswer": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
             "nullable": true
           }
         },
@@ -3381,7 +3549,7 @@
             "type": "integer",
             "format": "int64"
           },
-          "score": {
+          "totalPoint": {
             "type": "number",
             "format": "double",
             "nullable": true
@@ -3405,7 +3573,7 @@
             "type": "string",
             "nullable": true
           },
-          "codeId": {
+          "pdfExamCodeId": {
             "type": "integer",
             "format": "int64"
           },
@@ -3416,7 +3584,7 @@
             },
             "nullable": true
           },
-          "scoreBoard": {
+          "pointBoard": {
             "type": "array",
             "items": {
               "type": "number",
@@ -3431,7 +3599,7 @@
             "$ref": "#/components/schemas/Exam"
           },
           "student": {
-            "$ref": "#/components/schemas/User"
+            "$ref": "#/components/schemas/Student"
           }
         },
         "additionalProperties": false
@@ -3447,7 +3615,7 @@
             "type": "integer",
             "format": "int64"
           },
-          "score": {
+          "totalPoint": {
             "type": "number",
             "format": "double"
           },
@@ -3455,7 +3623,7 @@
             "type": "string",
             "format": "date-time"
           },
-          "codeId": {
+          "pdfExamCodeId": {
             "type": "integer",
             "format": "int64"
           },
@@ -3466,7 +3634,7 @@
             },
             "nullable": true
           },
-          "scoreBoard": {
+          "pointBoard": {
             "type": "array",
             "items": {
               "type": "number",
@@ -3668,10 +3836,6 @@
             "type": "string",
             "nullable": true
           },
-          "subjectId": {
-            "type": "string",
-            "nullable": true
-          },
           "explanation": {
             "type": "string",
             "nullable": true
@@ -3693,9 +3857,6 @@
             },
             "nullable": true
           },
-          "groupQuestion": {
-            "$ref": "#/components/schemas/GroupQuestion"
-          },
           "manualResponseQuestion": {
             "$ref": "#/components/schemas/ManualResponseQuestion"
           },
@@ -3707,9 +3868,6 @@
           },
           "sortingQuestion": {
             "$ref": "#/components/schemas/SortingQuestion"
-          },
-          "subject": {
-            "$ref": "#/components/schemas/Subject"
           },
           "topic": {
             "$ref": "#/components/schemas/Topic"
@@ -3750,10 +3908,6 @@
             "nullable": true
           },
           "topicId": {
-            "type": "string",
-            "nullable": true
-          },
-          "subjectId": {
             "type": "string",
             "nullable": true
           },
@@ -3818,10 +3972,6 @@
             "nullable": true
           },
           "topicId": {
-            "type": "string",
-            "nullable": true
-          },
-          "subjectId": {
             "type": "string",
             "nullable": true
           },
@@ -3896,10 +4046,6 @@
             "type": "string",
             "nullable": true
           },
-          "subjectId": {
-            "type": "string",
-            "nullable": true
-          },
           "explanation": {
             "type": "string",
             "nullable": true
@@ -3924,7 +4070,64 @@
         },
         "additionalProperties": false
       },
-      "StudentProcess": {
+      "Student": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "favorites": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "nullable": true
+          },
+          "achivements": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "nullable": true
+          },
+          "examAttempts": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ExamAttempt"
+            },
+            "nullable": true
+          },
+          "followers": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Follower"
+            },
+            "nullable": true
+          },
+          "idNavigation": {
+            "$ref": "#/components/schemas/User"
+          },
+          "pdfExamAttempts": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PdfExamAttempt"
+            },
+            "nullable": true
+          },
+          "studentHistories": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/StudentHistory"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "StudentHistory": {
         "type": "object",
         "properties": {
           "id": {
@@ -3933,45 +4136,23 @@
           },
           "studentId": {
             "type": "integer",
-            "format": "int64"
-          },
-          "subjectId": {
-            "type": "string",
+            "format": "int64",
             "nullable": true
           },
-          "avgScore": {
-            "type": "number",
-            "format": "double",
-            "nullable": true
-          },
-          "correctRate": {
-            "type": "number",
-            "format": "double",
-            "nullable": true
-          },
-          "streakDays": {
+          "examId": {
             "type": "integer",
-            "format": "int32",
+            "format": "int64",
             "nullable": true
           },
-          "lastActivity": {
+          "time": {
             "type": "string",
-            "format": "date-time",
-            "nullable": true
+            "format": "date-time"
           },
-          "favoriteExams": {
-            "type": "array",
-            "items": {
-              "type": "integer",
-              "format": "int64"
-            },
-            "nullable": true
+          "exam": {
+            "$ref": "#/components/schemas/Exam"
           },
           "student": {
-            "$ref": "#/components/schemas/User"
-          },
-          "subject": {
-            "$ref": "#/components/schemas/Subject"
+            "$ref": "#/components/schemas/Student"
           }
         },
         "additionalProperties": false
@@ -3995,25 +4176,19 @@
             },
             "nullable": true
           },
-          "questionTN": {
+          "questionMC": {
             "type": "boolean"
           },
-          "questionDS": {
+          "questionTF": {
             "type": "boolean"
           },
-          "questionTLN": {
+          "questionSA": {
             "type": "boolean"
           },
-          "questionDVCT": {
+          "questionGF": {
             "type": "boolean"
           },
-          "questionTL": {
-            "type": "boolean"
-          },
-          "questionSX": {
-            "type": "boolean"
-          },
-          "isVisible": {
+          "questionST": {
             "type": "boolean"
           },
           "createdAt": {
@@ -4026,24 +4201,13 @@
             "format": "date-time",
             "nullable": true
           },
+          "isVisible": {
+            "type": "boolean"
+          },
           "exams": {
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/Exam"
-            },
-            "nullable": true
-          },
-          "questions": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/Question"
-            },
-            "nullable": true
-          },
-          "studentProcesses": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/StudentProcess"
             },
             "nullable": true
           },
@@ -4087,17 +4251,17 @@
             "type": "string",
             "nullable": true
           },
-          "examApprovedByNavigations": {
+          "exams": {
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/Exam"
             },
             "nullable": true
           },
-          "examTeachers": {
+          "followers": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/Exam"
+              "$ref": "#/components/schemas/Follower"
             },
             "nullable": true
           },
@@ -4127,6 +4291,10 @@
             "nullable": true
           },
           "avatar": {
+            "type": "string",
+            "nullable": true
+          },
+          "email": {
             "type": "string",
             "nullable": true
           },
@@ -4190,8 +4358,7 @@
             "$ref": "#/components/schemas/Subject"
           },
           "isVisible": {
-            "type": "boolean",
-            "nullable": true
+            "type": "boolean"
           },
           "questions": {
             "type": "array",
@@ -4273,10 +4440,6 @@
             "nullable": true
           },
           "topicId": {
-            "type": "string",
-            "nullable": true
-          },
-          "subjectId": {
             "type": "string",
             "nullable": true
           },
@@ -4370,10 +4533,6 @@
             "type": "string",
             "nullable": true
           },
-          "subjectId": {
-            "type": "string",
-            "nullable": true
-          },
           "explanation": {
             "type": "string",
             "nullable": true
@@ -4436,6 +4595,10 @@
             "type": "string",
             "nullable": true
           },
+          "email": {
+            "type": "string",
+            "nullable": true
+          },
           "role": {
             "type": "string",
             "nullable": true
@@ -4450,9 +4613,6 @@
             "format": "date-time",
             "nullable": true
           },
-          "teacher": {
-            "$ref": "#/components/schemas/Teacher"
-          },
           "admin": {
             "$ref": "#/components/schemas/Admin"
           },
@@ -4463,25 +4623,37 @@
             },
             "nullable": true
           },
-          "examAttempts": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/ExamAttempt"
-            },
+          "student": {
+            "$ref": "#/components/schemas/Student"
+          },
+          "teacher": {
+            "$ref": "#/components/schemas/Teacher"
+          }
+        },
+        "additionalProperties": false
+      },
+      "UserDTO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64",
             "nullable": true
           },
-          "pdfExamAttempts": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/PdfExamAttempt"
-            },
+          "zaloId": {
+            "type": "string",
             "nullable": true
           },
-          "studentProcesses": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/StudentProcess"
-            },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "avatar": {
+            "type": "string",
+            "nullable": true
+          },
+          "email": {
+            "type": "string",
             "nullable": true
           }
         },

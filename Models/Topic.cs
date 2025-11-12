@@ -12,7 +12,7 @@ public partial class Topic
     public DateTime? CreatedAt { get; set; }
     public DateTime? UpdatedAt { get; set; }
     public virtual Subject Subject { get; set; } = null!;
-    public bool? IsVisible { get; set; }
+    public bool IsVisible { get; set; }
     public virtual ICollection<Question> Questions { get; set; } = [];
 
     public void TakeValuesFrom(Topic t)
@@ -20,7 +20,6 @@ public partial class Topic
         Name = t.Name;
         Grades = t.Grades;
         SubjectId = t.SubjectId;
-        UpdatedAt = DateTime.Now;
         Subject = t.Subject;
     }
 }

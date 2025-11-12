@@ -10,9 +10,9 @@ public partial class Teacher
 
     public string? Introduction { get; set; }
 
-    public virtual ICollection<Exam> ExamApprovedByNavigations { get; set; } = [];
+    public virtual ICollection<Exam> Exams { get; set; } = [];
 
-    public virtual ICollection<Exam> ExamTeachers { get; set; } = [];
+    public virtual ICollection<Follower> Followers { get; set; } = [];
 
     public virtual User IdNavigation { get; set; } = null!;
 

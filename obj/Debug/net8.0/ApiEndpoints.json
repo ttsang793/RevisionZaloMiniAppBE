@@ -2,7 +2,7 @@
   {
     "ContainingType": "backend.Controllers.AchievementController",
     "Method": "Get",
-    "RelativePath": "api/Achievement",
+    "RelativePath": "api/achivement",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -22,7 +22,7 @@
   {
     "ContainingType": "backend.Controllers.AdminController",
     "Method": "Login",
-    "RelativePath": "api/Admin",
+    "RelativePath": "api/admin",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
@@ -38,7 +38,7 @@
   {
     "ContainingType": "CommentController",
     "Method": "AddComment",
-    "RelativePath": "api/Comment",
+    "RelativePath": "api/comment",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
@@ -54,7 +54,7 @@
   {
     "ContainingType": "CommentController",
     "Method": "GetCommentsByExamIdAsync",
-    "RelativePath": "api/Comment/{examId}",
+    "RelativePath": "api/comment/{examId}",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -80,7 +80,7 @@
   {
     "ContainingType": "CommentController",
     "Method": "DeleteComment",
-    "RelativePath": "api/Comment/{id}",
+    "RelativePath": "api/comment/{id}",
     "HttpMethod": "DELETE",
     "IsController": true,
     "Order": 0,
@@ -96,7 +96,7 @@
   {
     "ContainingType": "backend.Controllers.ExamController",
     "Method": "GetExamsAsync",
-    "RelativePath": "api/Exam",
+    "RelativePath": "api/exam",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -116,7 +116,7 @@
   {
     "ContainingType": "backend.Controllers.ExamController",
     "Method": "AddExam",
-    "RelativePath": "api/Exam",
+    "RelativePath": "api/exam",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
@@ -226,7 +226,7 @@
   {
     "ContainingType": "backend.Controllers.ExamController",
     "Method": "GetExamByIdAsync",
-    "RelativePath": "api/Exam/{id}",
+    "RelativePath": "api/exam/{id}",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -252,7 +252,7 @@
   {
     "ContainingType": "backend.Controllers.ExamController",
     "Method": "UpdateExam",
-    "RelativePath": "api/Exam/{id}",
+    "RelativePath": "api/exam/{id}",
     "HttpMethod": "PUT",
     "IsController": true,
     "Order": 0,
@@ -273,7 +273,7 @@
   {
     "ContainingType": "backend.Controllers.ExamController",
     "Method": "DeleteExam",
-    "RelativePath": "api/Exam/{id}",
+    "RelativePath": "api/exam/{id}",
     "HttpMethod": "DELETE",
     "IsController": true,
     "Order": 0,
@@ -289,7 +289,7 @@
   {
     "ContainingType": "backend.Controllers.ExamController",
     "Method": "PublishExam",
-    "RelativePath": "api/Exam/publish/{id}",
+    "RelativePath": "api/exam/publish/{id}",
     "HttpMethod": "PUT",
     "IsController": true,
     "Order": 0,
@@ -305,7 +305,7 @@
   {
     "ContainingType": "backend.Controllers.ExamController",
     "Method": "GetQuestionForExam",
-    "RelativePath": "api/Exam/question/{id}",
+    "RelativePath": "api/exam/question/{id}",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -331,7 +331,7 @@
   {
     "ContainingType": "backend.Controllers.ExamController",
     "Method": "UpdateQuestionForExam",
-    "RelativePath": "api/Exam/question/{id}",
+    "RelativePath": "api/exam/question/{id}",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
@@ -352,7 +352,7 @@
   {
     "ContainingType": "backend.Controllers.ExamController",
     "Method": "GetQuestionListForExam",
-    "RelativePath": "api/Exam/question/{id}/detail",
+    "RelativePath": "api/exam/question/{id}/detail",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -378,7 +378,7 @@
   {
     "ContainingType": "backend.Controllers.ExamController",
     "Method": "GetExamsByTeacherAsync",
-    "RelativePath": "api/Exam/teacher/{teacherId}",
+    "RelativePath": "api/exam/teacher/{teacherId}",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -404,7 +404,7 @@
   {
     "ContainingType": "backend.Controllers.ExamController",
     "Method": "UnpublishExam",
-    "RelativePath": "api/Exam/unpublish/{id}",
+    "RelativePath": "api/exam/unpublish/{id}",
     "HttpMethod": "DELETE",
     "IsController": true,
     "Order": 0,
@@ -467,7 +467,7 @@
   {
     "ContainingType": "backend.Controllers.QuestionController",
     "Method": "GetAllQuestionsByTeacher",
-    "RelativePath": "api/Question",
+    "RelativePath": "api/question",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -493,7 +493,7 @@
   {
     "ContainingType": "backend.Controllers.QuestionController",
     "Method": "GetQuestionById",
-    "RelativePath": "api/Question/{id}",
+    "RelativePath": "api/question/{id}",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -519,7 +519,7 @@
   {
     "ContainingType": "backend.Controllers.QuestionController",
     "Method": "DeleteQuestion",
-    "RelativePath": "api/Question/{id}",
+    "RelativePath": "api/question/{id}",
     "HttpMethod": "DELETE",
     "IsController": true,
     "Order": 0,
@@ -535,7 +535,7 @@
   {
     "ContainingType": "backend.Controllers.QuestionController",
     "Method": "GetFilterQuestionsByTeacher",
-    "RelativePath": "api/Question/filter",
+    "RelativePath": "api/question/filter",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -565,24 +565,8 @@
   },
   {
     "ContainingType": "backend.Controllers.QuestionController",
-    "Method": "AddGroupQuestion",
-    "RelativePath": "api/Question/group",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "questionDTO",
-        "Type": "backend.DTOs.GroupQuestionPostDTO",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "backend.Controllers.QuestionController",
     "Method": "UpdateGroupQuestion",
-    "RelativePath": "api/Question/group/{id}",
+    "RelativePath": "api/question/group/{id}",
     "HttpMethod": "PUT",
     "IsController": true,
     "Order": 0,
@@ -603,7 +587,7 @@
   {
     "ContainingType": "backend.Controllers.QuestionController",
     "Method": "AddManualResponseQuestion",
-    "RelativePath": "api/Question/manual-response",
+    "RelativePath": "api/question/manual-response",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
@@ -619,7 +603,7 @@
   {
     "ContainingType": "backend.Controllers.QuestionController",
     "Method": "UpdateManualResponseQuestion",
-    "RelativePath": "api/Question/manual-response/{id}",
+    "RelativePath": "api/question/manual-response/{id}",
     "HttpMethod": "PUT",
     "IsController": true,
     "Order": 0,
@@ -640,7 +624,7 @@
   {
     "ContainingType": "backend.Controllers.QuestionController",
     "Method": "AddMultipleChoiceQuestion",
-    "RelativePath": "api/Question/multiple-choice",
+    "RelativePath": "api/question/multiple-choice",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
@@ -656,7 +640,7 @@
   {
     "ContainingType": "backend.Controllers.QuestionController",
     "Method": "UpdateMultipleChoiceQuestion",
-    "RelativePath": "api/Question/multiple-choice/{id}",
+    "RelativePath": "api/question/multiple-choice/{id}",
     "HttpMethod": "PUT",
     "IsController": true,
     "Order": 0,
@@ -677,7 +661,7 @@
   {
     "ContainingType": "backend.Controllers.QuestionController",
     "Method": "AddShortAnswerQuestion",
-    "RelativePath": "api/Question/short-answer",
+    "RelativePath": "api/question/short-answer",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
@@ -693,7 +677,7 @@
   {
     "ContainingType": "backend.Controllers.QuestionController",
     "Method": "UpdateShortAnswerQuestion",
-    "RelativePath": "api/Question/short-answer/{id}",
+    "RelativePath": "api/question/short-answer/{id}",
     "HttpMethod": "PUT",
     "IsController": true,
     "Order": 0,
@@ -714,7 +698,7 @@
   {
     "ContainingType": "backend.Controllers.QuestionController",
     "Method": "AddSortingQuestion",
-    "RelativePath": "api/Question/sorting",
+    "RelativePath": "api/question/sorting",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
@@ -730,7 +714,7 @@
   {
     "ContainingType": "backend.Controllers.QuestionController",
     "Method": "UpdateSortingQuestion",
-    "RelativePath": "api/Question/sorting/{id}",
+    "RelativePath": "api/question/sorting/{id}",
     "HttpMethod": "PUT",
     "IsController": true,
     "Order": 0,
@@ -751,7 +735,7 @@
   {
     "ContainingType": "backend.Controllers.QuestionController",
     "Method": "AddTrueFalseQuestion",
-    "RelativePath": "api/Question/true-false",
+    "RelativePath": "api/question/true-false",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
@@ -767,7 +751,7 @@
   {
     "ContainingType": "backend.Controllers.QuestionController",
     "Method": "AddTrueFalseTHPTQuestion",
-    "RelativePath": "api/Question/true-false-THPT",
+    "RelativePath": "api/question/true-false-THPT",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
@@ -783,7 +767,7 @@
   {
     "ContainingType": "backend.Controllers.QuestionController",
     "Method": "UpdateTrueFalseTHPTQuestion",
-    "RelativePath": "api/Question/true-false-THPT/{id}",
+    "RelativePath": "api/question/true-false-THPT/{id}",
     "HttpMethod": "PUT",
     "IsController": true,
     "Order": 0,
@@ -804,7 +788,7 @@
   {
     "ContainingType": "backend.Controllers.QuestionController",
     "Method": "UpdateTrueFalseQuestion",
-    "RelativePath": "api/Question/true-false/{id}",
+    "RelativePath": "api/question/true-false/{id}",
     "HttpMethod": "PUT",
     "IsController": true,
     "Order": 0,
@@ -825,14 +809,14 @@
   {
     "ContainingType": "backend.Controllers.StudentController",
     "Method": "AddStudent",
-    "RelativePath": "api/Student",
+    "RelativePath": "api/student",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
     "Parameters": [
       {
-        "Name": "user",
-        "Type": "backend.Models.User",
+        "Name": "userDTO",
+        "Type": "backend.DTOs.UserDTO",
         "IsRequired": true
       }
     ],
@@ -841,7 +825,7 @@
   {
     "ContainingType": "backend.Controllers.StudentController",
     "Method": "GetStudentById",
-    "RelativePath": "api/Student/{id}",
+    "RelativePath": "api/student/{id}",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -867,14 +851,14 @@
   {
     "ContainingType": "backend.Controllers.StudentController",
     "Method": "UpdateStudent",
-    "RelativePath": "api/Student/{id}",
+    "RelativePath": "api/student/{id}",
     "HttpMethod": "PUT",
     "IsController": true,
     "Order": 0,
     "Parameters": [
       {
-        "Name": "user",
-        "Type": "backend.Models.User",
+        "Name": "userDTO",
+        "Type": "backend.DTOs.UserDTO",
         "IsRequired": true
       },
       {
@@ -888,7 +872,7 @@
   {
     "ContainingType": "backend.Controllers.StudentController",
     "Method": "DeleteStudent",
-    "RelativePath": "api/Student/{id}",
+    "RelativePath": "api/student/{id}",
     "HttpMethod": "DELETE",
     "IsController": true,
     "Order": 0,
@@ -903,29 +887,8 @@
   },
   {
     "ContainingType": "backend.Controllers.StudentController",
-    "Method": "HandleFavorite",
-    "RelativePath": "api/Student/favorite",
-    "HttpMethod": "PUT",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "examId",
-        "Type": "System.UInt64",
-        "IsRequired": false
-      },
-      {
-        "Name": "studentId",
-        "Type": "System.UInt64",
-        "IsRequired": false
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "backend.Controllers.StudentController",
     "Method": "GetFavorite",
-    "RelativePath": "api/Student/favorite/{studentId}",
+    "RelativePath": "api/student/favorite/{studentId}",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -949,9 +912,130 @@
     ]
   },
   {
+    "ContainingType": "backend.Controllers.StudentController",
+    "Method": "HandleFavorite",
+    "RelativePath": "api/student/favorite/{studentId}/{examId}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "studentId",
+        "Type": "System.UInt64",
+        "IsRequired": true
+      },
+      {
+        "Name": "examId",
+        "Type": "System.UInt64",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "backend.Controllers.StudentController",
+    "Method": "HandleFollowing",
+    "RelativePath": "api/student/follow/{studentId}/{teacherId}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "studentId",
+        "Type": "System.UInt64",
+        "IsRequired": true
+      },
+      {
+        "Name": "teacherId",
+        "Type": "System.UInt64",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "backend.Controllers.StudentController",
+    "Method": "DeleteHistory",
+    "RelativePath": "api/student/history/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.UInt64",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "backend.Controllers.StudentController",
+    "Method": "GetHistory",
+    "RelativePath": "api/student/history/{studentId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "studentId",
+        "Type": "System.UInt64",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.List\u00601[[backend.DTOs.ExamReadDTO, backend, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "backend.Controllers.StudentController",
+    "Method": "HandleHistory",
+    "RelativePath": "api/student/history/{studentId}/{examId}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "studentId",
+        "Type": "System.UInt64",
+        "IsRequired": true
+      },
+      {
+        "Name": "examId",
+        "Type": "System.UInt64",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "backend.Controllers.StudentController",
+    "Method": "DeleteAllHistories",
+    "RelativePath": "api/student/history/all/{studentId}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "studentId",
+        "Type": "System.UInt64",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "backend.Controllers.SubjectController",
     "Method": "Get",
-    "RelativePath": "api/Subject",
+    "RelativePath": "api/subject",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -971,7 +1055,7 @@
   {
     "ContainingType": "backend.Controllers.SubjectController",
     "Method": "Add",
-    "RelativePath": "api/Subject",
+    "RelativePath": "api/subject",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
@@ -987,7 +1071,7 @@
   {
     "ContainingType": "backend.Controllers.SubjectController",
     "Method": "GetById",
-    "RelativePath": "api/Subject/{id}",
+    "RelativePath": "api/subject/{id}",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -1013,7 +1097,7 @@
   {
     "ContainingType": "backend.Controllers.SubjectController",
     "Method": "Update",
-    "RelativePath": "api/Subject/{id}",
+    "RelativePath": "api/subject/{id}",
     "HttpMethod": "PUT",
     "IsController": true,
     "Order": 0,
@@ -1034,7 +1118,7 @@
   {
     "ContainingType": "backend.Controllers.SubjectController",
     "Method": "ChangeVisible",
-    "RelativePath": "api/Subject/visible/{id}",
+    "RelativePath": "api/subject/{id}",
     "HttpMethod": "DELETE",
     "IsController": true,
     "Order": 0,
@@ -1048,9 +1132,29 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "backend.Controllers.SubjectController",
+    "Method": "GetActive",
+    "RelativePath": "api/subject/active",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.List\u00601[[backend.Models.Subject, backend, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
     "ContainingType": "backend.Controllers.TeacherController",
     "Method": "AddTeacher",
-    "RelativePath": "api/Teacher",
+    "RelativePath": "api/teacher",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
@@ -1066,7 +1170,7 @@
   {
     "ContainingType": "backend.Controllers.TeacherController",
     "Method": "GetTeacher",
-    "RelativePath": "api/Teacher/{id}",
+    "RelativePath": "api/teacher/{id}",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -1092,7 +1196,7 @@
   {
     "ContainingType": "backend.Controllers.TeacherController",
     "Method": "UpdateTeacher",
-    "RelativePath": "api/Teacher/{id}",
+    "RelativePath": "api/teacher/{id}",
     "HttpMethod": "PUT",
     "IsController": true,
     "Order": 0,
@@ -1113,7 +1217,7 @@
   {
     "ContainingType": "backend.Controllers.TeacherController",
     "Method": "DeleteTeacher",
-    "RelativePath": "api/Teacher/{id}",
+    "RelativePath": "api/teacher/{id}",
     "HttpMethod": "DELETE",
     "IsController": true,
     "Order": 0,
@@ -1209,7 +1313,7 @@
       },
       {
         "Name": "id",
-        "Type": "",
+        "Type": "System.String",
         "IsRequired": true
       }
     ],
@@ -1218,7 +1322,7 @@
   {
     "ContainingType": "backend.Controllers.TopicController",
     "Method": "ChangeVisible",
-    "RelativePath": "api/Topic/visible/{id}",
+    "RelativePath": "api/Topic/{id}",
     "HttpMethod": "DELETE",
     "IsController": true,
     "Order": 0,
@@ -1230,5 +1334,25 @@
       }
     ],
     "ReturnTypes": []
+  },
+  {
+    "ContainingType": "backend.Controllers.TopicController",
+    "Method": "Get",
+    "RelativePath": "api/Topic/active",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.List\u00601[[backend.Models.Topic, backend, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
   }
 ]

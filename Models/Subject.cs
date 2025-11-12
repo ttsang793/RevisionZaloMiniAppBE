@@ -5,18 +5,15 @@ public partial class Subject
     public string Id { get; set; } = null!;
     public string Name { get; set; } = null!;
     public ICollection<byte> Grades { get; set; } = [];
-    public bool QuestionTN { get; set; }
-    public bool QuestionDS { get; set; }
-    public bool QuestionTLN { get; set; }
-    public bool QuestionDVCT { get; set; }
-    public bool QuestionTL { get; set; }
-    public bool QuestionSX { get; set; }
-    public bool IsVisible { get; set; } = true;
+    public bool QuestionMC { get; set; }
+    public bool QuestionTF { get; set; }
+    public bool QuestionSA { get; set; }
+    public bool QuestionGF { get; set; }
+    public bool QuestionST { get; set; }
     public DateTime? CreatedAt { get; set; }
     public DateTime? UpdatedAt { get; set; }    
+    public bool IsVisible { get; set; } = true;
     public virtual ICollection<Exam> Exams { get; set; } = [];
-    public virtual ICollection<Question> Questions { get; set; } = [];
-    public virtual ICollection<StudentProcess> StudentProcesses { get; set; } = [];
     public virtual ICollection<Teacher> Teachers { get; set; } = [];
     public virtual ICollection<Topic> Topics { get; set; } = [];
 
@@ -24,12 +21,10 @@ public partial class Subject
     {
         Name = s.Name;
         Grades = s.Grades;
-        QuestionTN = s.QuestionTN;
-        QuestionDS = s.QuestionDS;
-        QuestionTLN = s.QuestionTLN;
-        QuestionDVCT = s.QuestionDVCT;
-        QuestionTL = s.QuestionTL;
-        QuestionSX = s.QuestionSX;
-        UpdatedAt = DateTime.Now;
+        QuestionMC = s.QuestionMC;
+        QuestionTF = s.QuestionTF;
+        QuestionSA = s.QuestionSA;
+        QuestionGF = s.QuestionGF;
+        QuestionST = s.QuestionST;
     }
 }

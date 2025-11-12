@@ -8,15 +8,13 @@ public partial class ExamAttempt
 
     public ulong StudentId { get; set; }
 
-    public decimal? Score { get; set; }
+    public decimal? TotalPoint { get; set; }
 
     public DateTime StartedAt { get; set; }
 
     public ushort Duration { get; set; }
 
     public DateTime SubmittedAt { get; set; }
-
-    public bool IsPractice { get; set; } = false;
 
     public string? Comment { get; set; }
 
@@ -26,5 +24,5 @@ public partial class ExamAttempt
 
     public virtual ICollection<ExamAttemptAnswer> ExamAttemptAnswers { get; set; } = [];
 
-    public virtual User Student { get; set; } = null!;
+    public virtual Student Student { get; set; } = null!;
 }

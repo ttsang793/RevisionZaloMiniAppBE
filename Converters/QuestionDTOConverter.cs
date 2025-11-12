@@ -6,6 +6,7 @@ namespace backend.Converters;
 
 public class QuestionDtoConverter : JsonConverter<QuestionDTO>
 {
+    #pragma warning disable CS8600 // Converting null literal or possible null value to non-nullable type.
     public override QuestionDTO Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
         using var jsonDoc = JsonDocument.ParseValue(ref reader);
@@ -30,6 +31,7 @@ public class QuestionDtoConverter : JsonConverter<QuestionDTO>
 
         return dto;
     }
+    #pragma warning restore CS8600 // Converting null literal or possible null value to non-nullable type.
 
     public override void Write(Utf8JsonWriter writer, QuestionDTO value, JsonSerializerOptions options)
     {

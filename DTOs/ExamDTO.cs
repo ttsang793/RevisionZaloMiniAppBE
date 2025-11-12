@@ -31,9 +31,7 @@ public partial class ExamReadDTO
 
     public string SubjectId { get; set; } = null!;
 
-    public ulong? ApprovedBy { get; set; }
-
-    public byte State { get; set; } = 1;
+    public byte Status { get; set; } = 1;
 
     public string? TeacherName { get; set; }
 
@@ -68,9 +66,7 @@ public partial class ExamInsertDTO
 
     public string SubjectId { get; set; } = null!;
 
-    public ulong? ApprovedBy { get; set; }
-
-    public byte State { get; set; } = 1;
+    public byte Status { get; set; } = 1;
 }
 
 public partial class ExamPartDTO

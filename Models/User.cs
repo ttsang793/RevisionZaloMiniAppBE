@@ -10,29 +10,28 @@ public partial class User
 
     public string? Avatar { get; set; }
 
+    public string? Email { get; set; }
+
     public string Role { get; set; } = null!;
 
     public DateTime? CreatedAt { get; set; }
 
     public DateTime? UpdatedAt { get; set; }
 
-    public virtual Teacher? Teacher { get; set; }
-
     public virtual Admin? Admin { get; set; }
 
-    public virtual ICollection<Comment> Comments { get; set; } = [];
+    public virtual ICollection<Comment> Comments { get; set; } = new List<Comment>();
 
-    public virtual ICollection<ExamAttempt> ExamAttempts { get; set; } = [];
+    public virtual Student? Student { get; set; }
 
-    public virtual ICollection<PdfExamAttempt> PdfExamAttempts { get; set; } = [];
-
-    public virtual ICollection<StudentProcess> StudentProcesses { get; set; } = [];
+    public virtual Teacher? Teacher { get; set; }
 
     public void NullifyUser()
     {
         ZaloId = null;
         Name = "Người dùng đã xóa";
         Avatar = "/avatar/default.jpg";
+        Email = null;
         CreatedAt = null;
         UpdatedAt = null;
     }

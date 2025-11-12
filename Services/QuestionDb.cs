@@ -119,10 +119,12 @@ public class QuestionDb
         return await _dbContext.SortingQuestions.FirstAsync(q => q.Id == id);
     }
 
+    /*
     public async Task<GroupQuestion> GetGroupQuestionById(ulong id)
     {
         return await _dbContext.GroupQuestions.FirstAsync(q => q.Id == id);
     }
+    */
 
     public async Task<TrueFalseTHPTQuestion> GetTrueFalseTHPTQuestionById(ulong id)
     {
@@ -199,7 +201,8 @@ public class QuestionDb
 
         return await _dbContext.SaveChangesAsync() > 0;
     }
-
+    
+    /*
     public async Task<bool> AddGroupQuestion(Question q, GroupQuestion gq)
     {
         _dbContext.Questions.Add(q);
@@ -212,6 +215,7 @@ public class QuestionDb
 
         return await _dbContext.SaveChangesAsync() > 0;
     }
+    */
 
     public async Task<bool> AddTrueFalseTHPTQuestion(Question q, TrueFalseTHPTQuestion tfq)
     {

@@ -164,8 +164,7 @@ public class ExamAttemptDb
                     Question = questionDTO,
                     AnswerOrder = eaa.AnswerOrder,
                     StudentAnswer = eaa.StudentAnswer,
-                    AnswerType = eaa.AnswerType,
-                    IsCorrect = eaa.IsCorrect
+                    Correct = eaa.Correct
                 });
             }
 
@@ -180,7 +179,7 @@ public class ExamAttemptDb
 
         ExamAttemptGetDTO result = new ExamAttemptGetDTO
         {
-            Score = (decimal)examAttempt.Score,
+            TotalPoint = (decimal)examAttempt.TotalPoint,
             Duration = examAttempt.Duration,
             Comment = examAttempt.Comment,
             ExamParts = examParts
@@ -212,7 +211,7 @@ public class ExamAttemptDb
     {
         var result = await (from pea in DbContext.PdfExamAttempts
                             join pe in DbContext.PdfExamCodes
-                            on pea.CodeId equals pe.Id
+                            on pea.PdfExamCodeId equals pe.Id
                             where pea.StudentId == studentId && pe.ExamId == examId
                             orderby pea.SubmittedAt descending
                             select pea).FirstAsync();

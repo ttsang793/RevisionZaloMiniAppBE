@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace backend.Controllers;
 
 [ApiController]
-[Route("/api/[controller]")]
+[Route("/api/achivement")]
 public class AchievementController : Controller
 {
     private readonly ILogger<AchievementController> _logger;

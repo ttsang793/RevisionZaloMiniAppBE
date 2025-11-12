@@ -21,7 +21,6 @@ public class ExamPartDb
                             select new ExamPart
                             {
                                 PartTitle = ep.PartTitle,
-                                QuestionTypes = ep.QuestionTypes,
                                 ExamQuestions = _dbContext.ExamQuestions.Where(eq => eq.ExamPartId == ep.Id).ToList()
                             }).ToListAsync();
 
@@ -87,9 +86,7 @@ public class ExamPartDb
                                 TopicId = eq.Question.TopicId,
                                 Explanation = eq.Question.Explanation,
                                 CorrectAnswer = mcq.CorrectAnswer,
-                                WrongAnswer1 = mcq.WrongAnswer1,
-                                WrongAnswer2 = mcq.WrongAnswer2,
-                                WrongAnswer3 = mcq.WrongAnswer3
+                                WrongAnswer = mcq.WrongAnswer,
                             };
                         else throw new Exception();
                         break;
@@ -188,9 +185,7 @@ public class ExamPartDb
             result.Add(new ExamPartDTO
             {
                 Id = ep.Id,
-                PartIndex = ep.PartIndex,
                 PartTitle = ep.PartTitle,
-                QuestionTypes = ep.QuestionTypes,
                 ExamQuestions = examQuestionsDTO
             });
         }

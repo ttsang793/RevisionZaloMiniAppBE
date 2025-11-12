@@ -28,15 +28,11 @@ public partial class Exam
 
     public string SubjectId { get; set; } = null!;
 
-    public ulong? ApprovedBy { get; set; }
-
     public DateTime? CreatedAt { get; set; }
 
     public DateTime? UpdatedAt { get; set; }
 
-    public byte State { get; set; } = 1;
-
-    public virtual Teacher? ApprovedByNavigation { get; set; }
+    public byte Status { get; set; } = 1;
 
     public virtual ICollection<Comment> Comments { get; set; } = [];
 
@@ -46,7 +42,9 @@ public partial class Exam
 
     public virtual ICollection<PdfExamCode> PdfExamCodes { get; set; } = [];
 
-    public virtual Subject? Subject { get; set; }
+    public virtual ICollection<StudentHistory> StudentHistories { get; set; } = new List<StudentHistory>();
 
-    public virtual Teacher? Teacher { get; set; }
+    public virtual Subject Subject { get; set; } = null!;
+
+    public virtual Teacher Teacher { get; set; } = null!;
 }

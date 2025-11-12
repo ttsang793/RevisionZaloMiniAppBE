@@ -35,7 +35,7 @@ public class ExamDb
                                 TeacherName = u.Name,
                                 SubjectId = s.Id,
                                 SubjectName = s.Name,
-                                State = e.State
+                                Status = e.Status
                             }).ToListAsync();
 
         return result;
@@ -64,7 +64,7 @@ public class ExamDb
                                 TeacherName = u.Name,
                                 SubjectId = s.Id,
                                 SubjectName = s.Name,
-                                State = e.State
+                                Status = e.Status
                             }).ToListAsync();
 
         return result;
@@ -93,7 +93,7 @@ public class ExamDb
                                 TeacherName = u.Name,
                                 SubjectId = s.Id,
                                 SubjectName = s.Name,
-                                State = e.State
+                                Status = e.Status
                             }).FirstAsync();
 
         return result;
@@ -131,14 +131,14 @@ public class ExamDb
     public async Task<bool> UnpublishExam(ulong id)
     {
         var unpublishExam = await GetExamById(id);
-        unpublishExam.State = 1;
+        unpublishExam.Status = 1;
         return await DbContext.SaveChangesAsync() > 0;
     }
 
     public async Task<bool> PublishExam(ulong id)
     {
         var publishExam = await GetExamById(id);
-        publishExam.State = 2;
+        publishExam.Status = 3;
         return await DbContext.SaveChangesAsync() > 0;
     }
 }

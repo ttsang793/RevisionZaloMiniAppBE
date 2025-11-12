@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace backend.Controllers;
 [ApiController]
-[Route("/api/[controller]")]
+[Route("/api/question")]
 public class QuestionController : Controller
 {
     private readonly ILogger<QuestionController> _logger;
@@ -56,7 +56,7 @@ public class QuestionController : Controller
             case "short-answer": return await GetShortAnswerQuestionById(question);
             case "fill-in-the-blank": case "constructed-response": return await GetManualResponseQuestionById(question);
             case "sorting": return await GetSortingQuestionById(question);
-            case "group": return await GetGroupQuestionById(question);
+            // case "group": return await GetGroupQuestionById(question);
             case "true-false-thpt": return await GetTrueFalseTHPTQuestionById(question);
             default: break;
         }
@@ -74,12 +74,9 @@ public class QuestionController : Controller
             Type = q.Type,
             Difficulty = q.Difficulty,
             TopicId = q.TopicId,
-            SubjectId = q.SubjectId,
             Explanation = q.Explanation,
             CorrectAnswer = answer.CorrectAnswer,
-            WrongAnswer1 = answer.WrongAnswer1,
-            WrongAnswer2 = answer.WrongAnswer2,
-            WrongAnswer3 = answer.WrongAnswer3,
+            WrongAnswer = answer.WrongAnswer,
         };
     }
 
@@ -94,7 +91,6 @@ public class QuestionController : Controller
             Type = q.Type,
             Difficulty = q.Difficulty,
             TopicId = q.TopicId,
-            SubjectId = q.SubjectId,
             Explanation = q.Explanation,
             AnswerKey = answer.AnswerKey
         };
@@ -111,7 +107,6 @@ public class QuestionController : Controller
             Type = q.Type,
             Difficulty = q.Difficulty,
             TopicId = q.TopicId,
-            SubjectId = q.SubjectId,
             Explanation = q.Explanation,
             AnswerKey = answer.AnswerKey
         };
@@ -128,7 +123,6 @@ public class QuestionController : Controller
             Type = q.Type,
             Difficulty = q.Difficulty,
             TopicId = q.TopicId,
-            SubjectId = q.SubjectId,
             Explanation = q.Explanation,
             AnswerKeys = answer.AnswerKeys,
             MarkAsWrong = answer.MarkAsWrong
@@ -146,12 +140,12 @@ public class QuestionController : Controller
             Type = q.Type,
             Difficulty = q.Difficulty,
             TopicId = q.TopicId,
-            SubjectId = q.SubjectId,
             Explanation = q.Explanation,
             CorrectOrder = answer.CorrectOrder
         };
     }
 
+    /*
     private async Task<GroupQuestionGetDTO> GetGroupQuestionById(Question q)
     {
         var answer = await _questionDb.GetGroupQuestionById(q.Id);
@@ -162,13 +156,13 @@ public class QuestionController : Controller
             Title = q.Title,
             Grade = q.Grade,
             Type = q.Type,
-            SubjectId = q.SubjectId,
             PassageTitle = answer.PassageTitle,
             PassageContent = answer.PassageContent,
             PassageAuthor = answer.PassageAuthor,
             Questions = await _questionDb.GetQuestionByMultipleIds(answer.Questions)
         };
     }
+    */
 
     private async Task<TrueFalseTHPTQuestionDTO> GetTrueFalseTHPTQuestionById(Question q)
     {
@@ -181,7 +175,6 @@ public class QuestionController : Controller
             Type = q.Type,
             Difficulty = q.Difficulty,
             TopicId = q.TopicId,
-            SubjectId = q.SubjectId,
             Explanation = q.Explanation,
             Statements = answer.Statements,
             AnswerKeys = answer.AnswerKeys
@@ -199,16 +192,13 @@ public class QuestionController : Controller
             Type = questionDTO.Type,
             Difficulty = questionDTO.Difficulty,
             TopicId = questionDTO.TopicId,
-            SubjectId = questionDTO.SubjectId,
             Explanation = questionDTO.Explanation
         };
 
         MultipleChoiceQuestion mcq = new MultipleChoiceQuestion
         {
             CorrectAnswer = questionDTO.CorrectAnswer,
-            WrongAnswer1 = questionDTO.WrongAnswer1,
-            WrongAnswer2 = questionDTO.WrongAnswer2,
-            WrongAnswer3 = questionDTO.WrongAnswer3
+            WrongAnswer = questionDTO.WrongAnswer,
         };
 
         return await _questionDb.AddMultipleChoiceQuestion(q, mcq) ? StatusCode(201) : StatusCode(400);
@@ -224,7 +214,6 @@ public class QuestionController : Controller
             Type = questionDTO.Type,
             Difficulty = questionDTO.Difficulty,
             TopicId = questionDTO.TopicId,
-            SubjectId = questionDTO.SubjectId,
             Explanation = questionDTO.Explanation
         };
 
@@ -246,7 +235,6 @@ public class QuestionController : Controller
             Type = questionDTO.Type,
             Difficulty = questionDTO.Difficulty,
             TopicId = questionDTO.TopicId,
-            SubjectId = questionDTO.SubjectId,
             Explanation = questionDTO.Explanation
         };
 
@@ -268,7 +256,6 @@ public class QuestionController : Controller
             Type = questionDTO.Type,
             Difficulty = questionDTO.Difficulty,
             TopicId = questionDTO.TopicId,
-            SubjectId = questionDTO.SubjectId,
             Explanation = questionDTO.Explanation
         };
 
@@ -293,7 +280,6 @@ public class QuestionController : Controller
             Type = questionDTO.Type,
             Difficulty = questionDTO.Difficulty,
             TopicId = questionDTO.TopicId,
-            SubjectId = questionDTO.SubjectId,
             Explanation = questionDTO.Explanation
         };
 
@@ -305,6 +291,7 @@ public class QuestionController : Controller
         return await _questionDb.AddSortingQuestion(q, sq) ? StatusCode(201) : StatusCode(400);
     }
 
+    /*
     [HttpPost("group")]
     public async Task<IActionResult> AddGroupQuestion(GroupQuestionPostDTO questionDTO)
     {
@@ -312,8 +299,7 @@ public class QuestionController : Controller
         {
             Title = questionDTO.Title,
             Grade = questionDTO.Grade,
-            Type = questionDTO.Type,
-            SubjectId = questionDTO.SubjectId
+            Type = questionDTO.Type
         };
 
         GroupQuestion gq = new GroupQuestion
@@ -326,6 +312,7 @@ public class QuestionController : Controller
 
         return await _questionDb.AddGroupQuestion(q, gq) ? StatusCode(201) : StatusCode(400);
     }
+    */
 
     [HttpPost("true-false-THPT")]
     public async Task<IActionResult> AddTrueFalseTHPTQuestion(TrueFalseTHPTQuestionDTO questionDTO)
@@ -337,7 +324,6 @@ public class QuestionController : Controller
             Type = questionDTO.Type,
             Difficulty = questionDTO.Difficulty,
             TopicId = questionDTO.TopicId,
-            SubjectId = questionDTO.SubjectId,
             Explanation = questionDTO.Explanation
         };
 
@@ -362,7 +348,6 @@ public class QuestionController : Controller
             Type = questionDTO.Type,
             Difficulty = questionDTO.Difficulty,
             TopicId = questionDTO.TopicId,
-            SubjectId = questionDTO.SubjectId,
             Explanation = questionDTO.Explanation
         };
 
@@ -370,9 +355,7 @@ public class QuestionController : Controller
         {
             Id = id,
             CorrectAnswer = questionDTO.CorrectAnswer,
-            WrongAnswer1 = questionDTO.WrongAnswer1,
-            WrongAnswer2 = questionDTO.WrongAnswer2,
-            WrongAnswer3 = questionDTO.WrongAnswer3,
+            WrongAnswer = questionDTO.WrongAnswer
         };
 
         return await _questionDb.UpdateQuestion(q, mcq) ? StatusCode(201) : StatusCode(400);
@@ -389,7 +372,6 @@ public class QuestionController : Controller
             Type = questionDTO.Type,
             Difficulty = questionDTO.Difficulty,
             TopicId = questionDTO.TopicId,
-            SubjectId = questionDTO.SubjectId,
             Explanation = questionDTO.Explanation
         };
 
@@ -413,7 +395,6 @@ public class QuestionController : Controller
             Type = questionDTO.Type,
             Difficulty = questionDTO.Difficulty,
             TopicId = questionDTO.TopicId,
-            SubjectId = questionDTO.SubjectId,
             Explanation = questionDTO.Explanation
         };
 
@@ -437,7 +418,6 @@ public class QuestionController : Controller
             Type = questionDTO.Type,
             Difficulty = questionDTO.Difficulty,
             TopicId = questionDTO.TopicId,
-            SubjectId = questionDTO.SubjectId,
             Explanation = questionDTO.Explanation
         };
 
@@ -464,7 +444,6 @@ public class QuestionController : Controller
             Type = questionDTO.Type,
             Difficulty = questionDTO.Difficulty,
             TopicId = questionDTO.TopicId,
-            SubjectId = questionDTO.SubjectId,
             Explanation = questionDTO.Explanation
         };
 
@@ -485,8 +464,7 @@ public class QuestionController : Controller
             Id = id,
             Title = questionDTO.Title,
             Grade = questionDTO.Grade,
-            Type = questionDTO.Type,
-            SubjectId = questionDTO.SubjectId
+            Type = questionDTO.Type
         };
 
         GroupQuestion gq = new GroupQuestion
@@ -512,7 +490,6 @@ public class QuestionController : Controller
             Type = questionDTO.Type,
             Difficulty = questionDTO.Difficulty,
             TopicId = questionDTO.TopicId,
-            SubjectId = questionDTO.SubjectId,
             Explanation = questionDTO.Explanation
         };
 

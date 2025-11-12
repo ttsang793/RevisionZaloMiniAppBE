@@ -31,7 +31,9 @@ public partial class ZaloRevisionAppDbContext : DbContext
 
     public virtual DbSet<ExamQuestion> ExamQuestions { get; set; }
 
-    public virtual DbSet<GroupQuestion> GroupQuestions { get; set; }
+    public virtual DbSet<Follower> Followers { get; set; }
+
+    // public virtual DbSet<GroupQuestion> GroupQuestions { get; set; }
 
     public virtual DbSet<ManualResponseQuestion> ManualResponseQuestions { get; set; }
 
@@ -49,7 +51,9 @@ public partial class ZaloRevisionAppDbContext : DbContext
 
     public virtual DbSet<SortingQuestion> SortingQuestions { get; set; }
 
-    public virtual DbSet<StudentProcess> StudentProcesses { get; set; }
+    public virtual DbSet<Student> Students { get; set; }
+
+    public virtual DbSet<StudentHistory> StudentHistories { get; set; }
 
     public virtual DbSet<Subject> Subjects { get; set; }
 
@@ -141,8 +145,6 @@ public partial class ZaloRevisionAppDbContext : DbContext
 
             entity.ToTable("exams");
 
-            entity.HasIndex(e => e.ApprovedBy, "approved_by");
-
             entity.HasIndex(e => e.SubjectId, "subject_id");
 
             entity.HasIndex(e => e.TeacherId, "teacher_id");
@@ -161,7 +163,6 @@ public partial class ZaloRevisionAppDbContext : DbContext
                 .IsRequired()
                 .HasDefaultValueSql("'1'")
                 .HasColumnName("allow_show_score");
-            entity.Property(e => e.ApprovedBy).HasColumnName("approved_by");
             entity.Property(e => e.CreatedAt)
                 .HasDefaultValueSql("CURRENT_TIMESTAMP")
                 .HasColumnType("datetime")
@@ -176,16 +177,16 @@ public partial class ZaloRevisionAppDbContext : DbContext
                 .HasColumnType("enum('regular','midterm','final','other')")
                 .HasColumnName("exam_type");
             entity.Property(e => e.Grade).HasColumnName("grade");
-            entity.Property(e => e.State)
+            entity.Property(e => e.Status)
                 .HasDefaultValueSql("'1'")
-                .HasColumnName("state");
+                .HasColumnName("status");
             entity.Property(e => e.SubjectId)
                 .HasMaxLength(4)
                 .HasColumnName("subject_id");
             entity.Property(e => e.TeacherId).HasColumnName("teacher_id");
             entity.Property(e => e.TimeLimit).HasColumnName("time_limit");
             entity.Property(e => e.Title)
-                .HasMaxLength(256)
+                .HasMaxLength(255)
                 .HasColumnName("title");
             entity.Property(e => e.UpdatedAt)
                 .ValueGeneratedOnAddOrUpdate()
@@ -193,19 +194,14 @@ public partial class ZaloRevisionAppDbContext : DbContext
                 .HasColumnType("datetime")
                 .HasColumnName("updated_at");
 
-            entity.HasOne(d => d.ApprovedByNavigation).WithMany(p => p.ExamApprovedByNavigations)
-                .HasForeignKey(d => d.ApprovedBy)
-                .OnDelete(DeleteBehavior.Cascade)
-                .HasConstraintName("exams_ibfk_3");
-
             entity.HasOne(d => d.Subject).WithMany(p => p.Exams)
                 .HasForeignKey(d => d.SubjectId)
-                .HasConstraintName("exams_ibfk_1");
+                .HasConstraintName("exams_ibfk_2");
 
-            entity.HasOne(d => d.Teacher).WithMany(p => p.ExamTeachers)
+            entity.HasOne(d => d.Teacher).WithMany(p => p.Exams)
                 .HasForeignKey(d => d.TeacherId)
                 .OnDelete(DeleteBehavior.Cascade)
-                .HasConstraintName("exams_ibfk_2");
+                .HasConstraintName("exams_ibfk_1");
         });
 
         modelBuilder.Entity<ExamAttempt>(entity =>
@@ -224,27 +220,24 @@ public partial class ZaloRevisionAppDbContext : DbContext
                 .HasColumnName("comment");
             entity.Property(e => e.Duration).HasColumnName("duration");
             entity.Property(e => e.ExamId).HasColumnName("exam_id");
-            entity.Property(e => e.IsPractice)
-                .HasDefaultValueSql("'0'")
-                .HasColumnName("is_practice");
             entity.Property(e => e.PartOrder)
                 .HasColumnType("json")
                 .HasConversion(
                       v => JsonSerializer.Serialize(v, new JsonSerializerOptions()),
-                      v => JsonSerializer.Deserialize<List<ulong>>(v!, new JsonSerializerOptions())
+                      v => JsonSerializer.Deserialize<List<ulong>>(v!, new JsonSerializerOptions())!
                   )
                 .HasColumnName("part_order");
             entity.Property(e => e.StartedAt)
                 .HasColumnType("datetime")
                 .HasColumnName("started_at");
-            entity.Property(e => e.Score)
-                .HasColumnType("decimal(4,2) unsigned")
-                .HasColumnName("score");
             entity.Property(e => e.StudentId).HasColumnName("student_id");
             entity.Property(e => e.SubmittedAt)
                 .HasDefaultValueSql("CURRENT_TIMESTAMP")
                 .HasColumnType("datetime")
                 .HasColumnName("submitted_at");
+            entity.Property(e => e.TotalPoint)
+                .HasColumnType("decimal(5,2) unsigned")
+                .HasColumnName("total_point");
 
             entity.HasOne(d => d.Exam).WithMany(p => p.ExamAttempts)
                 .HasForeignKey(d => d.ExamId)
@@ -273,17 +266,21 @@ public partial class ZaloRevisionAppDbContext : DbContext
                       v => JsonSerializer.Deserialize<List<string>>(v!, new JsonSerializerOptions())
                   )
                 .HasColumnName("answer_order");
-            entity.Property(e => e.AnswerType)
-                .HasDefaultValueSql("'string'")
-                .HasColumnType("enum('array','string')")
-                .HasColumnName("answer_type");
+            entity.Property(e => e.Correct)
+                .HasColumnType("json")
+                .HasConversion(
+                      v => JsonSerializer.Serialize(v, new JsonSerializerOptions()),
+                      v => JsonSerializer.Deserialize<List<byte>>(v!, new JsonSerializerOptions())!
+                  )
+                .HasColumnName("correct");
             entity.Property(e => e.ExamAttemptId).HasColumnName("exam_attempt_id");
             entity.Property(e => e.ExamQuestionId).HasColumnName("exam_question_id");
-            entity.Property(e => e.IsCorrect)
-                .HasColumnType("text")
-                .HasColumnName("is_correct");
             entity.Property(e => e.StudentAnswer)
-                .HasColumnType("text")
+                .HasColumnType("json")
+                .HasConversion(
+                      v => JsonSerializer.Serialize(v, new JsonSerializerOptions()),
+                      v => JsonSerializer.Deserialize<List<string>>(v!, new JsonSerializerOptions())!
+                  )
                 .HasColumnName("student_answer");
 
             entity.HasOne(d => d.ExamAttempt).WithMany(p => p.ExamAttemptAnswers)
@@ -303,17 +300,9 @@ public partial class ZaloRevisionAppDbContext : DbContext
 
             entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.ExamId).HasColumnName("exam_id");
-            entity.Property(e => e.PartIndex).HasColumnName("part_index");
             entity.Property(e => e.PartTitle)
                 .HasMaxLength(255)
                 .HasColumnName("part_title");
-            entity.Property(e => e.QuestionTypes)
-                .HasColumnType("json")
-                .HasConversion(
-                      v => JsonSerializer.Serialize(v, new JsonSerializerOptions()),
-                      v => JsonSerializer.Deserialize<List<string>>(v!, new JsonSerializerOptions())
-                  )
-                .HasColumnName("question_types");
         });
 
         modelBuilder.Entity<ExamQuestion>(entity =>
@@ -343,34 +332,57 @@ public partial class ZaloRevisionAppDbContext : DbContext
                 .HasConstraintName("exam_questions_ibfk_2");
         });
 
-        modelBuilder.Entity<GroupQuestion>(entity =>
+        modelBuilder.Entity<Follower>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("PRIMARY");
 
-            entity.ToTable("group_questions");
+            entity.ToTable("followers");
+
+            entity.HasIndex(e => e.StudentId, "student_id");
+
+            entity.HasIndex(e => e.TeacherId, "teacher_id");
 
             entity.Property(e => e.Id).HasColumnName("id");
-            entity.Property(e => e.PassageAuthor)
-                .HasColumnType("text")
-                .HasColumnName("passage-author");
-            entity.Property(e => e.PassageContent)
-                .HasColumnType("mediumtext")
-                .HasColumnName("passage-content");
-            entity.Property(e => e.PassageTitle)
-                .HasMaxLength(255)
-                .HasColumnName("passage-title");
-            entity.Property(e => e.Questions)
-                .HasColumnType("json")
-                .HasConversion(
-                      v => JsonSerializer.Serialize(v, new JsonSerializerOptions()),
-                      v => JsonSerializer.Deserialize<List<ulong>>(v!, new JsonSerializerOptions())
-                  )
-                .HasColumnName("questions");
+            entity.Property(e => e.StudentId).HasColumnName("student_id");
+            entity.Property(e => e.TeacherId).HasColumnName("teacher_id");
 
-            entity.HasOne(d => d.IdNavigation).WithOne(p => p.GroupQuestion)
-                .HasForeignKey<GroupQuestion>(d => d.Id)
-                .HasConstraintName("group_questions_ibfk_1");
+            entity.HasOne(d => d.Student).WithMany(p => p.Followers)
+                .HasForeignKey(d => d.StudentId)
+                .HasConstraintName("followers_ibfk_1");
+
+            entity.HasOne(d => d.Teacher).WithMany(p => p.Followers)
+                .HasForeignKey(d => d.TeacherId)
+                .HasConstraintName("followers_ibfk_2");
         });
+
+        // modelBuilder.Entity<GroupQuestion>(entity =>
+        // {
+        //     entity.HasKey(e => e.Id).HasName("PRIMARY");
+
+        //     entity.ToTable("group_questions");
+
+        //     entity.Property(e => e.Id).HasColumnName("id");
+        //     entity.Property(e => e.PassageAuthor)
+        //         .HasColumnType("text")
+        //         .HasColumnName("passage-author");
+        //     entity.Property(e => e.PassageContent)
+        //         .HasColumnType("mediumtext")
+        //         .HasColumnName("passage-content");
+        //     entity.Property(e => e.PassageTitle)
+        //         .HasMaxLength(255)
+        //         .HasColumnName("passage-title");
+        //     entity.Property(e => e.Questions)
+        //         .HasColumnType("json")
+        //         .HasConversion(
+        //               v => JsonSerializer.Serialize(v, new JsonSerializerOptions()),
+        //               v => JsonSerializer.Deserialize<List<ulong>>(v!, new JsonSerializerOptions())!
+        //           )
+        //         .HasColumnName("questions");
+
+        //     entity.HasOne(d => d.IdNavigation).WithOne(p => p.GroupQuestion)
+        //         .HasForeignKey<GroupQuestion>(d => d.Id)
+        //         .HasConstraintName("group_questions_ibfk_1");
+        // });
 
         modelBuilder.Entity<ManualResponseQuestion>(entity =>
         {
@@ -385,7 +397,7 @@ public partial class ZaloRevisionAppDbContext : DbContext
                 .HasColumnType("json")
                 .HasConversion(
                       v => JsonSerializer.Serialize(v, new JsonSerializerOptions()),
-                      v => JsonSerializer.Deserialize<List<string>>(v!, new JsonSerializerOptions())
+                      v => JsonSerializer.Deserialize<List<string>>(v!, new JsonSerializerOptions())!
                   )
                 .HasColumnName("answer_keys");
             entity.Property(e => e.MarkAsWrong).HasColumnName("mark_as_wrong");
@@ -405,15 +417,13 @@ public partial class ZaloRevisionAppDbContext : DbContext
             entity.Property(e => e.CorrectAnswer)
                 .HasColumnType("text")
                 .HasColumnName("correct_answer");
-            entity.Property(e => e.WrongAnswer1)
-                .HasColumnType("text")
-                .HasColumnName("wrong_answer_1");
-            entity.Property(e => e.WrongAnswer2)
-                .HasColumnType("text")
-                .HasColumnName("wrong_answer_2");
-            entity.Property(e => e.WrongAnswer3)
-                .HasColumnType("text")
-                .HasColumnName("wrong_answer_3");
+            entity.Property(e => e.WrongAnswer)
+                .HasColumnType("json")
+                .HasConversion(
+                      v => JsonSerializer.Serialize(v, new JsonSerializerOptions()),
+                      v => JsonSerializer.Deserialize<List<string>>(v!, new JsonSerializerOptions())!
+                  )
+                .HasColumnName("wrong_answer");
 
             entity.HasOne(d => d.IdNavigation).WithOne(p => p.MultipleChoiceQuestion)
                 .HasForeignKey<MultipleChoiceQuestion>(d => d.Id)
@@ -426,34 +436,34 @@ public partial class ZaloRevisionAppDbContext : DbContext
 
             entity.ToTable("pdf_exam_attempts");
 
-            entity.HasIndex(e => e.CodeId, "code_id");
+            entity.HasIndex(e => e.PdfExamCodeId, "pdf_exam_code_id");
 
             entity.HasIndex(e => e.ExamId, "exam_id");
 
             entity.HasIndex(e => e.StudentId, "student_id");
 
             entity.Property(e => e.Id).HasColumnName("id");
-            entity.Property(e => e.CodeId).HasColumnName("code_id");
+            entity.Property(e => e.PdfExamCodeId).HasColumnName("code_id");
             entity.Property(e => e.Comment)
                 .HasColumnType("text")
                 .HasColumnName("comment");
-            entity.Property(e => e.ScoreBoard)
+            entity.Property(e => e.PointBoard)
                 .HasColumnType("json")
                 .HasConversion(
                       v => JsonSerializer.Serialize(v, new JsonSerializerOptions()),
-                      v => JsonSerializer.Deserialize<List<decimal>>(v!, new JsonSerializerOptions())
+                      v => JsonSerializer.Deserialize<List<decimal>>(v!, new JsonSerializerOptions())!
                   )
-                .HasColumnName("score_board");
+                .HasColumnName("point_board");
             entity.Property(e => e.Duration).HasColumnName("duration");
             entity.Property(e => e.ExamId).HasColumnName("exam_id");
-            entity.Property(e => e.Score)
-                .HasColumnType("decimal(4,2) unsigned")
-                .HasColumnName("score");
+            entity.Property(e => e.TotalPoint)
+                .HasColumnType("decimal(5,2) unsigned")
+                .HasColumnName("total_point");
             entity.Property(e => e.StudentAnswer)
                 .HasColumnType("json")
                 .HasConversion(
                       v => JsonSerializer.Serialize(v, new JsonSerializerOptions()),
-                      v => JsonSerializer.Deserialize<List<string>>(v!, new JsonSerializerOptions())
+                      v => JsonSerializer.Deserialize<List<string>>(v!, new JsonSerializerOptions())!
                   )
                 .HasColumnName("student_answer");
             entity.Property(e => e.StartedAt)
@@ -466,10 +476,6 @@ public partial class ZaloRevisionAppDbContext : DbContext
                 .HasColumnType("datetime")
                 .HasColumnName("submitted_at");
 
-            entity.HasOne(d => d.Code).WithMany(p => p.PdfExamAttempts)
-                .HasForeignKey(d => d.CodeId)
-                .HasConstraintName("pdf_exam_attempts_ibfk_3");
-
             entity.HasOne(d => d.Exam).WithMany(p => p.PdfExamAttempts)
                 .HasForeignKey(d => d.ExamId)
                 .HasConstraintName("pdf_exam_attempts_ibfk_1");
@@ -477,6 +483,10 @@ public partial class ZaloRevisionAppDbContext : DbContext
             entity.HasOne(d => d.Student).WithMany(p => p.PdfExamAttempts)
                 .HasForeignKey(d => d.StudentId)
                 .HasConstraintName("pdf_exam_attempts_ibfk_2");
+
+            entity.HasOne(d => d.Code).WithMany(p => p.PdfExamAttempts)
+                .HasForeignKey(d => d.PdfExamCodeId)
+                .HasConstraintName("pdf_exam_attempts_ibfk_3");
         });
 
         modelBuilder.Entity<PdfExamCode>(entity =>
@@ -519,13 +529,13 @@ public partial class ZaloRevisionAppDbContext : DbContext
                 .HasColumnName("part_index");
             entity.Property(e => e.PdfExamCodeId).HasColumnName("pdf_exam_code_id");
             entity.Property(e => e.Point)
-                .HasPrecision(5)
+                .HasColumnType("decimal(5,2) unsigned")
                 .HasColumnName("point");
             entity.Property(e => e.QuestionIndex)
                 .HasDefaultValueSql("'0'")
                 .HasColumnName("question_index");
             entity.Property(e => e.Type)
-                .HasColumnType("enum('multiple-choice','true-false','short-answer','fill-in-the-blank','constructed-response','sorting','true-false-thpt')")
+                .HasColumnType("enum('multiple-choice','true-false','short-answer','gap-fill','constructed-response','sorting','true-false-thpt')")
                 .HasColumnName("type");
 
             entity.HasOne(d => d.PdfExamCode).WithMany(p => p.PdfExamCodeQuestions)
@@ -539,8 +549,6 @@ public partial class ZaloRevisionAppDbContext : DbContext
 
             entity.ToTable("questions");
 
-            entity.HasIndex(e => e.SubjectId, "subject_id");
-
             entity.HasIndex(e => e.TopicId, "topic_id");
 
             entity.Property(e => e.Id).HasColumnName("id");
@@ -553,9 +561,6 @@ public partial class ZaloRevisionAppDbContext : DbContext
                 .HasColumnType("text")
                 .HasColumnName("explanation");
             entity.Property(e => e.Grade).HasColumnName("grade");
-            entity.Property(e => e.SubjectId)
-                .HasMaxLength(4)
-                .HasColumnName("subject_id");
             entity.Property(e => e.Title)
                 .HasColumnType("text")
                 .HasColumnName("title");
@@ -571,15 +576,10 @@ public partial class ZaloRevisionAppDbContext : DbContext
                 .HasColumnType("datetime")
                 .HasColumnName("updated_at");
 
-            entity.HasOne(d => d.Subject).WithMany(p => p.Questions)
-                .HasForeignKey(d => d.SubjectId)
-                .OnDelete(DeleteBehavior.Cascade)
-                .HasConstraintName("questions_ibfk_1");
-
             entity.HasOne(d => d.Topic).WithMany(p => p.Questions)
                 .HasForeignKey(d => d.TopicId)
                 .OnDelete(DeleteBehavior.Cascade)
-                .HasConstraintName("questions_ibfk_2");
+                .HasConstraintName("questions_ibfk_1");
         });
 
         modelBuilder.Entity<ShortAnswerQuestion>(entity =>
@@ -609,7 +609,7 @@ public partial class ZaloRevisionAppDbContext : DbContext
                 .HasColumnType("json")
                 .HasConversion(
                       v => JsonSerializer.Serialize(v, new JsonSerializerOptions()),
-                      v => JsonSerializer.Deserialize<List<string>>(v!, new JsonSerializerOptions())
+                      v => JsonSerializer.Deserialize<List<string>>(v!, new JsonSerializerOptions())!
                   )
                 .HasColumnName("correct_order");
 
@@ -618,47 +618,58 @@ public partial class ZaloRevisionAppDbContext : DbContext
                 .HasConstraintName("sorting_questions_ibfk_1");
         });
 
-        modelBuilder.Entity<StudentProcess>(entity =>
+        modelBuilder.Entity<Student>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("PRIMARY");
 
-            entity.ToTable("student_process");
-
-            entity.HasIndex(e => e.StudentId, "student_id");
-
-            entity.HasIndex(e => e.SubjectId, "subject_id");
+            entity.ToTable("students");
 
             entity.Property(e => e.Id).HasColumnName("id");
-            entity.Property(e => e.AvgScore)
-                .HasPrecision(4)
-                .HasColumnName("avg_score");
-            entity.Property(e => e.CorrectRate)
-                .HasPrecision(5)
-                .HasColumnName("correct_rate");
-            entity.Property(e => e.FavoriteExams)
+            entity.Property(e => e.Achivements)
                 .HasColumnType("json")
                 .HasConversion(
                       v => JsonSerializer.Serialize(v, new JsonSerializerOptions()),
-                      v => JsonSerializer.Deserialize<List<ulong>>(v!, new JsonSerializerOptions())
+                      v => JsonSerializer.Deserialize<List<ushort>>(v!, new JsonSerializerOptions())!
                   )
-                .HasColumnName("favorite_exams");
-            entity.Property(e => e.LastActivity)
-                .HasColumnType("datetime")
-                .HasColumnName("last_activity");
-            entity.Property(e => e.StreakDays).HasColumnName("streak_days");
+                .HasColumnName("achivements");
+            entity.Property(e => e.Favorites)
+                .HasColumnType("json")
+                .HasConversion(
+                      v => JsonSerializer.Serialize(v, new JsonSerializerOptions()),
+                      v => JsonSerializer.Deserialize<List<ulong>>(v!, new JsonSerializerOptions())!
+                  )
+                .HasColumnName("favorites");
+
+            entity.HasOne(d => d.IdNavigation).WithOne(p => p.Student)
+                .HasForeignKey<Student>(d => d.Id)
+                .HasConstraintName("students_ibfk_1");
+        });
+
+        modelBuilder.Entity<StudentHistory>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PRIMARY");
+
+            entity.ToTable("student_histories");
+
+            entity.HasIndex(e => e.ExamId, "exam_id");
+
+            entity.HasIndex(e => e.StudentId, "student_id");
+
+            entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.ExamId).HasColumnName("exam_id");
             entity.Property(e => e.StudentId).HasColumnName("student_id");
-            entity.Property(e => e.SubjectId)
-                .HasMaxLength(4)
-                .HasColumnName("subject_id");
+            entity.Property(e => e.Time)
+                .HasDefaultValueSql("CURRENT_TIMESTAMP")
+                .HasColumnType("timestamp")
+                .HasColumnName("time");
 
-            entity.HasOne(d => d.Student).WithMany(p => p.StudentProcesses)
+            entity.HasOne(d => d.Exam).WithMany(p => p.StudentHistories)
+                .HasForeignKey(d => d.ExamId)
+                .HasConstraintName("student_histories_ibfk_2");
+
+            entity.HasOne(d => d.Student).WithMany(p => p.StudentHistories)
                 .HasForeignKey(d => d.StudentId)
-                .HasConstraintName("student_process_ibfk_2");
-
-            entity.HasOne(d => d.Subject).WithMany(p => p.StudentProcesses)
-                .HasForeignKey(d => d.SubjectId)
-                .OnDelete(DeleteBehavior.Cascade)
-                .HasConstraintName("student_process_ibfk_1");
+                .HasConstraintName("student_histories_ibfk_1");
         });
 
         modelBuilder.Entity<Subject>(entity =>
@@ -680,7 +691,7 @@ public partial class ZaloRevisionAppDbContext : DbContext
                 .HasColumnType("json")
                 .HasConversion(
                       v => JsonSerializer.Serialize(v, new JsonSerializerOptions()),
-                      v => JsonSerializer.Deserialize<List<byte>>(v!, new JsonSerializerOptions())
+                      v => JsonSerializer.Deserialize<List<byte>>(v!, new JsonSerializerOptions())!
                   )
                 .HasColumnName("grades");
             entity.Property(e => e.IsVisible)
@@ -689,12 +700,11 @@ public partial class ZaloRevisionAppDbContext : DbContext
             entity.Property(e => e.Name)
                 .HasMaxLength(100)
                 .HasColumnName("name");
-            entity.Property(e => e.QuestionDS).HasColumnName("questionDS");
-            entity.Property(e => e.QuestionDVCT).HasColumnName("questionDVCT");
-            entity.Property(e => e.QuestionSX).HasColumnName("questionSX");
-            entity.Property(e => e.QuestionTL).HasColumnName("questionTL");
-            entity.Property(e => e.QuestionTLN).HasColumnName("questionTLN");
-            entity.Property(e => e.QuestionTN).HasColumnName("questionTN");
+            entity.Property(e => e.QuestionGF).HasColumnName("questionGF");
+            entity.Property(e => e.QuestionMC).HasColumnName("questionMC");
+            entity.Property(e => e.QuestionSA).HasColumnName("questionSA");
+            entity.Property(e => e.QuestionST).HasColumnName("questionST");
+            entity.Property(e => e.QuestionTF).HasColumnName("questionTF");
             entity.Property(e => e.UpdatedAt)
                 .ValueGeneratedOnAddOrUpdate()
                 .HasDefaultValueSql("CURRENT_TIMESTAMP")
@@ -715,7 +725,7 @@ public partial class ZaloRevisionAppDbContext : DbContext
                 .HasColumnType("json")
                 .HasConversion(
                       v => JsonSerializer.Serialize(v, new JsonSerializerOptions()),
-                      v => JsonSerializer.Deserialize<List<byte>>(v!, new JsonSerializerOptions())
+                      v => JsonSerializer.Deserialize<List<byte>>(v!, new JsonSerializerOptions())!
                   )
                 .HasColumnName("grades");
             entity.Property(e => e.Introduction)
@@ -754,7 +764,7 @@ public partial class ZaloRevisionAppDbContext : DbContext
                 .HasColumnType("json")
                 .HasConversion(
                       v => JsonSerializer.Serialize(v, new JsonSerializerOptions()),
-                      v => JsonSerializer.Deserialize<List<byte>>(v!, new JsonSerializerOptions())
+                      v => JsonSerializer.Deserialize<List<byte>>(v!, new JsonSerializerOptions())!
                   )
                 .HasColumnName("grades");
             entity.Property(e => e.IsVisible)
@@ -802,7 +812,7 @@ public partial class ZaloRevisionAppDbContext : DbContext
                 .HasColumnType("json")
                 .HasConversion(
                       v => JsonSerializer.Serialize(v, new JsonSerializerOptions()),
-                      v => JsonSerializer.Deserialize<List<bool>>(v!, new JsonSerializerOptions())
+                      v => JsonSerializer.Deserialize<List<bool>>(v!, new JsonSerializerOptions())!
                   )
                 .HasColumnName("answer_keys");
             entity.Property(e => e.PassageAuthor)
@@ -818,7 +828,7 @@ public partial class ZaloRevisionAppDbContext : DbContext
                 .HasColumnType("json")
                 .HasConversion(
                       v => JsonSerializer.Serialize(v, new JsonSerializerOptions()),
-                      v => JsonSerializer.Deserialize<List<string>>(v!, new JsonSerializerOptions())
+                      v => JsonSerializer.Deserialize<List<string>>(v!, new JsonSerializerOptions())!
                   )
                 .HasColumnName("statements");
 
@@ -841,12 +851,15 @@ public partial class ZaloRevisionAppDbContext : DbContext
                 .HasDefaultValueSql("CURRENT_TIMESTAMP")
                 .HasColumnType("datetime")
                 .HasColumnName("created_at");
+            entity.Property(e => e.Email)
+                .HasColumnType("text")
+                .HasColumnName("email");
             entity.Property(e => e.Name)
                 .HasMaxLength(255)
                 .HasColumnName("name");
             entity.Property(e => e.Role)
-                .HasDefaultValueSql("'student'")
-                .HasColumnType("enum('student','teacher','hos','admin')")
+                .HasDefaultValueSql("'HS'")
+                .HasColumnType("enum('HS','GV','AD')")
                 .HasColumnName("role");
             entity.Property(e => e.UpdatedAt)
                 .ValueGeneratedOnAddOrUpdate()

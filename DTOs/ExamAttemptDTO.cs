@@ -4,7 +4,7 @@ namespace backend.DTOs;
 
 public partial class ExamAttemptGetDTO
 {
-    public decimal Score { get; set; }
+    public decimal TotalPoint { get; set; }
 
     public ushort Duration { get; set; }
 
@@ -28,11 +28,9 @@ public class ExamAttemptAnswerGetDTO
 
     public ICollection<string>? AnswerOrder { get; set; }
 
-    public string? StudentAnswer { get; set; }
+    public ICollection<string> StudentAnswer { get; set; } = [];
 
-    public string AnswerType { get; set; } = null!;
-
-    public string? IsCorrect { get; set; }
+    public ICollection<byte> Correct { get; set; } = [];
 }
 
 public class ExamAttemptDTO
@@ -41,7 +39,7 @@ public class ExamAttemptDTO
 
     public ulong StudentId { get; set; }
 
-    public decimal? Score { get; set; }
+    public decimal? TotalPoint { get; set; }
 
     public DateTime StartedAt { get; set; }
 
@@ -58,11 +56,11 @@ public class ExamAttemptAnswerDTO
 
     public ICollection<string>? AnswerOrder { get; set; }
 
-    public string? StudentAnswer { get; set; }
+    public ICollection<string> StudentAnswer { get; set; } = [];
 
-    public string AnswerType { get; set; } = null!;
+    public ICollection<byte> Correct { get; set; } = [];
 
-    public string? IsCorrect { get; set; }
+    public decimal Point { get; set; }
 }
 
 public partial class PdfExamAttemptDTO
@@ -71,13 +69,13 @@ public partial class PdfExamAttemptDTO
 
     public ulong StudentId { get; set; }
 
-    public decimal Score { get; set; }
+    public decimal TotalPoint { get; set; }
 
     public DateTime StartedAt { get; set; }
 
-    public ulong CodeId { get; set; }
+    public ulong PdfExamCodeId { get; set; }
 
     public ICollection<string> StudentAnswer { get; set; } = [];
 
-    public ICollection<decimal> ScoreBoard { get; set; } = [];
+    public ICollection<decimal> PointBoard { get; set; } = [];
 }

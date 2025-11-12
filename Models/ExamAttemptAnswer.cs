@@ -10,11 +10,11 @@ public partial class ExamAttemptAnswer
 
     public ICollection<string>? AnswerOrder { get; set; }
 
-    public string? StudentAnswer { get; set; }
+    public ICollection<string> StudentAnswer { get; set; } = [];
 
-    public string AnswerType { get; set; } = null!;
+    public ICollection<byte> Correct { get; set; } = [];
 
-    public string? IsCorrect { get; set; }
+    public decimal? Point { get; set; }
 
     public virtual ExamAttempt ExamAttempt { get; set; } = null!;
 

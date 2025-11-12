@@ -15,8 +15,6 @@ public abstract partial class QuestionDTO
 
     public string? TopicId { get; set; }
 
-    public string SubjectId { get; set; } = null!;
-
     public string? Explanation { get; set; }
 
     public DateTime? CreatedAt { get; set; }
@@ -28,11 +26,7 @@ public partial class MultipleChoiceQuestionDTO : QuestionDTO
 {
     public string CorrectAnswer { get; set; } = null!;
 
-    public string WrongAnswer1 { get; set; } = null!;
-
-    public string WrongAnswer2 { get; set; } = null!;
-
-    public string WrongAnswer3 { get; set; } = null!;
+    public ICollection<string> WrongAnswer { get; set; } = [];
 }
 
 public partial class TrueFalseQuestionDTO : QuestionDTO

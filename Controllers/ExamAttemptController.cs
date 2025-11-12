@@ -40,9 +40,8 @@ public class ExamAttemptController : Controller
         {
             ExamId = examAttemptDTO.ExamId,
             StudentId = examAttemptDTO.StudentId,
-            Score = examAttemptDTO.Score,
+            TotalPoint = examAttemptDTO.TotalPoint,
             StartedAt = examAttemptDTO.StartedAt.ToLocalTime(),
-            IsPractice = examAttemptDTO.IsPractice,
             Duration = duration,
             SubmittedAt = DateTime.Now,
             PartOrder = examAttemptDTO.PartOrder
@@ -62,8 +61,8 @@ public class ExamAttemptController : Controller
                     ExamQuestionId = examAttemptAnswerDTO.ExamQuestionId,
                     AnswerOrder = examAttemptAnswerDTO.AnswerOrder,
                     StudentAnswer = examAttemptAnswerDTO.StudentAnswer,
-                    AnswerType = examAttemptAnswerDTO.AnswerType,
-                    IsCorrect = examAttemptAnswerDTO.IsCorrect
+                    Correct = examAttemptAnswerDTO.Correct,
+                    Point = examAttemptAnswerDTO.Point
                 };
 
                 bool answerAdded = await _examAttemptDb.AddExamAttemptAnswer(answer);
@@ -95,13 +94,13 @@ public class ExamAttemptController : Controller
         {
             ExamId = pdfExamAttemptDTO.ExamId,
             StudentId = pdfExamAttemptDTO.StudentId,
-            Score = pdfExamAttemptDTO.Score,
+            TotalPoint = pdfExamAttemptDTO.TotalPoint,
             StartedAt = pdfExamAttemptDTO.StartedAt.ToLocalTime(),
             Duration = duration,
             SubmittedAt = DateTime.Now,
             StudentAnswer = pdfExamAttemptDTO.StudentAnswer,
-            ScoreBoard = pdfExamAttemptDTO.ScoreBoard,
-            CodeId = pdfExamAttemptDTO.CodeId
+            PointBoard = pdfExamAttemptDTO.PointBoard,
+            PdfExamCodeId = pdfExamAttemptDTO.PdfExamCodeId
         };
 
         return await _examAttemptDb.AddPdfExamAttempt(pdfExamAttempt) ? StatusCode(201) : StatusCode(400);

@@ -30,6 +30,11 @@ public class TopicDb
         return result;
     }
 
+    public async Task<List<Topic>> GetActiveAsync()
+    {
+        return await _dbContext.Topics.Where(t => t.IsVisible).ToListAsync();
+    }
+
     public async Task<Topic> GetByIdAsync(string id)
     {
         return await _dbContext.Topics.Where(t => t.Id.Equals(id)).FirstAsync();

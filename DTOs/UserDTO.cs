@@ -6,14 +6,16 @@ public class UserDTO
 
     public string? ZaloId { get; set; }
 
-    public string? Name { get; set; }
+    public string Name { get; set; } = null!;
 
-    public string? Avatar { get; set; }
+    public string Avatar { get; set; } = "/avatar/default.jpg";
+
+    public string Email { get; set; } = null!;
 }
 
 public class TeacherDTO : UserDTO
 {
-    public string Role { get; set; } = "teacher";
+    public string Role { get; set; } = "GV";
 
     public string? SubjectId { get; set; }
 

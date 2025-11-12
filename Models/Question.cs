@@ -14,8 +14,6 @@ public partial class Question
 
     public string? TopicId { get; set; } = null!;
 
-    public string SubjectId { get; set; } = null!;
-
     public string? Explanation { get; set; }
 
     public DateTime? CreatedAt { get; set; }
@@ -24,7 +22,7 @@ public partial class Question
 
     public virtual ICollection<ExamQuestion> ExamQuestions { get; set; } = [];
 
-    public virtual GroupQuestion? GroupQuestion { get; set; }
+    // public virtual GroupQuestion? GroupQuestion { get; set; }
 
     public virtual ManualResponseQuestion? ManualResponseQuestion { get; set; }
 
@@ -33,8 +31,6 @@ public partial class Question
     public virtual ShortAnswerQuestion? ShortAnswerQuestion { get; set; }
 
     public virtual SortingQuestion? SortingQuestion { get; set; }
-
-    public virtual Subject? Subject { get; set; }
 
     public virtual Topic? Topic { get; set; }
 
@@ -52,14 +48,9 @@ public abstract class TypeQuestion
 
 public partial class MultipleChoiceQuestion : TypeQuestion
 {
-
     public string CorrectAnswer { get; set; } = null!;
 
-    public string WrongAnswer1 { get; set; } = null!;
-
-    public string WrongAnswer2 { get; set; } = null!;
-
-    public string WrongAnswer3 { get; set; } = null!;
+    public ICollection<string> WrongAnswer { get; set; } = [];
 }
 
 public partial class TrueFalseQuestion : TypeQuestion
@@ -82,7 +73,6 @@ public partial class ManualResponseQuestion : TypeQuestion
 
     public bool? MarkAsWrong { get; set; }
 }
-
 
 public partial class SortingQuestion : TypeQuestion
 {
