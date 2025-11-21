@@ -18,30 +18,16 @@ public class QuestionController : Controller
     }
 
     // GET
-    [HttpGet]
-    public async Task<List<Question>> GetAllQuestionsByTeacher(string? title)
+    [HttpGet("teacher/{teacherId}")]
+    public async Task<List<QuestionReadDTO>> GetAllQuestionsByTeacher(ulong teacherId, string? title)
     {
-        return await _questionDb.GetAllQuestionsByTeacher(title);
+        return await _questionDb.GetAllQuestionsByTeacher(teacherId, title);
     }
 
-    [HttpGet("filter")]
-    public async Task<List<Question>> GetFilterQuestionsByTeacher(string type = "default", string title = "")
-    {
-        switch (type)
-        {
-            case "multiple-choice": return await _questionDb.GetMultipleChoiceQuestionsByTeacher(title);
-            case "true-false": return await _questionDb.GetTrueFalseQuestionsByTeacher(title);
-            case "short-answer": return await _questionDb.GetShortAnswerQuestionsByTeacher(title);
-            case "fill-in-the-blank": return await _questionDb.GetFillInTheBlankQuestionsByTeacher(title);
-            case "constructed-response": return await _questionDb.GetConstructedResponseQuestionsByTeacher(title);
-            case "sorting": return await _questionDb.GetSortingQuestionsByTeacher(title);
-            case "default": return await _questionDb.GetDefaultQuestionsByTeacher(title);
-            case "group": return await _questionDb.GetGroupQuestionsByTeacher(title);
-            case "true-false-thpt": return await _questionDb.GetTrueFalseTHPTQuestionsByTeacher(title);
-            default: break;
-        }
-        
-        return null;
+    [HttpGet("teacher/filter/{teacherId}")]
+    public async Task<List<QuestionReadDTO>> GetFilterQuestionsByTeacher(ulong teacherId, string type, string title = "")
+    {        
+        return await _questionDb.GetFilterQuestionsByTeacher(teacherId, type, title);
     }
 
     [HttpGet("{id}")]
@@ -54,7 +40,7 @@ public class QuestionController : Controller
             case "multiple-choice": return await GetMultipleChoiceQuestionById(question);
             case "true-false": return await GetTrueFalseQuestionById(question);
             case "short-answer": return await GetShortAnswerQuestionById(question);
-            case "fill-in-the-blank": case "constructed-response": return await GetManualResponseQuestionById(question);
+            case "gap-fill": case "constructed-response": return await GetManualResponseQuestionById(question);
             case "sorting": return await GetSortingQuestionById(question);
             // case "group": return await GetGroupQuestionById(question);
             case "true-false-thpt": return await GetTrueFalseTHPTQuestionById(question);

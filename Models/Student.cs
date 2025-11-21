@@ -6,7 +6,7 @@ public partial class Student
 
     public List<ulong> Favorites { get; set; } = [];
 
-    public List<ushort> Achivements { get; set; } = [];
+    public List<ushort> Achievements { get; set; } = [];
 
     public virtual ICollection<ExamAttempt> ExamAttempts { get; set; } = [];
 

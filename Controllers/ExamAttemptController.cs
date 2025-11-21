@@ -6,19 +6,21 @@ using Microsoft.AspNetCore.Mvc;
 namespace backend.Controllers;
 
 [ApiController]
-[Route("api/exam-attempt")]
+[Route("/api/exam-attempt")]
 public class ExamAttemptController : Controller
 {
     private readonly ILogger<QuestionController> _logger;
     private readonly ExamAttemptDb _examAttemptDb;
+    private readonly AchievementDb _achievementDb;
 
     public ExamAttemptController(ILogger<QuestionController> logger, ZaloRevisionAppDbContext dbContext)
     {
         _logger = logger;
         _examAttemptDb = new ExamAttemptDb(dbContext);
+        _achievementDb = new AchievementDb(dbContext);
     }
 
-    [HttpGet]
+    [HttpGet("{studentId}/{examId}")]
     public async Task<ExamAttemptGetDTO> GetLatestExamAttempt(ulong studentId, ulong examId)
     {
         return await _examAttemptDb.GetLatestExamAttempt(studentId, examId);
@@ -48,7 +50,7 @@ public class ExamAttemptController : Controller
         };
 
         var addedExam = await _examAttemptDb.AddExamAttempt(examAttempt);
-        if (addedExam == null) return StatusCode(400, "Failed to add exam attempt!");
+        if (addedExam == null) return StatusCode(400, "Nộp bài thất bại!");
         var newId = addedExam.Id;
         try
         {
@@ -69,16 +71,20 @@ public class ExamAttemptController : Controller
                 if (!answerAdded)
                 {
                     await transaction.RollbackAsync();
-                    return StatusCode(400, "Failed to add one of the exam answers.");
+                    return StatusCode(400, "Nộp bài thất bại do thêm đáp án thất bại!");
                 }
             }
 
+            _achievementDb.IsAchieved(1, studentId);
+            _achievementDb.IsAchieved(2, studentId);
+            _achievementDb.IsAchieved(3, studentId);
+
             await transaction.CommitAsync();
-            return StatusCode(201, "Submit successfully!");
+            return StatusCode(201, "Nộp bài thành công!");
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, $"Error submiting the exam on {DateTime.Now}");
+            _logger.LogError(ex, $"Nộp bài thất bại vào {DateTime.Now}");
             await _examAttemptDb.RemoveLastIndex();
             return StatusCode(500);
         }
@@ -103,6 +109,6 @@ public class ExamAttemptController : Controller
             PdfExamCodeId = pdfExamAttemptDTO.PdfExamCodeId
         };
 
-        return await _examAttemptDb.AddPdfExamAttempt(pdfExamAttempt) ? StatusCode(201) : StatusCode(400);
+        return await _examAttemptDb.AddPdfExamAttempt(pdfExamAttempt) ? StatusCode(201, "Nộp bài thành công!") : StatusCode(400, "Nộp bài thất bại!");
     }
 }

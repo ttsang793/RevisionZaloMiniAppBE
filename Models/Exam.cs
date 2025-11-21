@@ -28,9 +28,11 @@ public partial class Exam
 
     public string SubjectId { get; set; } = null!;
 
-    public DateTime? CreatedAt { get; set; }
+    public DateTime CreatedAt { get; set; }
 
-    public DateTime? UpdatedAt { get; set; }
+    public DateTime UpdatedAt { get; set; }
+
+    public DateTime? PublishedAt { get; set; }
 
     public byte Status { get; set; } = 1;
 

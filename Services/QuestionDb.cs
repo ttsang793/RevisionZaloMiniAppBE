@@ -1,4 +1,5 @@
 ﻿using backend.Models;
+using backend.DTOs;
 using Microsoft.EntityFrameworkCore;
 
 namespace backend.Services;
@@ -13,75 +14,59 @@ public class QuestionDb
     }
 
     // GET LIST<QUESTION>
-    public async Task<List<Question>> GetAllQuestionsByTeacher(string? title)
+    public async Task<List<QuestionReadDTO>> GetAllQuestionsByTeacher(ulong teacherId, string? title)
     {
-        if (!string.IsNullOrEmpty(title))
-            return await _dbContext.Questions.Where(q => EF.Functions.Like(q.Title, $"%{title}%")).ToListAsync();
-        return await _dbContext.Questions.ToListAsync();
+        return await (from q in _dbContext.Questions
+                      join t in _dbContext.Topics on q.TopicId equals t.Id
+                      join s in _dbContext.Subjects on t.SubjectId equals s.Id
+                      where string.IsNullOrEmpty(title) || q.Title.Contains(title, StringComparison.OrdinalIgnoreCase)
+                      select new QuestionReadDTO
+                      {
+                          Id = q.Id,
+                          Title = q.Title,
+                          Grade = q.Grade,
+                          Type = q.Type,
+                          Difficulty = q.Difficulty,
+                          TopicId = q.TopicId,
+                          SubjectName = s.Name,
+                          Explanation = q.Explanation
+                      }).ToListAsync();
     }
 
-    public async Task<List<Question>> GetMultipleChoiceQuestionsByTeacher(string? title)
+    public async Task<List<QuestionReadDTO>> GetFilterQuestionsByTeacher(ulong teacherId, string type, string? title)
     {
-        if (!string.IsNullOrEmpty(title))
-            return await _dbContext.Questions.Where(q => EF.Functions.Like(q.Title, $"%{title}%") && q.Type == "multiple-choice").ToListAsync();
-        return await _dbContext.Questions.Where(q => q.Type == "multiple-choice").ToListAsync();
+        return await (from q in _dbContext.Questions
+                      join t in _dbContext.Topics on q.TopicId equals t.Id
+                      join s in _dbContext.Subjects on t.SubjectId equals s.Id
+                      where q.Type == type && (string.IsNullOrEmpty(title) || q.Title.Contains(title, StringComparison.OrdinalIgnoreCase))
+                      select new QuestionReadDTO
+                      {
+                          Id = q.Id,
+                          Title = q.Title,
+                          Grade = q.Grade,
+                          Type = q.Type,
+                          Difficulty = q.Difficulty,
+                          TopicId = q.TopicId,
+                          SubjectName = s.Name,
+                          Explanation = q.Explanation
+                      }).ToListAsync();
     }
 
-    public async Task<List<Question>> GetTrueFalseQuestionsByTeacher(string? title)
+    /*
+    public async Task<List<Question>> GetDefaultQuestionsByTeacher(ulong teacherId, string? title)
     {
         if (!string.IsNullOrEmpty(title))
-            return await _dbContext.Questions.Where(q => EF.Functions.Like(q.Title, $"%{title}%") && q.Type == "true-false").ToListAsync();
-        return await _dbContext.Questions.Where(q => q.Type == "true-false").ToListAsync();
+            return await _dbContext.Questions.Where(q => q.TeacherId == teacherId && EF.Functions.Like(q.Title, $"%{title}%") && q.Type != "true-false-thpt" && q.Type != "group").ToListAsync();
+        return await _dbContext.Questions.Where(q => q.TeacherId == teacherId && q.Type != "true-false-thpt" && q.Type != "group").ToListAsync();
     }
 
-    public async Task<List<Question>> GetShortAnswerQuestionsByTeacher(string? title)
+    public async Task<List<Question>> GetGroupQuestionsByTeacher(ulong teacherId, string? title)
     {
         if (!string.IsNullOrEmpty(title))
-            return await _dbContext.Questions.Where(q => EF.Functions.Like(q.Title, $"%{title}%") && q.Type == "short-answer").ToListAsync();
-        return await _dbContext.Questions.Where(q => q.Type == "short-answer").ToListAsync();
+            return await _dbContext.Questions.Where(q => q.TeacherId == teacherId && EF.Functions.Like(q.Title, $"%{title}%") && q.Type == "group").ToListAsync();
+        return await _dbContext.Questions.Where(q => q.TeacherId == teacherId && q.Type == "group").ToListAsync();
     }
-
-    public async Task<List<Question>> GetFillInTheBlankQuestionsByTeacher(string? title)
-    {
-        if (!string.IsNullOrEmpty(title))
-            return await _dbContext.Questions.Where(q => EF.Functions.Like(q.Title, $"%{title}%") && q.Type == "fill-in-the-blank").ToListAsync();
-        return await _dbContext.Questions.Where(q => q.Type == "fill-in-the-blank").ToListAsync();
-    }
-
-    public async Task<List<Question>> GetConstructedResponseQuestionsByTeacher(string? title)
-    {
-        if (!string.IsNullOrEmpty(title))
-            return await _dbContext.Questions.Where(q => EF.Functions.Like(q.Title, $"%{title}%") && q.Type == "constructed-response").ToListAsync();
-        return await _dbContext.Questions.Where(q => q.Type == "constructed-response").ToListAsync();
-    }
-
-    public async Task<List<Question>> GetSortingQuestionsByTeacher(string? title)
-    {
-        if (!string.IsNullOrEmpty(title))
-            return await _dbContext.Questions.Where(q => EF.Functions.Like(q.Title, $"%{title}%") && q.Type == "sorting").ToListAsync();
-        return await _dbContext.Questions.Where(q => q.Type == "sorting").ToListAsync();
-    }
-
-    public async Task<List<Question>> GetDefaultQuestionsByTeacher(string? title)
-    {
-        if (!string.IsNullOrEmpty(title))
-            return await _dbContext.Questions.Where(q => EF.Functions.Like(q.Title, $"%{title}%") && q.Type != "true-false-thpt" && q.Type != "group").ToListAsync();
-        return await _dbContext.Questions.Where(q => q.Type != "true-false-thpt" && q.Type != "group").ToListAsync();
-    }
-
-    public async Task<List<Question>> GetGroupQuestionsByTeacher(string? title)
-    {
-        if (!string.IsNullOrEmpty(title))
-            return await _dbContext.Questions.Where(q => EF.Functions.Like(q.Title, $"%{title}%") && q.Type == "group").ToListAsync();
-        return await _dbContext.Questions.Where(q => q.Type == "group").ToListAsync();
-    }
-
-    public async Task<List<Question>> GetTrueFalseTHPTQuestionsByTeacher(string? title)
-    {
-        if (!string.IsNullOrEmpty(title))
-            return await _dbContext.Questions.Where(q => EF.Functions.Like(q.Title, $"%{title}%") && q.Type == "true-false-thpt").ToListAsync();
-        return await _dbContext.Questions.Where(q => q.Type == "true-false-thpt").ToListAsync();
-    }
+    */
 
     // GET BY ID
     public async Task<Question> GetQuestionById(ulong id)

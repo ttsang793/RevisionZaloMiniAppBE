@@ -1,7 +1,4 @@
-﻿using backend.Models;
-using backend.Services;
-
-namespace backend.DTOs;
+﻿namespace backend.DTOs;
 
 public partial class ExamReadDTO
 {
@@ -35,7 +32,13 @@ public partial class ExamReadDTO
 
     public string? TeacherName { get; set; }
 
+    public string? TeacherAvatar { get; set; }
+
     public string? SubjectName { get; set; }
+
+    public DateTime? UpdatedAt { get; set; }
+
+    public DateTime? PublishedAt { get; set; }
 }
 
 public partial class ExamInsertDTO
@@ -73,8 +76,6 @@ public partial class ExamPartDTO
 {
     public ulong Id { get; set; }
 
-    public byte PartIndex { get; set; }
-
     public string? PartTitle { get; set; }
 
     public ICollection<string> QuestionTypes { get; set; } = [];
@@ -96,7 +97,9 @@ public partial class ExamQuestionDTO
 
 public partial class ExamQuestionsInsertDTO
 {
-    public ulong? ExamId { get; set; }
+    public ulong ExamId { get; set; }
+
+    public byte ExamStatus { get; set; }
 
     public ICollection<string> PartTitles { get; set; } = [];
 

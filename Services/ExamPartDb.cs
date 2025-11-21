@@ -20,6 +20,7 @@ public class ExamPartDb
         var result = await (from ep in _dbContext.ExamParts
                             select new ExamPart
                             {
+                                Id = ep.Id,
                                 PartTitle = ep.PartTitle,
                                 ExamQuestions = _dbContext.ExamQuestions.Where(eq => eq.ExamPartId == ep.Id).ToList()
                             }).ToListAsync();
@@ -121,7 +122,7 @@ public class ExamPartDb
                         else continue;
                         break;
 
-                    case "fill-in-the-blank": case "constructed-response":
+                    case "gap-fill": case "constructed-response":
                         if (mrQuestions.TryGetValue(eq.Question.Id, out var mrq))
                             questionDTO = new ManualResponseQuestionDTO
                             {

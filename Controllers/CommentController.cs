@@ -9,11 +9,13 @@ public class CommentController : Controller
 {
     private readonly ILogger<CommentController> _logger;
     private readonly CommentDb _commentDb;
+    private readonly AchievementDb _achievementDb;
 
     public CommentController(ILogger<CommentController> logger, ZaloRevisionAppDbContext dbContext)
     {
         _logger = logger;
         _commentDb = new CommentDb(dbContext);
+        _achievementDb = new AchievementDb(dbContext);
     }
 
     [HttpGet("{examId}")]
@@ -33,7 +35,10 @@ public class CommentController : Controller
             Content = c.Content
         };
 
-        return await _commentDb.AddComment(comment) ? StatusCode(201) : StatusCode(400);
+        bool result = await _commentDb.AddComment(comment);
+        _achievementDb.DetechAchievement(7, c.UserId);
+
+        return result ? StatusCode(201) : StatusCode(400);
     }
 
     [HttpDelete("{id}")]

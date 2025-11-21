@@ -35,7 +35,38 @@ public class ExamDb
                                 TeacherName = u.Name,
                                 SubjectId = s.Id,
                                 SubjectName = s.Name,
+                                UpdatedAt = (e.Status < 3) ? e.UpdatedAt : null,
+                                PublishedAt = (e.Status == 3) ? e.PublishedAt : null,
                                 Status = e.Status
+                            }).ToListAsync();
+
+        return result;
+    }
+
+    public async Task<List<ExamReadDTO>> GetPublishExamsAsync()
+    {
+        var result = await (from e in DbContext.Exams
+                            join u in DbContext.Users
+                            on e.TeacherId equals u.Id
+                            join s in DbContext.Subjects
+                            on e.SubjectId equals s.Id
+                            where e.Status == 3
+                            select new ExamReadDTO
+                            {
+                                Id = e.Id,
+                                ExamType = e.ExamType,
+                                DisplayType = e.DisplayType,
+                                Title = e.Title,
+                                Grade = e.Grade,
+                                TimeLimit = e.TimeLimit,
+                                EarlyTurnIn = e.EarlyTurnIn,
+                                AllowShowScore = e.AllowShowScore,
+                                AllowPartSwap = e.AllowPartSwap,
+                                TeacherId = u.Id,
+                                TeacherName = u.Name,
+                                SubjectId = s.Id,
+                                SubjectName = s.Name,
+                                PublishedAt = e.PublishedAt
                             }).ToListAsync();
 
         return result;
@@ -64,13 +95,20 @@ public class ExamDb
                                 TeacherName = u.Name,
                                 SubjectId = s.Id,
                                 SubjectName = s.Name,
+                                UpdatedAt = (e.Status < 3) ? e.UpdatedAt : null,
+                                PublishedAt = (e.Status == 3) ? e.PublishedAt : null,
                                 Status = e.Status
                             }).ToListAsync();
 
         return result;
     }
 
-    public async Task<ExamReadDTO> GetExamById(ulong id)
+    public async Task<Exam> GetExamById(ulong id)
+    {
+        return await DbContext.Exams.FirstAsync(e => e.Id == id);
+    }
+
+    public async Task<ExamReadDTO> GetExamDTOById(ulong id)
     {
         var result = await (from e in DbContext.Exams
                             join u in DbContext.Users
@@ -91,8 +129,11 @@ public class ExamDb
                                 AllowPartSwap = e.AllowPartSwap,
                                 TeacherId = u.Id,
                                 TeacherName = u.Name,
+                                TeacherAvatar = u.Avatar,
                                 SubjectId = s.Id,
                                 SubjectName = s.Name,
+                                UpdatedAt = (e.Status < 3) ? e.UpdatedAt : null,
+                                PublishedAt = (e.Status == 3) ? e.PublishedAt : null,
                                 Status = e.Status
                             }).FirstAsync();
 
@@ -112,9 +153,10 @@ public class ExamDb
         return await DbContext.SaveChangesAsync() > 0;
     }
 
-    public async Task<bool> UpdateExam(ulong id)
+    public async Task<bool> UpdateExam(ulong id, byte status)
     {
-        var updateExam = await DbContext.Exams.FirstAsync(e => e.Id == id);
+        var updateExam = await GetExamById(id);
+        updateExam.Status = status;
 
         DbContext.Exams.Update(updateExam);
         return await DbContext.SaveChangesAsync() > 0;
@@ -122,22 +164,16 @@ public class ExamDb
 
     public async Task<bool> DeleteExam(ulong id)
     {
-        var deleteExam = await DbContext.Exams.FirstAsync(e => e.Id == id);
+        var deleteExam = await GetExamById(id);
 
         DbContext.Exams.Remove(deleteExam);
-        return await DbContext.SaveChangesAsync() > 0;
-    }
-
-    public async Task<bool> UnpublishExam(ulong id)
-    {
-        var unpublishExam = await GetExamById(id);
-        unpublishExam.Status = 1;
         return await DbContext.SaveChangesAsync() > 0;
     }
 
     public async Task<bool> PublishExam(ulong id)
     {
         var publishExam = await GetExamById(id);
+        publishExam.PublishedAt = DateTime.Now;
         publishExam.Status = 3;
         return await DbContext.SaveChangesAsync() > 0;
     }

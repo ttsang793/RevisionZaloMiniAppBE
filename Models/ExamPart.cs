@@ -8,5 +8,7 @@ public partial class ExamPart
 
     public string PartTitle { get; set; } = null!;
 
+    public virtual ICollection<string> QuestionTypes { get; set; } = [];
+
     public virtual ICollection<ExamQuestion> ExamQuestions { get; set; } = [];
 }

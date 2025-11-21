@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace backend.Controllers;
 
 [ApiController]
-[Route("api/exam")]
+[Route("/api/exam")]
 public class ExamController : Controller
 {
     private readonly ILogger<QuestionController> _logger;
@@ -28,10 +28,16 @@ public class ExamController : Controller
         return await _examDb.GetExamsAsync();
     }
 
-    [HttpGet("{id}")]
-    public async Task<ExamReadDTO> GetExamByIdAsync(ulong id)
+    [HttpGet("publish")]
+    public async Task<List<ExamReadDTO>> GetPublishExamsAsync()
     {
-        return await _examDb.GetExamById(id);
+        return await _examDb.GetPublishExamsAsync();
+    }
+
+    [HttpGet("{id}")]
+    public async Task<ExamReadDTO> GetExamDTOByIdAsync(ulong id)
+    {
+        return await _examDb.GetExamDTOById(id);
     }
 
     [HttpGet("teacher/{teacherId}")]
@@ -98,13 +104,7 @@ public class ExamController : Controller
         return await _examDb.PublishExam(id) ? StatusCode(200) : StatusCode(400);
     }
 
-    [HttpDelete("unpublish/{id}")]
-    public async Task<IActionResult> UnpublishExam(ulong id)
-    {
-        return await _examDb.UnpublishExam(id) ? StatusCode(200) : StatusCode(400);
-    }
-
-    [HttpGet("question/{id}/detail")]
+    [HttpGet("{id}/detail")]
     public async Task<List<ExamPartDTO>> GetQuestionListForExam(ulong id)
     {
         return await _examPartDb.GetExamPartDetailsAsyncByExamId(id);
@@ -174,7 +174,7 @@ public class ExamController : Controller
 
             if (success)
             {
-                await _examDb.UpdateExam((ulong)e.ExamId);
+                await _examDb.UpdateExam(e.ExamId, e.ExamStatus);
                 await transaction.CommitAsync();
                 return StatusCode(200);
             }
@@ -186,7 +186,6 @@ public class ExamController : Controller
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, $"Error updating exam questions for exam {id}");
             return StatusCode(500, "Error updating exam questions: " + ex.Message);
         }
     }

@@ -1,6 +1,26 @@
 ﻿using backend.Models;
 
 namespace backend.DTOs;
+
+public partial class QuestionReadDTO
+{
+    public ulong? Id { get; set; }
+
+    public string? Title { get; set; }
+
+    public byte? Grade { get; set; }
+
+    public string Type { get; set; } = null!;
+
+    public byte? Difficulty { get; set; }
+
+    public string? TopicId { get; set; }
+
+    public string? SubjectName { get; set; }
+
+    public string? Explanation { get; set; }
+}
+
 public abstract partial class QuestionDTO
 {
     public ulong? Id { get; set; }

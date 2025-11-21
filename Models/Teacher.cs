@@ -16,6 +16,8 @@ public partial class Teacher
 
     public virtual User IdNavigation { get; set; } = null!;
 
+    public virtual ICollection<Question> Questions { get; set; } = new List<Question>();
+
     public virtual Subject? Subject { get; set; }
 
     public void NullifyTeacher()

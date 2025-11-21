@@ -1,12 +1,18 @@
 [
   {
     "ContainingType": "backend.Controllers.AchievementController",
-    "Method": "Get",
-    "RelativePath": "api/achivement",
+    "Method": "GetAchivements",
+    "RelativePath": "api/achievement/{studentId}",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
-    "Parameters": [],
+    "Parameters": [
+      {
+        "Name": "studentId",
+        "Type": "System.UInt64",
+        "IsRequired": true
+      }
+    ],
     "ReturnTypes": [
       {
         "Type": "System.Collections.Generic.List\u00601[[backend.Models.Achievement, backend, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -131,37 +137,6 @@
   },
   {
     "ContainingType": "backend.Controllers.ExamAttemptController",
-    "Method": "GetLatestExamAttempt",
-    "RelativePath": "api/exam-attempt",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "studentId",
-        "Type": "System.UInt64",
-        "IsRequired": false
-      },
-      {
-        "Name": "examId",
-        "Type": "System.UInt64",
-        "IsRequired": false
-      }
-    ],
-    "ReturnTypes": [
-      {
-        "Type": "backend.DTOs.ExamAttemptGetDTO",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
-      }
-    ]
-  },
-  {
-    "ContainingType": "backend.Controllers.ExamAttemptController",
     "Method": "AddExamAttempt",
     "RelativePath": "api/exam-attempt",
     "HttpMethod": "POST",
@@ -175,6 +150,37 @@
       }
     ],
     "ReturnTypes": []
+  },
+  {
+    "ContainingType": "backend.Controllers.ExamAttemptController",
+    "Method": "GetLatestExamAttempt",
+    "RelativePath": "api/exam-attempt/{studentId}/{examId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "studentId",
+        "Type": "System.UInt64",
+        "IsRequired": true
+      },
+      {
+        "Name": "examId",
+        "Type": "System.UInt64",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "backend.DTOs.ExamAttemptGetDTO",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
   },
   {
     "ContainingType": "backend.Controllers.ExamAttemptController",
@@ -225,7 +231,7 @@
   },
   {
     "ContainingType": "backend.Controllers.ExamController",
-    "Method": "GetExamByIdAsync",
+    "Method": "GetExamDTOByIdAsync",
     "RelativePath": "api/exam/{id}",
     "HttpMethod": "GET",
     "IsController": true,
@@ -285,6 +291,52 @@
       }
     ],
     "ReturnTypes": []
+  },
+  {
+    "ContainingType": "backend.Controllers.ExamController",
+    "Method": "GetQuestionListForExam",
+    "RelativePath": "api/exam/{id}/detail",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.UInt64",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.List\u00601[[backend.DTOs.ExamPartDTO, backend, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "backend.Controllers.ExamController",
+    "Method": "GetPublishExamsAsync",
+    "RelativePath": "api/exam/publish",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.List\u00601[[backend.DTOs.ExamReadDTO, backend, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
   },
   {
     "ContainingType": "backend.Controllers.ExamController",
@@ -351,32 +403,6 @@
   },
   {
     "ContainingType": "backend.Controllers.ExamController",
-    "Method": "GetQuestionListForExam",
-    "RelativePath": "api/exam/question/{id}/detail",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "id",
-        "Type": "System.UInt64",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": [
-      {
-        "Type": "System.Collections.Generic.List\u00601[[backend.DTOs.ExamPartDTO, backend, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
-      }
-    ]
-  },
-  {
-    "ContainingType": "backend.Controllers.ExamController",
     "Method": "GetExamsByTeacherAsync",
     "RelativePath": "api/exam/teacher/{teacherId}",
     "HttpMethod": "GET",
@@ -400,22 +426,6 @@
         "StatusCode": 200
       }
     ]
-  },
-  {
-    "ContainingType": "backend.Controllers.ExamController",
-    "Method": "UnpublishExam",
-    "RelativePath": "api/exam/unpublish/{id}",
-    "HttpMethod": "DELETE",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "id",
-        "Type": "System.UInt64",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
   },
   {
     "ContainingType": "backend.Controllers.PdfExamCodeController",
@@ -466,32 +476,6 @@
   },
   {
     "ContainingType": "backend.Controllers.QuestionController",
-    "Method": "GetAllQuestionsByTeacher",
-    "RelativePath": "api/question",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "title",
-        "Type": "System.String",
-        "IsRequired": false
-      }
-    ],
-    "ReturnTypes": [
-      {
-        "Type": "System.Collections.Generic.List\u00601[[backend.Models.Question, backend, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
-      }
-    ]
-  },
-  {
-    "ContainingType": "backend.Controllers.QuestionController",
     "Method": "GetQuestionById",
     "RelativePath": "api/question/{id}",
     "HttpMethod": "GET",
@@ -531,37 +515,6 @@
       }
     ],
     "ReturnTypes": []
-  },
-  {
-    "ContainingType": "backend.Controllers.QuestionController",
-    "Method": "GetFilterQuestionsByTeacher",
-    "RelativePath": "api/question/filter",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "type",
-        "Type": "System.String",
-        "IsRequired": false
-      },
-      {
-        "Name": "title",
-        "Type": "System.String",
-        "IsRequired": false
-      }
-    ],
-    "ReturnTypes": [
-      {
-        "Type": "System.Collections.Generic.List\u00601[[backend.Models.Question, backend, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
-      }
-    ]
   },
   {
     "ContainingType": "backend.Controllers.QuestionController",
@@ -731,6 +684,73 @@
       }
     ],
     "ReturnTypes": []
+  },
+  {
+    "ContainingType": "backend.Controllers.QuestionController",
+    "Method": "GetAllQuestionsByTeacher",
+    "RelativePath": "api/question/teacher/{teacherId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "teacherId",
+        "Type": "System.UInt64",
+        "IsRequired": true
+      },
+      {
+        "Name": "title",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.List\u00601[[backend.DTOs.QuestionReadDTO, backend, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "backend.Controllers.QuestionController",
+    "Method": "GetFilterQuestionsByTeacher",
+    "RelativePath": "api/question/teacher/filter/{teacherId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "teacherId",
+        "Type": "System.UInt64",
+        "IsRequired": true
+      },
+      {
+        "Name": "type",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "title",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.List\u00601[[backend.DTOs.QuestionReadDTO, backend, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
   },
   {
     "ContainingType": "backend.Controllers.QuestionController",
@@ -1169,7 +1189,7 @@
   },
   {
     "ContainingType": "backend.Controllers.TeacherController",
-    "Method": "GetTeacher",
+    "Method": "GetTeacherById",
     "RelativePath": "api/teacher/{id}",
     "HttpMethod": "GET",
     "IsController": true,
@@ -1229,6 +1249,32 @@
       }
     ],
     "ReturnTypes": []
+  },
+  {
+    "ContainingType": "backend.Controllers.TeacherController",
+    "Method": "GetTeacherSubjectById",
+    "RelativePath": "api/teacher/{id}/subject",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.UInt64",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.String",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
   },
   {
     "ContainingType": "backend.Controllers.TopicController",

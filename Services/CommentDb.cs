@@ -18,6 +18,7 @@ public class CommentDb
         var allComments = await (from c in _dbContext.Comments
                             join u in _dbContext.Users
                             on c.UserId equals u.Id
+                            where c.ExamId == examId
                             orderby c.Id descending
                             select new CommentReadDTO
                             {

@@ -14,6 +14,8 @@ public partial class Question
 
     public string? TopicId { get; set; } = null!;
 
+    public ulong TeacherId { get; set; }
+
     public string? Explanation { get; set; }
 
     public DateTime? CreatedAt { get; set; }
@@ -31,6 +33,8 @@ public partial class Question
     public virtual ShortAnswerQuestion? ShortAnswerQuestion { get; set; }
 
     public virtual SortingQuestion? SortingQuestion { get; set; }
+
+    public virtual Teacher Teacher { get; set; } = null!;
 
     public virtual Topic? Topic { get; set; }
 

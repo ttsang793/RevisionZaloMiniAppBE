@@ -19,9 +19,15 @@ public class TeacherController : Controller
     }
 
     [HttpGet("{id}")]
-    public async Task<TeacherDTO> GetTeacher(ulong id)
+    public async Task<TeacherDTO> GetTeacherById(ulong id)
     {
         return await _teacherDb.GetTeacherDTOByIdAsync(id);
+    }
+
+    [HttpGet("{id}/subject")]
+    public async Task<string> GetTeacherSubjectById(ulong id)
+    {
+        return await _teacherDb.GetTeacherSubjectByIdAsync(id);
     }
 
     [HttpPost]

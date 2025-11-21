@@ -13,6 +13,13 @@ public class TeacherDb : UserDb
         return await _dbContext.Teachers.FirstAsync(t => t.Id == id);
     }
 
+    #pragma warning disable CS8603 // Possible null reference return.
+    public async Task<string> GetTeacherSubjectByIdAsync(ulong id)
+    {
+        return (await _dbContext.Teachers.FirstAsync(t => t.Id == id)).SubjectId;
+    }
+    #pragma warning restore CS8603 // Possible null reference return.
+
     public async Task<TeacherDTO> GetTeacherDTOByIdAsync(ulong id)
     {
         var result = await (from t in _dbContext.Teachers

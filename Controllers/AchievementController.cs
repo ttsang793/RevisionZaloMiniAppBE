@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace backend.Controllers;
 
 [ApiController]
-[Route("/api/achivement")]
+[Route("/api/achievement")]
 public class AchievementController : Controller
 {
     private readonly ILogger<AchievementController> _logger;
@@ -17,9 +17,9 @@ public class AchievementController : Controller
         _achievementDb = new AchievementDb(dbContext);
     }
 
-    [HttpGet("")]
-    public async Task<List<Achievement>> Get()
+    [HttpGet("{studentId}")]
+    public List<Achievement> GetAchivements(ulong studentId)
     {
-        return await _achievementDb.GetAsync();
+        return _achievementDb.GetAchievements(studentId);
     }
 }
