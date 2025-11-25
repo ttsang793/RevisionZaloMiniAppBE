@@ -16,6 +16,8 @@ public partial class ExamAttempt
 
     public DateTime SubmittedAt { get; set; }
 
+    public DateTime? MarkedAt { get; set; }
+
     public string? Comment { get; set; }
 
     public ICollection<ulong> PartOrder { get; set; } = [];

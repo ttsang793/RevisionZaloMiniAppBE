@@ -38,10 +38,17 @@ public class AchievementDb
 
     public List<Achievement> GetAchievements(ulong studentId)
     {
-        var studentAchieve = _dbContext.Students.First(s => s.Id == studentId).Achievements;
-        foreach (var a in studentAchieve) _achievements[a - 1].Status = true;
+        try
+        {
+            var studentAchieve = _dbContext.Students.First(s => s.Id == studentId).Achievements;
+            foreach (var a in studentAchieve) _achievements[a - 1].Status = true;
 
-        return _achievements;
+            return _achievements;
+        }
+        catch
+        {
+            return _achievements;
+        }
     }
 
     public Student? IsAchieved(ushort achievementId, ulong userId)
@@ -68,6 +75,7 @@ public class AchievementDb
         Student? student = IsAchieved(achievementId, studentId);
         if (student == null) return;
         bool result = false;
+        int countNormal, countPdf;
 
         switch (achievementId)
         {
@@ -109,6 +117,24 @@ public class AchievementDb
             case 11:
                 result = _dbContext.Followers.Count(s => s.StudentId == studentId) == 5;
                 GainAchivement(result, achievementId, student);
+                break;
+
+            case 17:
+                bool resultNormal = _dbContext.ExamAttempts.Where(ea => ea.StudentId == studentId).GroupBy(ea => ea.ExamId).Any(g => g.Count() >= 3);
+                bool resultPdf = _dbContext.PdfExamAttempts.Where(ea => ea.StudentId == studentId).GroupBy(ea => ea.ExamId).Any(g => g.Count() >= 3);
+                GainAchivement(resultNormal || resultPdf, achievementId, student);
+                break;
+
+            case 18:
+                countNormal = _dbContext.ExamAttempts.Count(ea => ea.StudentId == studentId && ea.TotalPoint >= 8);
+                countPdf = _dbContext.PdfExamAttempts.Count(ea => ea.StudentId == studentId && ea.TotalPoint >= 8);
+                GainAchivement(countNormal + countPdf == 12, achievementId, student);
+                break;
+
+            case 19:
+                countNormal = _dbContext.ExamAttempts.Count(ea => ea.StudentId == studentId && ea.TotalPoint == 10);
+                countPdf = _dbContext.PdfExamAttempts.Count(ea => ea.StudentId == studentId && ea.TotalPoint == 10);
+                GainAchivement(countNormal + countPdf == 12, achievementId, student);
                 break;
 
             case 20:

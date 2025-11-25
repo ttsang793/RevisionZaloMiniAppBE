@@ -1,12 +1,20 @@
-﻿namespace backend.Models;
+﻿using System.Linq.Expressions;
+
+namespace backend.Models;
 
 public partial class Student
 {
     public ulong Id { get; set; }
 
-    public List<ulong> Favorites { get; set; } = [];
+    public ICollection<ulong> Favorites { get; set; } = [];
 
-    public List<ushort> Achievements { get; set; } = [];
+    public ICollection<ushort> Achievements { get; set; } = [];
+
+    public byte Grade { get; set; }
+
+    public ICollection<DateTime> Attendance = [];
+
+    public ushort Streak { get; set; } = 0;
 
     public virtual ICollection<ExamAttempt> ExamAttempts { get; set; } = [];
 
@@ -20,8 +28,11 @@ public partial class Student
 
     public Student() { }
 
-    public Student(ulong id)
+    public Student(ulong id, byte grade)
     {
         Id = id;
+        Grade = grade;
+        Attendance = [DateTime.Now];
+        Streak = 1;
     }
 }

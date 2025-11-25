@@ -13,9 +13,13 @@ public class UserDTO
     public string Email { get; set; } = null!;
 }
 
+public class StudentDTO : UserDTO
+{
+    public byte Grade { get; set; }
+}
+
 public class TeacherDTO : UserDTO
 {
-    public string Role { get; set; } = "GV";
 
     public string? SubjectId { get; set; }
 

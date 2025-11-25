@@ -12,7 +12,7 @@ public partial class ExamAttemptAnswer
 
     public ICollection<string> StudentAnswer { get; set; } = [];
 
-    public ICollection<byte> Correct { get; set; } = [];
+    public ICollection<sbyte> Correct { get; set; } = [];
 
     public decimal? Point { get; set; }
 

@@ -2,6 +2,7 @@
 using backend.Models;
 using backend.Services;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace backend.Controllers;
 
@@ -25,39 +26,61 @@ public class StudentController : Controller
     }
 
     [HttpPost]
-    public async Task<IActionResult> AddStudent(UserDTO userDTO)
+    public async Task<IActionResult> AddStudent(StudentDTO studentDTO)
     {
         User user = new User
         {
-            ZaloId = userDTO.ZaloId,
-            Name = userDTO.Name,
-            Avatar = userDTO.Avatar,
-            Email = userDTO.Email,
+            ZaloId = studentDTO.ZaloId,
+            Name = studentDTO.Name,
+            Avatar = studentDTO.Avatar,
+            Email = studentDTO.Email,
             Role = "HS"
         };
 
-        return await _studentDb.AddStudent(user) ? StatusCode(201) : StatusCode(400);
+        Student student = new Student
+        {
+            Grade = studentDTO.Grade
+        };
+
+        return await _studentDb.AddStudent(user, student) ? StatusCode(201) : StatusCode(400);
     }
 
     [HttpPut("{id}")]
-    public async Task<IActionResult> UpdateStudent(UserDTO userDTO, ulong id)
+    public async Task<IActionResult> UpdateStudent(StudentDTO studentDTO, ulong id)
     {
         User user = new User
         {
             Id = id,
-            ZaloId = userDTO.ZaloId,
-            Name = userDTO.Name,
-            Avatar = userDTO.Avatar,
-            Email = userDTO.Email
+            ZaloId = studentDTO.ZaloId,
+            Name = studentDTO.Name,
+            Avatar = studentDTO.Avatar,
+            Email = studentDTO.Email
         };
 
-        return await _studentDb.UpdateStudent(user) ? StatusCode(200) : StatusCode(400);
+        Student student = new Student
+        {
+            Grade = studentDTO.Grade
+        };
+
+        return await _studentDb.UpdateStudent(user, student) ? StatusCode(200) : StatusCode(400);
     }
 
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteStudent(ulong id)
     {
         return await _studentDb.DeleteStudent(id) ? StatusCode(200) : StatusCode(400);
+    }
+
+    [HttpGet("attend/{studentId}")]
+    public async Task<ICollection<DateTime>> GetAttendance(ulong studentId)
+    {
+        return await _studentDb.GetAttendance(studentId);
+    }
+
+    [HttpPut("attend/{studentId}")]
+    public async Task<IActionResult> MarkAttendance(ulong studentId)
+    {
+        return await _studentDb.MarkAttendance(studentId) ? StatusCode(201) : StatusCode(400);
     }
 
     [HttpGet("favorite/{studentId}")]

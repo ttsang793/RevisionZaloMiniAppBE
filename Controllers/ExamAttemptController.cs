@@ -1,6 +1,7 @@
 ﻿using backend.DTOs;
 using backend.Models;
 using backend.Services;
+using Google.Protobuf.WellKnownTypes;
 using Microsoft.AspNetCore.Mvc;
 
 namespace backend.Controllers;
@@ -26,29 +27,31 @@ public class ExamAttemptController : Controller
         return await _examAttemptDb.GetLatestExamAttempt(studentId, examId);
     }
 
-    [HttpGet("pdf")]
+    [HttpGet("pdf/{studentId}/{examId}")]
     public async Task<PdfExamAttempt> GetLatestPdfExamAttempt(ulong studentId, ulong examId)
     {
         return await _examAttemptDb.GetLatestPdfExamAttempt(studentId, examId);
     }
-
+    
+    #pragma warning disable CS8629 // Nullable value type may be null.
     [HttpPost]
     public async Task<IActionResult> AddExamAttempt([FromBody] ExamAttemptDTO examAttemptDTO)
     {
-        double durationDouble = (DateTime.Now - examAttemptDTO.StartedAt.ToLocalTime()).TotalSeconds;
+
+        double durationDouble = (DateTime.Now - ((DateTime)examAttemptDTO.StartedAt).ToLocalTime()).TotalSeconds;
         ushort duration = ((ushort)Math.Round(durationDouble));
 
         ExamAttempt examAttempt = new ExamAttempt
         {
-            ExamId = examAttemptDTO.ExamId,
-            StudentId = examAttemptDTO.StudentId,
+            ExamId = (ulong)examAttemptDTO.ExamId,
+            StudentId = (ulong)examAttemptDTO.StudentId,
             TotalPoint = examAttemptDTO.TotalPoint,
-            StartedAt = examAttemptDTO.StartedAt.ToLocalTime(),
+            StartedAt = ((DateTime)examAttemptDTO.StartedAt).ToLocalTime(),
             Duration = duration,
             SubmittedAt = DateTime.Now,
             PartOrder = examAttemptDTO.PartOrder
         };
-
+        
         var addedExam = await _examAttemptDb.AddExamAttempt(examAttempt);
         if (addedExam == null) return StatusCode(400, "Nộp bài thất bại!");
         var newId = addedExam.Id;
@@ -60,7 +63,7 @@ public class ExamAttemptController : Controller
                 var answer = new ExamAttemptAnswer
                 {
                     ExamAttemptId = newId,
-                    ExamQuestionId = examAttemptAnswerDTO.ExamQuestionId,
+                    ExamQuestionId = (ulong)examAttemptAnswerDTO.ExamQuestionId,
                     AnswerOrder = examAttemptAnswerDTO.AnswerOrder,
                     StudentAnswer = examAttemptAnswerDTO.StudentAnswer,
                     Correct = examAttemptAnswerDTO.Correct,
@@ -75,10 +78,6 @@ public class ExamAttemptController : Controller
                 }
             }
 
-            _achievementDb.IsAchieved(1, studentId);
-            _achievementDb.IsAchieved(2, studentId);
-            _achievementDb.IsAchieved(3, studentId);
-
             await transaction.CommitAsync();
             return StatusCode(201, "Nộp bài thành công!");
         }
@@ -88,6 +87,38 @@ public class ExamAttemptController : Controller
             await _examAttemptDb.RemoveLastIndex();
             return StatusCode(500);
         }
+    }
+    #pragma warning restore CS8629 // Nullable value type may be null.
+
+    [HttpPut("comment/{id}")]
+    public async Task<IActionResult> CommentExamAttempt([FromBody] ExamAttemptDTO examAttemptDTO, ulong id)
+    {
+        ExamAttempt examAttempt = new ExamAttempt
+        {
+            Id = id,
+            Comment = examAttemptDTO.Comment
+        };
+
+        return (await _examAttemptDb.CommentExamAttempt(examAttempt)) ? StatusCode(201) : StatusCode(400);
+    }
+
+    [HttpPut("grading/{id}")]
+    public async Task<IActionResult> GradingExamAttempt([FromBody] ExamAttemptDTO examAttemptDTO, ulong id)
+    {
+        ExamAttempt examAttempt = new ExamAttempt
+        {
+            Id = id,
+            TotalPoint = examAttemptDTO.TotalPoint
+        };
+
+        foreach (var examAttemptAnswerDTO in examAttemptDTO.ExamAttemptAnswers)
+            examAttempt.ExamAttemptAnswers.Add(new ExamAttemptAnswer
+            {
+                Correct = examAttemptAnswerDTO.Correct,
+                Point = examAttemptAnswerDTO.Point
+            });
+
+        return (await _examAttemptDb.GradingExamAttempt(examAttempt)) ? StatusCode(201) : StatusCode(400);
     }
 
     [HttpPost("pdf")]
@@ -110,5 +141,13 @@ public class ExamAttemptController : Controller
         };
 
         return await _examAttemptDb.AddPdfExamAttempt(pdfExamAttempt) ? StatusCode(201, "Nộp bài thành công!") : StatusCode(400, "Nộp bài thất bại!");
+    }
+
+    [HttpPost("achievement/{studentId}")]
+    public void SetAchivement(ulong studentId)
+    {
+        _achievementDb.DetechAchievement(1, studentId);
+        _achievementDb.DetechAchievement(2, studentId);
+        _achievementDb.DetechAchievement(3, studentId);
     }
 }

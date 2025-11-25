@@ -179,7 +179,7 @@ public class ExamAttemptDb
 
         ExamAttemptGetDTO result = new ExamAttemptGetDTO
         {
-            TotalPoint = (decimal)examAttempt.TotalPoint,
+            TotalPoint = (decimal)examAttempt.TotalPoint!,
             Duration = examAttempt.Duration,
             Comment = examAttempt.Comment,
             ExamParts = examParts
@@ -198,6 +198,29 @@ public class ExamAttemptDb
     public async Task<bool> AddExamAttemptAnswer(ExamAttemptAnswer examAttemptAnswer)
     {
         DbContext.ExamAttemptAnswers.Add(examAttemptAnswer);
+        return await DbContext.SaveChangesAsync() > 0;
+    }
+
+    public async Task<bool> CommentExamAttempt(ExamAttempt examAttempt)
+    {
+        var existingAttempt = DbContext.ExamAttempts.First(ea => ea.Id == examAttempt.Id);
+        existingAttempt.Comment = examAttempt.Comment;
+
+        return await DbContext.SaveChangesAsync() > 0;
+    }
+
+    public async Task<bool> GradingExamAttempt(ExamAttempt examAttempt)
+    {
+        var existingAttempt = DbContext.ExamAttempts.First(ea => ea.Id == examAttempt.Id);
+        existingAttempt.TotalPoint = examAttempt.TotalPoint;
+
+        foreach (var examAttemptAnswer in examAttempt.ExamAttemptAnswers)
+        {
+            var existingAnswer = DbContext.ExamAttemptAnswers.First(eaa => eaa.Id == examAttemptAnswer.Id);
+            existingAnswer.Correct = examAttemptAnswer.Correct;
+            existingAnswer.Point = examAttemptAnswer.Point;
+        }
+
         return await DbContext.SaveChangesAsync() > 0;
     }
 

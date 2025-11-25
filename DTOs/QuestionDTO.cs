@@ -27,6 +27,8 @@ public abstract partial class QuestionDTO
 
     public string? Title { get; set; }
 
+    public string? ImageUrl { get; set; }
+
     public byte? Grade { get; set; }
 
     public string Type { get; set; } = null!;

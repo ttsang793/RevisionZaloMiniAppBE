@@ -184,34 +184,67 @@
   },
   {
     "ContainingType": "backend.Controllers.ExamAttemptController",
-    "Method": "GetLatestPdfExamAttempt",
-    "RelativePath": "api/exam-attempt/pdf",
-    "HttpMethod": "GET",
+    "Method": "SetAchivement",
+    "RelativePath": "api/exam-attempt/achievement/{studentId}",
+    "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
     "Parameters": [
       {
         "Name": "studentId",
         "Type": "System.UInt64",
-        "IsRequired": false
-      },
-      {
-        "Name": "examId",
-        "Type": "System.UInt64",
-        "IsRequired": false
+        "IsRequired": true
       }
     ],
     "ReturnTypes": [
       {
-        "Type": "backend.Models.PdfExamAttempt",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
+        "Type": "System.Void",
+        "MediaTypes": [],
         "StatusCode": 200
       }
     ]
+  },
+  {
+    "ContainingType": "backend.Controllers.ExamAttemptController",
+    "Method": "CommentExamAttempt",
+    "RelativePath": "api/exam-attempt/comment/{id}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "examAttemptDTO",
+        "Type": "backend.DTOs.ExamAttemptDTO",
+        "IsRequired": true
+      },
+      {
+        "Name": "id",
+        "Type": "System.UInt64",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "backend.Controllers.ExamAttemptController",
+    "Method": "GradingExamAttempt",
+    "RelativePath": "api/exam-attempt/grading/{id}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "examAttemptDTO",
+        "Type": "backend.DTOs.ExamAttemptDTO",
+        "IsRequired": true
+      },
+      {
+        "Name": "id",
+        "Type": "System.UInt64",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
   },
   {
     "ContainingType": "backend.Controllers.ExamAttemptController",
@@ -228,6 +261,37 @@
       }
     ],
     "ReturnTypes": []
+  },
+  {
+    "ContainingType": "backend.Controllers.ExamAttemptController",
+    "Method": "GetLatestPdfExamAttempt",
+    "RelativePath": "api/exam-attempt/pdf/{studentId}/{examId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "studentId",
+        "Type": "System.UInt64",
+        "IsRequired": true
+      },
+      {
+        "Name": "examId",
+        "Type": "System.UInt64",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "backend.Models.PdfExamAttempt",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
   },
   {
     "ContainingType": "backend.Controllers.ExamController",
@@ -827,6 +891,37 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "backend.Controllers.StatisticController",
+    "Method": "GetStatistic",
+    "RelativePath": "api/statistic/student/{studentId}/{subjectId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "studentId",
+        "Type": "System.UInt64",
+        "IsRequired": true
+      },
+      {
+        "Name": "subjectId",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.List\u00601[[System.Object, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
     "ContainingType": "backend.Controllers.StudentController",
     "Method": "AddStudent",
     "RelativePath": "api/student",
@@ -835,8 +930,8 @@
     "Order": 0,
     "Parameters": [
       {
-        "Name": "userDTO",
-        "Type": "backend.DTOs.UserDTO",
+        "Name": "studentDTO",
+        "Type": "backend.DTOs.StudentDTO",
         "IsRequired": true
       }
     ],
@@ -877,8 +972,8 @@
     "Order": 0,
     "Parameters": [
       {
-        "Name": "userDTO",
-        "Type": "backend.DTOs.UserDTO",
+        "Name": "studentDTO",
+        "Type": "backend.DTOs.StudentDTO",
         "IsRequired": true
       },
       {
@@ -899,6 +994,48 @@
     "Parameters": [
       {
         "Name": "id",
+        "Type": "System.UInt64",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "backend.Controllers.StudentController",
+    "Method": "GetAttendance",
+    "RelativePath": "api/student/attend/{studentId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "studentId",
+        "Type": "System.UInt64",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.ICollection\u00601[[System.DateTime, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "backend.Controllers.StudentController",
+    "Method": "MarkAttendance",
+    "RelativePath": "api/student/attend/{studentId}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "studentId",
         "Type": "System.UInt64",
         "IsRequired": true
       }

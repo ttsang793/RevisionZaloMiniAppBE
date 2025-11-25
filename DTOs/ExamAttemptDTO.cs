@@ -30,35 +30,39 @@ public class ExamAttemptAnswerGetDTO
 
     public ICollection<string> StudentAnswer { get; set; } = [];
 
-    public ICollection<byte> Correct { get; set; } = [];
+    public ICollection<sbyte> Correct { get; set; } = [];
 }
 
 public class ExamAttemptDTO
 {
-    public ulong ExamId { get; set; }
+    public ulong? Id { get; set; }
 
-    public ulong StudentId { get; set; }
+    public ulong? ExamId { get; set; }
 
-    public decimal? TotalPoint { get; set; }
+    public ulong? StudentId { get; set; }
 
-    public DateTime StartedAt { get; set; }
+    public decimal TotalPoint { get; set; }
 
-    public bool IsPractice { get; set; } = false;
+    public DateTime? StartedAt { get; set; }
 
-    public ICollection<ulong> PartOrder { get; set; } = [];
+    public bool? IsPractice { get; set; } = false;
+
+    public ICollection<ulong>? PartOrder { get; set; } = [];
 
     public ICollection<ExamAttemptAnswerDTO> ExamAttemptAnswers { get; set; } = [];
+
+    public string? Comment { get; set; }
 }
 
 public class ExamAttemptAnswerDTO
 {
-    public ulong ExamQuestionId { get; set; }
+    public ulong? ExamQuestionId { get; set; }
 
     public ICollection<string>? AnswerOrder { get; set; }
 
-    public ICollection<string> StudentAnswer { get; set; } = [];
+    public ICollection<string>? StudentAnswer { get; set; } = [];
 
-    public ICollection<byte> Correct { get; set; } = [];
+    public ICollection<sbyte> Correct { get; set; } = [];
 
     public decimal Point { get; set; }
 }

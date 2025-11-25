@@ -30,6 +30,7 @@ public class ExamPartDb
 
     public async Task<List<ExamPartDTO>> GetExamPartDetailsAsyncByExamId(ulong id)
     {
+        Console.WriteLine($"ID: {id}");
         var examParts = await _dbContext.ExamParts
             .Where(ep => ep.ExamId == id)
             .Include(ep => ep.ExamQuestions)

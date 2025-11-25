@@ -30,6 +30,8 @@ public partial class ExamReadDTO
 
     public byte Status { get; set; } = 1;
 
+    public decimal? TotalPoint { get; set; }
+
     public string? TeacherName { get; set; }
 
     public string? TeacherAvatar { get; set; }
@@ -39,6 +41,8 @@ public partial class ExamReadDTO
     public DateTime? UpdatedAt { get; set; }
 
     public DateTime? PublishedAt { get; set; }
+
+    public DateTime? MarkedAt { get; set; }
 }
 
 public partial class ExamInsertDTO

@@ -13,16 +13,21 @@ public class StudentDb : UserDb
         return await GetUserByIdAsync(id);
     }
 
-    public async Task<bool> AddStudent(User user)
+    public async Task<bool> AddStudent(User user, Student st)
     {
         if (!(await AddUser(user))) return false;
-        _dbContext.Students.Add(new Student(user.Id));
+        _dbContext.Students.Add(new Student(user.Id, st.Grade));
         return await _dbContext.SaveChangesAsync() > 0;
     }
 
-    public async Task<bool> UpdateStudent(User user)
+    public async Task<bool> UpdateStudent(User u, Student st)
     {
-        return await UpdateUser(user);
+        if (!(await UpdateUser(u))) return false;
+
+        var student = await _dbContext.Students.FirstAsync(s => s.Id == st.Id);
+        student.Grade = st.Grade;
+
+        return await _dbContext.SaveChangesAsync() > 0;
     }
 
     public async Task<bool> DeleteStudent(ulong id)
@@ -33,6 +38,40 @@ public class StudentDb : UserDb
         _dbContext.Students.Remove(student);
 
         return await DeleteAllHistoriesByStudentId(id);
+    }
+
+    // ATTENDANCE
+    public async Task<ICollection<DateTime>> GetAttendance(ulong id)
+    {
+        return await _dbContext.Students.Where(s => s.Id == id).Select(s => s.Attendance).FirstAsync();
+    }
+
+    public async Task<bool> MarkAttendance(ulong id)
+    {
+        var student = await _dbContext.Students.FirstAsync(s => s.Id == id);
+        if (student.Attendance.Any(dt => dt == DateTime.Today)) return true;
+
+        List<DateTime> newDate = [];
+        DateTime twoDayAgo = DateTime.Today.AddDays(-2);
+
+        while (twoDayAgo < DateTime.Today)
+        {
+            if (newDate.Count > 0 || student.Attendance.Any(dt => dt == twoDayAgo))
+            {
+                newDate.Add(twoDayAgo);
+                twoDayAgo.AddDays(1);
+            }
+            else
+            {
+                student.Streak = 0;
+                break;
+            }
+        }
+        newDate.Add(DateTime.Today);
+        student.Streak += 1;
+        student.Attendance = newDate;
+
+        return await _dbContext.SaveChangesAsync() > 0;
     }
 
     // FAVORITE

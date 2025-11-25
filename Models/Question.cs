@@ -4,7 +4,9 @@ public partial class Question
 {
     public ulong Id { get; set; }
 
-    public string? Title { get; set; }
+    public string Title { get; set; } = null!;
+
+    public string? ImageUrl { get; set; }
 
     public byte? Grade { get; set; }
 
@@ -23,8 +25,6 @@ public partial class Question
     public DateTime? UpdatedAt { get; set; }
 
     public virtual ICollection<ExamQuestion> ExamQuestions { get; set; } = [];
-
-    // public virtual GroupQuestion? GroupQuestion { get; set; }
 
     public virtual ManualResponseQuestion? ManualResponseQuestion { get; set; }
 
