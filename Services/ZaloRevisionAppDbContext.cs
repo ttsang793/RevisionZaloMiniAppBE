@@ -640,6 +640,10 @@ public partial class ZaloRevisionAppDbContext : DbContext
                       v => JsonSerializer.Deserialize<List<ushort>>(v!, new JsonSerializerOptions())!
                   )
                 .HasColumnName("achievements");
+            entity.Property(e => e.AllowSaveHistory)
+                .IsRequired()
+                .HasDefaultValueSql("'1'")
+                .HasColumnName("allow_save_history");
             entity.Property(e => e.Attendance)
                 .HasColumnType("json")
                 .HasConversion(

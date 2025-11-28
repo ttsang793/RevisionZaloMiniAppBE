@@ -113,8 +113,7 @@ public class ExamAttemptDb
                         else continue;
                         break;
 
-                    case "fill-in-the-blank":
-                    case "constructed-response":
+                    case "gap-fill": case "constructed-response":
                         if (mrQuestions.TryGetValue(eq.Question.Id, out var mrq))
                             questionDTO = new ManualResponseQuestionDTO
                             {

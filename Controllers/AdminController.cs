@@ -1,7 +1,5 @@
 ﻿using backend.DTOs;
-using backend.Models;
 using backend.Services;
-using Microsoft.AspNetCore.Identity.Data;
 using Microsoft.AspNetCore.Mvc;
 
 namespace backend.Controllers;
@@ -25,11 +23,16 @@ public class AdminController : Controller
         var result = await _adminDb.VerifyAdmin(adminDTO);
         return (result is UserDTO) ? StatusCode(200, result) : StatusCode(400, result);
     }
-
-    /*
-    [HttpPost]
-    public async Task<IActionResult> ResetPassword(AdminDTO adminDTO)
+    
+    [HttpPost("reset-password")]
+    public async Task<IActionResult> ResetPassword(AdminResetPassDTO adminDTO)
     {
-        return await _adminDb.ResetPassword(adminDTO) ? StatusCode(200) : StatusCode(400);
-    }*/
+        switch (await _adminDb.ResetPassword(adminDTO))
+        {
+            case -1: return StatusCode(400, new { Old = "Mật khẩu cũ sai!" });
+            case 0: return StatusCode(404);
+            case 1: return StatusCode(200);
+            default: return StatusCode(500);
+        }
+    }
 }

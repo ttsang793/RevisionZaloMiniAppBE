@@ -24,7 +24,7 @@ public class TopicDb
                                Grades = t.Grades,
                                SubjectId = t.SubjectId,
                                Subject = t.Subject,
-                               IsVisible = t.IsVisible
+                               IsVisible = t.IsVisible && s.IsVisible
                            }).ToListAsync();
 
         return result;
@@ -33,6 +33,11 @@ public class TopicDb
     public async Task<List<Topic>> GetActiveAsync()
     {
         return await _dbContext.Topics.Where(t => t.IsVisible == true).ToListAsync();
+    }
+
+    public async Task<List<Topic>> GetBySubjectIdAsync(string subjectId)
+    {
+        return await _dbContext.Topics.Where(t => t.SubjectId == subjectId).ToListAsync();
     }
 
     public async Task<Topic> GetByIdAsync(string id)
@@ -77,14 +82,17 @@ public class TopicDb
         return await _dbContext.SaveChangesAsync() > 0;
     }
 
-    public async Task<bool> ChangeVisible(string id)
+    public async Task<sbyte> ChangeVisible(string id)
     {
         var topic = await GetByIdAsync(id);
+        if (topic == null) return 0;
 
-        if (topic == null) return false;
+        var subjectVisible = (await _dbContext.Subjects.FirstAsync(s => s.Id == topic.SubjectId)).IsVisible;
+        if (!subjectVisible) return -1;
+        
         var oldIsVisible = topic.IsVisible;
         topic.IsVisible = !oldIsVisible;
 
-        return await _dbContext.SaveChangesAsync() > 0;
+        return await _dbContext.SaveChangesAsync() > 0 ? (sbyte)1 : (sbyte)0;
     }
 }

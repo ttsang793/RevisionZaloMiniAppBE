@@ -8,9 +8,20 @@ public class StudentDb : UserDb
 {
     public StudentDb(ZaloRevisionAppDbContext dbContext) : base(dbContext) { }
 
-    public async Task<User> GetStudentByIdAsync(ulong id)
+    public async Task<StudentDTO> GetStudentByIdAsync(ulong id)
     {
-        return await GetUserByIdAsync(id);
+        return await (from u in _dbContext.Users
+                      join s in _dbContext.Students on u.Id equals s.Id
+                      where s.Id == id
+                      select new StudentDTO
+                      {
+                          Id = u.Id,
+                          Name = u.Name,
+                          Avatar = u.Avatar,
+                          Email = u.Email,
+                          Grade = s.Grade,
+                          AllowSaveHistory = s.AllowSaveHistory
+                      }).FirstAsync();
     }
 
     public async Task<bool> AddStudent(User user, Student st)
@@ -99,6 +110,7 @@ public class StudentDb : UserDb
                                 AllowPartSwap = e.AllowPartSwap,
                                 TeacherId = u.Id,
                                 TeacherName = u.Name,
+                                TeacherAvatar = u.Avatar,
                                 SubjectId = s.Id,
                                 SubjectName = s.Name,
                                 Status = e.Status
@@ -107,14 +119,20 @@ public class StudentDb : UserDb
         return result;
     }
 
+    public async Task<bool> IsFavorite(ulong studentId, ulong examId)
+    {
+        var favorites = await _dbContext.Students.Where(sp => sp.Id == studentId).Select(sp => sp.Favorites).FirstAsync();
+        return favorites.Any(e => e == examId);
+    }
+
     public async Task<bool> HandleFavorite(ulong studentId, ulong examId)
     {
-        var student = await _dbContext.Students.FirstOrDefaultAsync(sp => sp.Id == studentId);
+        var student = await _dbContext.Students.Where(sp => sp.Id == studentId).FirstOrDefaultAsync();
         if (student == null) return false;
 
-        bool isAvaiable = student.Favorites.Contains(examId);
+        bool isAvailable = student.Favorites.Contains(examId);
 
-        if (isAvaiable) student.Favorites.Remove(examId);
+        if (isAvailable) student.Favorites.Remove(examId);
         else student.Favorites.Add(examId);
 
         _dbContext.Students.Update(student);
@@ -146,16 +164,25 @@ public class StudentDb : UserDb
                                 AllowPartSwap = e.AllowPartSwap,
                                 TeacherId = u.Id,
                                 TeacherName = u.Name,
+                                TeacherAvatar = u.Avatar,
                                 SubjectId = s.Id,
                                 SubjectName = s.Name,
-                                Status = e.Status
+                                Status = e.Status,
+                                HistoryId = h.Id
                             }).ToListAsync();
 
         return result;
     }
 
+    private async Task<bool> GetAllowingSaveHistory(ulong studentId)
+    {
+        return await _dbContext.Students.Where(st => st.Id == studentId).Select(st => st.AllowSaveHistory).FirstAsync();
+    }
+
     public async Task<bool> HandleHistory(ulong studentId, ulong examId)
     {
+        if (!await GetAllowingSaveHistory(studentId)) return true;
+
         var existingHistory = await _dbContext.StudentHistories
             .Where(h => h.StudentId == studentId && h.ExamId == examId && h.Time.Date == DateTime.Today)
             .FirstOrDefaultAsync();
@@ -186,21 +213,38 @@ public class StudentDb : UserDb
         return await _dbContext.SaveChangesAsync() > 0;
     }
 
+    public async Task<bool> UpdateAllowingSaveHistory(ulong studentId)
+    {
+        var student = await _dbContext.Students.FirstAsync(s => s.Id == studentId);
+        student.AllowSaveHistory = !student.AllowSaveHistory;
+        return await _dbContext.SaveChangesAsync() > 0;
+    }
+
     // FOLLOWERS
     public async Task<bool> HandleFollowing(ulong studentId, ulong teacherId)
     {
-        var favoriteEntity = await _dbContext.Followers
+        var followingEntity = await _dbContext.Followers
                                 .Where(f => f.StudentId == studentId && f.TeacherId == teacherId)
                                 .FirstOrDefaultAsync();
 
-        if (favoriteEntity == null)
+        if (followingEntity == null)
             await _dbContext.Followers.AddAsync(new Follower { StudentId = studentId, TeacherId = teacherId });
         else
         {
-            favoriteEntity.IsVisible = !favoriteEntity.IsVisible;
-            _dbContext.Followers.Update(favoriteEntity);
+            followingEntity.IsVisible = !followingEntity.IsVisible;
+            _dbContext.Followers.Update(followingEntity);
         }
 
         return await _dbContext.SaveChangesAsync() > 0;
+    }
+
+    public async Task<bool> IsFollowing(ulong studentId, ulong teacherId)
+    {
+        var followingEntity = await _dbContext.Followers
+                                .Where(f => f.StudentId == studentId && f.TeacherId == teacherId)
+                                .FirstOrDefaultAsync();
+
+        if (followingEntity == null) return false;
+        return followingEntity.IsVisible;
     }
 }

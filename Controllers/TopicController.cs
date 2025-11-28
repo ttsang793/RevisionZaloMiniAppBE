@@ -31,6 +31,12 @@ public class TopicController : Controller
         return await _topicDb.GetActiveAsync();
     }
 
+    [HttpGet("subject/{subjectId}")]
+    public async Task<List<Topic>> GetBySubjectId(string subjectId)
+    {
+        return await _topicDb.GetBySubjectIdAsync(subjectId);
+    }
+
     [HttpGet("{id}")]
     public async Task<Topic> GetById(string id)
     {
@@ -55,6 +61,8 @@ public class TopicController : Controller
     [HttpDelete("{id}")]
     public async Task<IActionResult> ChangeVisible(string id)
     {
-        return await _topicDb.ChangeVisible(id) ? StatusCode(200) : StatusCode(400);
+        sbyte result = await _topicDb.ChangeVisible(id);
+        if (result == -1) return StatusCode(202);
+        return result == 1 ? StatusCode(200) : StatusCode(400);
     }
 }

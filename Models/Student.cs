@@ -12,9 +12,11 @@ public partial class Student
 
     public byte Grade { get; set; }
 
-    public ICollection<DateTime> Attendance = [];
+    public ICollection<DateTime> Attendance { get; set; } = [];
 
     public ushort Streak { get; set; } = 0;
+
+    public bool AllowSaveHistory { get; set; } = true;
 
     public virtual ICollection<ExamAttempt> ExamAttempts { get; set; } = [];
 

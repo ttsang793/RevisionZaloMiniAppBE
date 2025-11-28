@@ -42,7 +42,9 @@ public partial class ExamReadDTO
 
     public DateTime? PublishedAt { get; set; }
 
-    public DateTime? MarkedAt { get; set; }
+    public ulong? HistoryId { get; set; }
+
+    public DateTime? LatestAttempt { get; set; }
 }
 
 public partial class ExamInsertDTO

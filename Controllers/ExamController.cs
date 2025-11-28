@@ -46,6 +46,12 @@ public class ExamController : Controller
         return await _examDb.GetExamsByTeacherAsync(teacherId);
     }
 
+    [HttpGet("publish/teacher/{teacherId}")]
+    public async Task<List<ExamReadDTO>> GetPublishExamsByTeacherAsync(ulong teacherId)
+    {
+        return await _examDb.GetPublishExamsByTeacherAsync(teacherId);
+    }
+
     [HttpPost]
     public async Task<IActionResult> AddExam(ExamInsertDTO examDTO)
     {

@@ -2,7 +2,6 @@
 using backend.Models;
 using backend.Services;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace backend.Controllers;
 
@@ -20,7 +19,7 @@ public class StudentController : Controller
     }
 
     [HttpGet("{id}")]
-    public async Task<User> GetStudentById(ulong id)
+    public async Task<StudentDTO> GetStudentById(ulong id)
     {
         return await _studentDb.GetStudentByIdAsync(id);
     }
@@ -89,6 +88,12 @@ public class StudentController : Controller
         return await _studentDb.GetFavorite(studentId);
     }
 
+    [HttpGet("favorite/{studentId}/{examId}")]
+    public async Task<bool> IsFavorite(ulong studentId, ulong examId)
+    {
+        return await _studentDb.IsFavorite(studentId, examId);
+    }
+
     [HttpPut("favorite/{studentId}/{examId}")]
     public async Task<IActionResult> HandleFavorite(ulong studentId, ulong examId)
     {
@@ -113,10 +118,22 @@ public class StudentController : Controller
         return await _studentDb.DeleteHistory(id) ? StatusCode(200) : StatusCode(404);
     }
 
-    [HttpDelete("history/all/{studentId}")]
+    [HttpDelete("history/{studentId}/all")]
     public async Task<IActionResult> DeleteAllHistories(ulong studentId)
     {
         return await _studentDb.DeleteAllHistoriesByStudentId(studentId) ? StatusCode(200) : StatusCode(404);
+    }
+
+    [HttpPut("history/{studentId}/allow-save")]
+    public async Task<IActionResult> UpdateAllowingSaveHistory(ulong studentId)
+    {
+        return await _studentDb.UpdateAllowingSaveHistory(studentId) ? StatusCode(200) : StatusCode(404);
+    }
+
+    [HttpGet("follow/{studentId}/{teacherId}")]
+    public async Task<bool> IsFollowing(ulong studentId, ulong teacherId)
+    {
+        return await _studentDb.IsFollowing(studentId, teacherId);
     }
 
     [HttpPut("follow/{studentId}/{teacherId}")]

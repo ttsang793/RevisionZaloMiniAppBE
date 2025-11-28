@@ -6,16 +6,18 @@ public class UserDTO
 
     public string? ZaloId { get; set; }
 
-    public string Name { get; set; } = null!;
+    public string? Name { get; set; } = null!;
 
-    public string Avatar { get; set; } = "/avatar/default.jpg";
+    public string? Avatar { get; set; } = "/avatar/default.jpg";
 
-    public string Email { get; set; } = null!;
+    public string? Email { get; set; } = null!;
 }
 
 public class StudentDTO : UserDTO
 {
     public byte Grade { get; set; }
+
+    public bool AllowSaveHistory { get; set; }
 }
 
 public class TeacherDTO : UserDTO
@@ -38,4 +40,13 @@ public class AdminErrorDTO
     public string? IdError { get; set; }
 
     public string? PasswordError { get; set; }
+}
+
+public partial class AdminResetPassDTO
+{
+    public ulong Id { get; set; }
+
+    public string OldPassword { get; set; } = null!;
+
+    public string NewPassword { get; set; } = null!;
 }

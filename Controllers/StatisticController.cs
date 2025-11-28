@@ -21,6 +21,7 @@ public class StatisticController
     {
         return
         [
+            await _statisticDb.GetAvgPointMonthly(studentId, subjectId),
             await _statisticDb.GetCorrectRate(studentId, subjectId),
             await _statisticDb.GetBestResultExam(studentId, subjectId),
             await _statisticDb.GetWorstResultExam(studentId, subjectId)

@@ -42,6 +42,22 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "backend.Controllers.AdminController",
+    "Method": "ResetPassword",
+    "RelativePath": "api/admin/reset-password",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "adminDTO",
+        "Type": "backend.DTOs.AdminResetPassDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "CommentController",
     "Method": "AddComment",
     "RelativePath": "api/comment",
@@ -417,6 +433,32 @@
       }
     ],
     "ReturnTypes": []
+  },
+  {
+    "ContainingType": "backend.Controllers.ExamController",
+    "Method": "GetPublishExamsByTeacherAsync",
+    "RelativePath": "api/exam/publish/teacher/{teacherId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "teacherId",
+        "Type": "System.UInt64",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.List\u00601[[backend.DTOs.ExamReadDTO, backend, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
   },
   {
     "ContainingType": "backend.Controllers.ExamController",
@@ -953,7 +995,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "backend.Models.User",
+        "Type": "backend.DTOs.StudentDTO",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -1070,6 +1112,37 @@
   },
   {
     "ContainingType": "backend.Controllers.StudentController",
+    "Method": "IsFavorite",
+    "RelativePath": "api/student/favorite/{studentId}/{examId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "studentId",
+        "Type": "System.UInt64",
+        "IsRequired": true
+      },
+      {
+        "Name": "examId",
+        "Type": "System.UInt64",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Boolean",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "backend.Controllers.StudentController",
     "Method": "HandleFavorite",
     "RelativePath": "api/student/favorite/{studentId}/{examId}",
     "HttpMethod": "PUT",
@@ -1088,6 +1161,37 @@
       }
     ],
     "ReturnTypes": []
+  },
+  {
+    "ContainingType": "backend.Controllers.StudentController",
+    "Method": "IsFollowing",
+    "RelativePath": "api/student/follow/{studentId}/{teacherId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "studentId",
+        "Type": "System.UInt64",
+        "IsRequired": true
+      },
+      {
+        "Name": "teacherId",
+        "Type": "System.UInt64",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Boolean",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
   },
   {
     "ContainingType": "backend.Controllers.StudentController",
@@ -1176,8 +1280,24 @@
   {
     "ContainingType": "backend.Controllers.StudentController",
     "Method": "DeleteAllHistories",
-    "RelativePath": "api/student/history/all/{studentId}",
+    "RelativePath": "api/student/history/{studentId}/all",
     "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "studentId",
+        "Type": "System.UInt64",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "backend.Controllers.StudentController",
+    "Method": "UpdateAllowingSaveHistory",
+    "RelativePath": "api/student/history/{studentId}/allow-save",
+    "HttpMethod": "PUT",
     "IsController": true,
     "Order": 0,
     "Parameters": [
@@ -1526,6 +1646,32 @@
     "IsController": true,
     "Order": 0,
     "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.List\u00601[[backend.Models.Topic, backend, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "backend.Controllers.TopicController",
+    "Method": "GetBySubjectId",
+    "RelativePath": "api/topic/subject/{subjectId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "subjectId",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
     "ReturnTypes": [
       {
         "Type": "System.Collections.Generic.List\u00601[[backend.Models.Topic, backend, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",

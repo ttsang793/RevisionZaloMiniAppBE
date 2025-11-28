@@ -23,18 +23,29 @@ public class AdminDb
         var verifyResult = _passwordHasher.VerifyHashedPassword(admin, admin.Password, adminDTO.Password);
         if (verifyResult == PasswordVerificationResult.Success)
         {
-            var user = await _dbContext.Users.FirstAsync(u => u.Id == adminDTO.Id);
-            return new UserDTO { Name = user.Name, Avatar = user.Avatar };
+            try
+            {
+                return await (from u in _dbContext.Users
+                              where u.Id == admin.Id
+                              select new UserDTO { Name = u.Name, Avatar = u.Avatar }
+                             ).FirstAsync();
+            }
+            catch { }
         }
         return new AdminErrorDTO { PasswordError = "Nhập sai mật khẩu!" };
     }
 
-    public async Task<bool> ResetPassword(AdminDTO adminDTO)
+    public async Task<sbyte> ResetPassword(AdminResetPassDTO adminDTO)
     {
         var admin = await _dbContext.Admins.FirstOrDefaultAsync(a => a.Id == adminDTO.Id);
-        if (admin == null) return false;
+        if (admin == null) return -2;
 
-        admin.Password = _passwordHasher.HashPassword(admin, adminDTO.Password);
-        return await _dbContext.SaveChangesAsync() > 0;
+        var verifyResult = _passwordHasher.VerifyHashedPassword(admin, admin.Password, adminDTO.OldPassword);
+        if (verifyResult == PasswordVerificationResult.Success)
+        {
+            admin.Password = _passwordHasher.HashPassword(admin, adminDTO.NewPassword);
+            return (sbyte)(await _dbContext.SaveChangesAsync() > 0 ? 1 : 0);
+        }
+        return -1;
     }
 }
