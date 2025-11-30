@@ -19,6 +19,7 @@ public class StudentDb : UserDb
                           Name = u.Name,
                           Avatar = u.Avatar,
                           Email = u.Email,
+                          Notification = u.Notification,
                           Grade = s.Grade,
                           AllowSaveHistory = s.AllowSaveHistory
                       }).FirstAsync();
@@ -35,9 +36,9 @@ public class StudentDb : UserDb
     {
         if (!(await UpdateUser(u))) return false;
 
-        var student = await _dbContext.Students.FirstAsync(s => s.Id == st.Id);
+        var student = await _dbContext.Students.Where(s => s.Id == st.Id).FirstOrDefaultAsync();
+        if (student == null) return false;
         student.Grade = st.Grade;
-
         return await _dbContext.SaveChangesAsync() > 0;
     }
 

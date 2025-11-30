@@ -2,6 +2,15 @@
 
 namespace backend.DTOs;
 
+public partial class ExamAttemptStatDTO
+{
+    public decimal? MaxTotalPoint { get; set; }
+
+    public ushort? Duration { get; set; }
+
+    public int Count { get; set; } = 0;
+}
+
 public partial class ExamAttemptGetDTO
 {
     public decimal TotalPoint { get; set; }

@@ -40,6 +40,18 @@ public class ExamController : Controller
         return await _examDb.GetExamDTOById(id);
     }
 
+    [HttpGet("{id}/question/count")]
+    public async Task<object> GetNumberOfPartsAndQuestionsByExamId(ulong id)
+    {
+        return await _examDb.GetNumberOfPartsAndQuestionsByExamId(id);
+    }
+
+    [HttpGet("{id}/topic")]
+    public async Task<List<string>> GetTopicByExamIdAsync(ulong id)
+    {
+        return await _examDb.GetTopicByExamId(id);
+    }
+
     [HttpGet("teacher/{teacherId}")]
     public async Task<List<ExamReadDTO>> GetExamsByTeacherAsync(ulong teacherId)
     {

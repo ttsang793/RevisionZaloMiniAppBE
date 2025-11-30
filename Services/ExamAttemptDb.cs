@@ -13,6 +13,23 @@ public class ExamAttemptDb
         DbContext = dbContext;
     }
 
+    public async Task<ExamAttemptStatDTO> GetExamAttemptsRecordByExamId(ulong examId)
+    {
+        var result = await (from ea in DbContext.ExamAttempts
+                            where ea.ExamId == examId
+                            orderby ea.TotalPoint descending
+                            orderby ea.Duration ascending
+                            select new ExamAttemptStatDTO
+                            {
+                                MaxTotalPoint = ea.TotalPoint,
+                                Duration = ea.Duration
+                            }).FirstOrDefaultAsync();
+
+        if (result == null) result = new ExamAttemptStatDTO();
+        result.Count = await DbContext.ExamAttempts.Where(ea => ea.ExamId == examId).CountAsync();
+        return result;
+    }
+
     public async Task<ExamAttemptGetDTO> GetLatestExamAttempt(ulong studentId, ulong examId)
     {
         var examAttempt = await DbContext.ExamAttempts

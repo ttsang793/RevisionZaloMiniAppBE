@@ -173,6 +173,32 @@ public class ExamDb
         return result;
     }
 
+    public async Task<object> GetNumberOfPartsAndQuestionsByExamId(ulong id)
+    {
+        var query = (from e in DbContext.Exams
+                     join ep in DbContext.ExamParts on e.Id equals ep.ExamId
+                     join eq in DbContext.ExamQuestions on ep.Id equals eq.ExamPartId
+                     where e.Id == id group eq by eq.ExamPartId into g
+                     select new
+                     {
+                         ExamPartId = g.Key,
+                         Count = g.Select(eq => eq.OrderIndex).Distinct().Count()
+                     });
+
+        return new { PartCount = await query.CountAsync(), QuestionCount = await query.SumAsync(q => q.Count) };
+    }
+
+    public async Task<List<string>> GetTopicByExamId(ulong id)
+    {
+        return await (from e in DbContext.Exams
+                      join ep in DbContext.ExamParts on e.Id equals ep.ExamId
+                      join eq in DbContext.ExamQuestions on ep.Id equals eq.ExamPartId
+                      join q in DbContext.Questions on eq.QuestionId equals q.Id
+                      join t in DbContext.Topics on q.TopicId equals t.Id
+                      where e.Id == id
+                      select t.Name).Distinct().ToListAsync();
+    }
+
     public async Task<bool> AddExam(Exam exam)
     {
         Console.WriteLine(exam.Title);

@@ -32,6 +32,7 @@ public class TeacherDb : UserDb
                                 Name = u.Name,
                                 Avatar = u.Avatar,
                                 Email = u.Email,
+                                Notification = u.Notification,
                                 SubjectId = t.SubjectId,
                                 Grades = t.Grades,
                                 Introduction = t.Introduction

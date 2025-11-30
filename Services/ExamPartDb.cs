@@ -1,8 +1,6 @@
 ﻿using backend.Models;
 using backend.DTOs;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Mvc.Formatters;
-using Microsoft.EntityFrameworkCore.Diagnostics;
 
 namespace backend.Services;
 

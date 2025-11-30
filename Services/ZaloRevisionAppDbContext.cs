@@ -879,6 +879,13 @@ public partial class ZaloRevisionAppDbContext : DbContext
             entity.Property(e => e.Name)
                 .HasMaxLength(255)
                 .HasColumnName("name");
+            entity.Property(e => e.Notification)
+                .HasColumnType("json")
+                .HasConversion(
+                      v => JsonSerializer.Serialize(v, new JsonSerializerOptions()),
+                      v => JsonSerializer.Deserialize<List<bool>>(v!, new JsonSerializerOptions())!
+                  )
+                .HasColumnName("notification");
             entity.Property(e => e.Role)
                 .HasDefaultValueSql("'HS'")
                 .HasColumnType("enum('HS','GV','AD')")

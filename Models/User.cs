@@ -10,11 +10,11 @@ public partial class User
 
     public string Avatar { get; set; } = null!;
 
-    public string Email { get; set; } = null!;
+    public string? Email { get; set; }
 
     public string Role { get; set; } = null!;
 
-    public ICollection<bool> Notification = [];
+    public List<bool> Notification = [];
 
     public DateTime? CreatedAt { get; set; }
 

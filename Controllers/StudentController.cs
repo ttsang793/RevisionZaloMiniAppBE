@@ -33,7 +33,8 @@ public class StudentController : Controller
             Name = studentDTO.Name,
             Avatar = studentDTO.Avatar,
             Email = studentDTO.Email,
-            Role = "HS"
+            Role = "HS",
+            Notification = [false, false, false]
         };
 
         Student student = new Student
@@ -58,6 +59,7 @@ public class StudentController : Controller
 
         Student student = new Student
         {
+            Id = id,
             Grade = studentDTO.Grade
         };
 

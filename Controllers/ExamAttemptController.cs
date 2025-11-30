@@ -20,6 +20,12 @@ public class ExamAttemptController : Controller
         _achievementDb = new AchievementDb(dbContext);
     }
 
+    [HttpGet("exam/{examId}")]
+    public async Task<ExamAttemptStatDTO> GetExamAttemptsRecordByExamId(ulong examId)
+    {
+        return await _examAttemptDb.GetExamAttemptsRecordByExamId(examId);
+    }
+
     [HttpGet("{studentId}/{examId}")]
     public async Task<ExamAttemptGetDTO> GetLatestExamAttempt(ulong studentId, ulong examId)
     {

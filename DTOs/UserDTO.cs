@@ -6,18 +6,20 @@ public class UserDTO
 
     public string? ZaloId { get; set; }
 
-    public string? Name { get; set; } = null!;
+    public string? Name { get; set; }
 
     public string? Avatar { get; set; } = "/avatar/default.jpg";
 
-    public string? Email { get; set; } = null!;
+    public string? Email { get; set; }
+
+    public List<bool>? Notification { get; set; }
 }
 
 public class StudentDTO : UserDTO
 {
     public byte Grade { get; set; }
 
-    public bool AllowSaveHistory { get; set; }
+    public bool? AllowSaveHistory { get; set; }
 }
 
 public class TeacherDTO : UserDTO

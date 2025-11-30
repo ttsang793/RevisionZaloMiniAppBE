@@ -424,6 +424,78 @@
         }
       }
     },
+    "/api/exam/{id}/question/count": {
+      "get": {
+        "tags": [
+          "Exam"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/exam/{id}/topic": {
+      "get": {
+        "tags": [
+          "Exam"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/exam/teacher/{teacherId}": {
       "get": {
         "tags": [
@@ -679,6 +751,46 @@
         "responses": {
           "200": {
             "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/exam-attempt/exam/{examId}": {
+      "get": {
+        "tags": [
+          "ExamAttempt"
+        ],
+        "parameters": [
+          {
+            "name": "examId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExamAttemptStatDTO"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExamAttemptStatDTO"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExamAttemptStatDTO"
+                }
+              }
+            }
           }
         }
       }
@@ -940,6 +1052,80 @@
             "schema": {
               "type": "integer",
               "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/notification/student/{studentId}": {
+      "put": {
+        "tags": [
+          "Notification"
+        ],
+        "parameters": [
+          {
+            "name": "studentId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "key",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/notification/teacher/{teacherId}": {
+      "put": {
+        "tags": [
+          "Notification"
+        ],
+        "parameters": [
+          {
+            "name": "teacherId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "key",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "schema": {
+              "type": "boolean"
             }
           }
         ],
@@ -3055,6 +3241,13 @@
             "type": "string",
             "nullable": true
           },
+          "notification": {
+            "type": "array",
+            "items": {
+              "type": "boolean"
+            },
+            "nullable": true
+          },
           "password": {
             "type": "string",
             "nullable": true
@@ -3595,6 +3788,26 @@
               "$ref": "#/components/schemas/ExamAttemptAnswerGetDTO"
             },
             "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ExamAttemptStatDTO": {
+        "type": "object",
+        "properties": {
+          "maxTotalPoint": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "duration": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "count": {
+            "type": "integer",
+            "format": "int32"
           }
         },
         "additionalProperties": false
@@ -4932,12 +5145,20 @@
             "type": "string",
             "nullable": true
           },
+          "notification": {
+            "type": "array",
+            "items": {
+              "type": "boolean"
+            },
+            "nullable": true
+          },
           "grade": {
             "type": "integer",
             "format": "int32"
           },
           "allowSaveHistory": {
-            "type": "boolean"
+            "type": "boolean",
+            "nullable": true
           }
         },
         "additionalProperties": false
@@ -5118,6 +5339,13 @@
           },
           "email": {
             "type": "string",
+            "nullable": true
+          },
+          "notification": {
+            "type": "array",
+            "items": {
+              "type": "boolean"
+            },
             "nullable": true
           },
           "subjectId": {

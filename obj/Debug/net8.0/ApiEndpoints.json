@@ -243,6 +243,32 @@
   },
   {
     "ContainingType": "backend.Controllers.ExamAttemptController",
+    "Method": "GetExamAttemptsRecordByExamId",
+    "RelativePath": "api/exam-attempt/exam/{examId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "examId",
+        "Type": "System.UInt64",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "backend.DTOs.ExamAttemptStatDTO",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "backend.Controllers.ExamAttemptController",
     "Method": "GradingExamAttempt",
     "RelativePath": "api/exam-attempt/grading/{id}",
     "HttpMethod": "PUT",
@@ -400,6 +426,48 @@
   },
   {
     "ContainingType": "backend.Controllers.ExamController",
+    "Method": "GetNumberOfPartsAndQuestionsByExamId",
+    "RelativePath": "api/exam/{id}/question/count",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.UInt64",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "backend.Controllers.ExamController",
+    "Method": "GetTopicByExamIdAsync",
+    "RelativePath": "api/exam/{id}/topic",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.UInt64",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.List\u00601[[System.String, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "backend.Controllers.ExamController",
     "Method": "GetPublishExamsAsync",
     "RelativePath": "api/exam/publish",
     "HttpMethod": "GET",
@@ -532,6 +600,58 @@
         "StatusCode": 200
       }
     ]
+  },
+  {
+    "ContainingType": "backend.Controllers.NotificationController",
+    "Method": "UpdateStudentStatus",
+    "RelativePath": "api/notification/student/{studentId}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "studentId",
+        "Type": "System.UInt64",
+        "IsRequired": true
+      },
+      {
+        "Name": "key",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "status",
+        "Type": "System.Boolean",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "backend.Controllers.NotificationController",
+    "Method": "UpdateTeacherStatus",
+    "RelativePath": "api/notification/teacher/{teacherId}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "teacherId",
+        "Type": "System.UInt64",
+        "IsRequired": true
+      },
+      {
+        "Name": "key",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "status",
+        "Type": "System.Boolean",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
   },
   {
     "ContainingType": "backend.Controllers.PdfExamCodeController",
