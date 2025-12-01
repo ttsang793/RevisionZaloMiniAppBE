@@ -13,7 +13,15 @@ public partial class ExamAttemptStatDTO
 
 public partial class ExamAttemptGetDTO
 {
+    public ulong? Id { get; set; }
+
+    public string? ExamTitle { get; set; }
+
     public decimal TotalPoint { get; set; }
+
+    public DateTime SubmittedAt { get; set; }
+
+    public DateTime? MarkedAt { get; set; }
 
     public ushort Duration { get; set; }
 

@@ -169,8 +169,34 @@
   },
   {
     "ContainingType": "backend.Controllers.ExamAttemptController",
+    "Method": "GetExamAttempt",
+    "RelativePath": "api/exam-attempt/{examAttemptId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "examAttemptId",
+        "Type": "System.UInt64",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "backend.DTOs.ExamAttemptGetDTO",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "backend.Controllers.ExamAttemptController",
     "Method": "GetLatestExamAttempt",
-    "RelativePath": "api/exam-attempt/{studentId}/{examId}",
+    "RelativePath": "api/exam-attempt/{studentId}/{examId}/latest",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -243,8 +269,34 @@
   },
   {
     "ContainingType": "backend.Controllers.ExamAttemptController",
-    "Method": "GetExamAttemptsRecordByExamId",
+    "Method": "GetExamAttemptsAsync",
     "RelativePath": "api/exam-attempt/exam/{examId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "examId",
+        "Type": "System.UInt64",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.List\u00601[[backend.DTOs.ExamAttemptGetDTO, backend, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "backend.Controllers.ExamAttemptController",
+    "Method": "GetExamAttemptsRecordByExamId",
+    "RelativePath": "api/exam-attempt/exam/{examId}/record",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,

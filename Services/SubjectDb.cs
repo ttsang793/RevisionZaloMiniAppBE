@@ -27,19 +27,21 @@ public class SubjectDb
         return await _dbContext.Subjects.FirstAsync(s => s.Id == id);
     }
 
-    public async Task<bool> Add(Subject s)
+    public async Task<sbyte> Add(Subject s)
     {
+        if (_dbContext.Subjects.Any(sj => sj.Name == s.Name)) return -1;
         _dbContext.Subjects.Add(s);
-        return await _dbContext.SaveChangesAsync() > 0;
+        return (sbyte)(await _dbContext.SaveChangesAsync() > 0 ? 1 : 0);
     }
 
-    public async Task<bool> Update(Subject s)
+    public async Task<sbyte> Update(Subject s)
     {
         var oldSubject = await GetByIdAsync(s.Id);
-        if (oldSubject == null) return false;
+        if (oldSubject == null) return 0;
 
+        if (_dbContext.Subjects.Any(sj => sj.Name == s.Name && sj.Id != s.Id)) return -1;
         oldSubject.TakeValuesFrom(s);
-        return await _dbContext.SaveChangesAsync() > 0;
+        return (sbyte)(await _dbContext.SaveChangesAsync() > 0 ? 1 : 0);
     }
 
     public async Task<bool> ChangeVisible(string id)

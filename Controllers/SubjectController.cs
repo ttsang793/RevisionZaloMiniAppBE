@@ -1,4 +1,4 @@
-using backend.Models;
+﻿using backend.Models;
 using backend.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -38,13 +38,25 @@ public class SubjectController : Controller
     [HttpPost("")]
     public async Task<IActionResult> Add([Bind("Id", "Name", "Classes", "QuestionTN", "QuestionDS", "QuestionTLN", "QuestionDVCT", "QuestionTL", "QuestionSX", "IsVisible")] Subject subject)
     {
-        return await _subjectDb.Add(subject) ? StatusCode(201) : StatusCode(400);
+        sbyte response = await _subjectDb.Add(subject);
+        switch (response)
+        {
+            case -1: return StatusCode(409, new { NameError = "Tên môn học đã tồn tại!" } );
+            case 1: return StatusCode(201);
+            default: return StatusCode(400);
+        }
     }
 
     [HttpPut("{id}")]
     public async Task<IActionResult> Update([Bind("Id", "Name", "Classes", "QuestionTN", "QuestionDS", "QuestionTLN", "QuestionDVCT", "QuestionTL", "QuestionSX", "IsVisible")] Subject subject)
     {
-        return await _subjectDb.Update(subject) ? StatusCode(200) : StatusCode(400);
+        sbyte response = await _subjectDb.Update(subject);
+        switch (response)
+        {
+            case -1: return StatusCode(409, new { NameError = "Tên môn học đã tồn tại!" });
+            case 1: return StatusCode(201);
+            default: return StatusCode(400);
+        }
     }
 
     [HttpDelete("{id}")]

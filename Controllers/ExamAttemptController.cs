@@ -21,15 +21,27 @@ public class ExamAttemptController : Controller
     }
 
     [HttpGet("exam/{examId}")]
+    public async Task<List<ExamAttemptGetDTO>> GetExamAttemptsAsync(ulong examId)
+    {
+        return await _examAttemptDb.GetExamAttemptsAsync(examId);
+    }
+
+    [HttpGet("exam/{examId}/record")]
     public async Task<ExamAttemptStatDTO> GetExamAttemptsRecordByExamId(ulong examId)
     {
         return await _examAttemptDb.GetExamAttemptsRecordByExamId(examId);
     }
 
-    [HttpGet("{studentId}/{examId}")]
+    [HttpGet("{studentId}/{examId}/latest")]
     public async Task<ExamAttemptGetDTO> GetLatestExamAttempt(ulong studentId, ulong examId)
     {
-        return await _examAttemptDb.GetLatestExamAttempt(studentId, examId);
+        return await _examAttemptDb.GetExamAttempt(studentId, examId, null);
+    }
+
+    [HttpGet("{examAttemptId}")]
+    public async Task<ExamAttemptGetDTO> GetExamAttempt(ulong examAttemptId)
+    {
+        return await _examAttemptDb.GetExamAttempt(null, null, examAttemptId);
     }
 
     [HttpGet("pdf/{studentId}/{examId}")]
@@ -130,7 +142,7 @@ public class ExamAttemptController : Controller
     public async Task<IActionResult> AddPdfExamAttempt(PdfExamAttemptDTO pdfExamAttemptDTO)
     {
         double durationDouble = (DateTime.Now - pdfExamAttemptDTO.StartedAt.ToLocalTime()).TotalSeconds;
-        ushort duration = ((ushort)Math.Round(durationDouble));
+        ushort duration = (ushort)Math.Round(durationDouble);
 
         var pdfExamAttempt = new PdfExamAttempt
         {

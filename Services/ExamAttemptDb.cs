@@ -13,6 +13,24 @@ public class ExamAttemptDb
         DbContext = dbContext;
     }
 
+    public async Task<List<ExamAttemptGetDTO>> GetExamAttemptsAsync(ulong examId)
+    {
+        var result = await (from ea in DbContext.ExamAttempts
+                            join e in DbContext.Exams on ea.ExamId equals e.Id
+                            orderby ea.Id descending
+                            select new ExamAttemptGetDTO
+                            {
+                                Id = ea.Id,
+                                ExamTitle = e.Title,
+                                TotalPoint = ea.TotalPoint.HasValue ? ea.TotalPoint.Value : 0,
+                                Duration = ea.Duration,
+                                SubmittedAt = ea.SubmittedAt,
+                                MarkedAt = ea.MarkedAt
+                            }).ToListAsync();
+
+        return result;
+    }
+
     public async Task<ExamAttemptStatDTO> GetExamAttemptsRecordByExamId(ulong examId)
     {
         var result = await (from ea in DbContext.ExamAttempts
@@ -30,10 +48,10 @@ public class ExamAttemptDb
         return result;
     }
 
-    public async Task<ExamAttemptGetDTO> GetLatestExamAttempt(ulong studentId, ulong examId)
+    public async Task<ExamAttemptGetDTO> GetExamAttempt(ulong? studentId, ulong? examId, ulong? examAttemptId)
     {
         var examAttempt = await DbContext.ExamAttempts
-            .Where(ea => ea.StudentId == studentId && ea.ExamId == examId)
+            .Where(ea => studentId.HasValue ? (ea.StudentId == studentId && ea.ExamId == examId) : ea.Id == examAttemptId.Value)
             .Include(ea => ea.ExamAttemptAnswers)
             .ThenInclude(eaa => eaa.ExamQuestion)
             .ThenInclude(eq => eq.Question)
@@ -195,7 +213,7 @@ public class ExamAttemptDb
 
         ExamAttemptGetDTO result = new ExamAttemptGetDTO
         {
-            TotalPoint = (decimal)examAttempt.TotalPoint!,
+            TotalPoint = examAttempt.TotalPoint.HasValue ? examAttempt.TotalPoint.Value : 0,
             Duration = examAttempt.Duration,
             Comment = examAttempt.Comment,
             ExamParts = examParts
