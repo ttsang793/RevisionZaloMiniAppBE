@@ -116,6 +116,94 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "backend.Controllers.EmailController",
+    "Method": "NotifyWhenNewExam",
+    "RelativePath": "api/email/new-exam",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "emailDTO",
+        "Type": "backend.DTOs.EmailDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "backend.Controllers.EmailController",
+    "Method": "NotifyWhenFinishGrading",
+    "RelativePath": "api/email/new-point",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "emailDTO",
+        "Type": "backend.DTOs.EmailDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "backend.Controllers.EmailController",
+    "Method": "NotifyWhenResponse",
+    "RelativePath": "api/email/new-response",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "emailDTO",
+        "Type": "backend.DTOs.EmailDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "backend.Controllers.EmailController",
+    "Method": "NotifyWhenNewTurnIn",
+    "RelativePath": "api/email/new-turn-in",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "emailDTO",
+        "Type": "backend.DTOs.EmailDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
     "ContainingType": "backend.Controllers.ExamController",
     "Method": "GetExamsAsync",
     "RelativePath": "api/exam",
@@ -1695,7 +1783,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "System.String",
+        "Type": "backend.Models.Subject",
         "MediaTypes": [
           "text/plain",
           "application/json",

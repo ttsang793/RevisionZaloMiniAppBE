@@ -16,6 +16,8 @@ public partial class QuestionReadDTO
 
     public string? TopicId { get; set; }
 
+    public ulong TeacherId { get; set; }
+
     public string? SubjectName { get; set; }
 
     public string? Explanation { get; set; }
@@ -36,6 +38,8 @@ public abstract partial class QuestionDTO
     public byte? Difficulty { get; set; }
 
     public string? TopicId { get; set; }
+
+    public ulong TeacherId { get; set; }
 
     public string? Explanation { get; set; }
 

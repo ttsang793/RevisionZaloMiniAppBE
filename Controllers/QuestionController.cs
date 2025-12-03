@@ -178,6 +178,7 @@ public class QuestionController : Controller
             Type = questionDTO.Type,
             Difficulty = questionDTO.Difficulty,
             TopicId = questionDTO.TopicId,
+            TeacherId = questionDTO.TeacherId,
             Explanation = questionDTO.Explanation
         };
 
@@ -200,6 +201,7 @@ public class QuestionController : Controller
             Type = questionDTO.Type,
             Difficulty = questionDTO.Difficulty,
             TopicId = questionDTO.TopicId,
+            TeacherId = questionDTO.TeacherId,
             Explanation = questionDTO.Explanation
         };
 
@@ -221,6 +223,7 @@ public class QuestionController : Controller
             Type = questionDTO.Type,
             Difficulty = questionDTO.Difficulty,
             TopicId = questionDTO.TopicId,
+            TeacherId = questionDTO.TeacherId,
             Explanation = questionDTO.Explanation
         };
 
@@ -242,6 +245,7 @@ public class QuestionController : Controller
             Type = questionDTO.Type,
             Difficulty = questionDTO.Difficulty,
             TopicId = questionDTO.TopicId,
+            TeacherId = questionDTO.TeacherId,
             Explanation = questionDTO.Explanation
         };
 
@@ -266,6 +270,7 @@ public class QuestionController : Controller
             Type = questionDTO.Type,
             Difficulty = questionDTO.Difficulty,
             TopicId = questionDTO.TopicId,
+            TeacherId = questionDTO.TeacherId,
             Explanation = questionDTO.Explanation
         };
 
@@ -310,6 +315,7 @@ public class QuestionController : Controller
             Type = questionDTO.Type,
             Difficulty = questionDTO.Difficulty,
             TopicId = questionDTO.TopicId,
+            TeacherId = questionDTO.TeacherId,
             Explanation = questionDTO.Explanation
         };
 
@@ -334,6 +340,7 @@ public class QuestionController : Controller
             Type = questionDTO.Type,
             Difficulty = questionDTO.Difficulty,
             TopicId = questionDTO.TopicId,
+            TeacherId = questionDTO.TeacherId,
             Explanation = questionDTO.Explanation
         };
 
@@ -358,6 +365,7 @@ public class QuestionController : Controller
             Type = questionDTO.Type,
             Difficulty = questionDTO.Difficulty,
             TopicId = questionDTO.TopicId,
+            TeacherId = questionDTO.TeacherId,
             Explanation = questionDTO.Explanation
         };
 
@@ -381,6 +389,7 @@ public class QuestionController : Controller
             Type = questionDTO.Type,
             Difficulty = questionDTO.Difficulty,
             TopicId = questionDTO.TopicId,
+            TeacherId = questionDTO.TeacherId,
             Explanation = questionDTO.Explanation
         };
 
@@ -404,6 +413,7 @@ public class QuestionController : Controller
             Type = questionDTO.Type,
             Difficulty = questionDTO.Difficulty,
             TopicId = questionDTO.TopicId,
+            TeacherId = questionDTO.TeacherId,
             Explanation = questionDTO.Explanation
         };
 
@@ -430,6 +440,7 @@ public class QuestionController : Controller
             Type = questionDTO.Type,
             Difficulty = questionDTO.Difficulty,
             TopicId = questionDTO.TopicId,
+            TeacherId = questionDTO.TeacherId,
             Explanation = questionDTO.Explanation
         };
 
@@ -476,6 +487,7 @@ public class QuestionController : Controller
             Type = questionDTO.Type,
             Difficulty = questionDTO.Difficulty,
             TopicId = questionDTO.TopicId,
+            TeacherId = questionDTO.TeacherId,
             Explanation = questionDTO.Explanation
         };
 

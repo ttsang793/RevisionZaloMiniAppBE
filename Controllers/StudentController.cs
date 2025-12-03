@@ -30,8 +30,8 @@ public class StudentController : Controller
         User user = new User
         {
             ZaloId = studentDTO.ZaloId,
-            Name = studentDTO.Name,
-            Avatar = studentDTO.Avatar,
+            Name = studentDTO.Name!,
+            Avatar = studentDTO.Avatar!,
             Email = studentDTO.Email,
             Role = "HS",
             Notification = [false, false, false]
@@ -52,7 +52,7 @@ public class StudentController : Controller
         {
             Id = id,
             ZaloId = studentDTO.ZaloId,
-            Name = studentDTO.Name,
+            Name = studentDTO.Name!,
             Avatar = studentDTO.Avatar,
             Email = studentDTO.Email
         };

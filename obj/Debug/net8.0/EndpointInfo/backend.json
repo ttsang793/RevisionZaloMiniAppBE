@@ -219,6 +219,130 @@
         }
       }
     },
+    "/api/email/new-response": {
+      "post": {
+        "tags": [
+          "Email"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EmailDTO"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EmailDTO"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/EmailDTO"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/email/new-exam": {
+      "post": {
+        "tags": [
+          "Email"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EmailDTO"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EmailDTO"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/EmailDTO"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/email/new-turn-in": {
+      "post": {
+        "tags": [
+          "Email"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EmailDTO"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EmailDTO"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/EmailDTO"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/email/new-point": {
+      "post": {
+        "tags": [
+          "Email"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EmailDTO"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EmailDTO"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/EmailDTO"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/api/exam": {
       "get": {
         "tags": [
@@ -2913,17 +3037,17 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "type": "string"
+                  "$ref": "#/components/schemas/Subject"
                 }
               },
               "application/json": {
                 "schema": {
-                  "type": "string"
+                  "$ref": "#/components/schemas/Subject"
                 }
               },
               "text/json": {
                 "schema": {
-                  "type": "string"
+                  "$ref": "#/components/schemas/Subject"
                 }
               }
             }
@@ -3475,6 +3599,27 @@
             "items": {
               "$ref": "#/components/schemas/CommentReadDTO"
             },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "EmailDTO": {
+        "required": [
+          "toEmail"
+        ],
+        "type": "object",
+        "properties": {
+          "toEmail": {
+            "type": "string",
+            "nullable": true
+          },
+          "subject": {
+            "type": "string",
+            "nullable": true
+          },
+          "body": {
+            "type": "string",
             "nullable": true
           }
         },
@@ -4327,6 +4472,10 @@
             "type": "string",
             "nullable": true
           },
+          "teacherId": {
+            "type": "integer",
+            "format": "int64"
+          },
           "explanation": {
             "type": "string",
             "nullable": true
@@ -4430,6 +4579,10 @@
             "type": "string",
             "nullable": true
           },
+          "teacherId": {
+            "type": "integer",
+            "format": "int64"
+          },
           "explanation": {
             "type": "string",
             "nullable": true
@@ -4523,6 +4676,10 @@
           "topicId": {
             "type": "string",
             "nullable": true
+          },
+          "teacherId": {
+            "type": "integer",
+            "format": "int64"
           },
           "explanation": {
             "type": "string",
@@ -4944,6 +5101,10 @@
             "type": "string",
             "nullable": true
           },
+          "teacherId": {
+            "type": "integer",
+            "format": "int64"
+          },
           "explanation": {
             "type": "string",
             "nullable": true
@@ -4990,6 +5151,10 @@
           "topicId": {
             "type": "string",
             "nullable": true
+          },
+          "teacherId": {
+            "type": "integer",
+            "format": "int64"
           },
           "subjectName": {
             "type": "string",
@@ -5052,6 +5217,10 @@
           "topicId": {
             "type": "string",
             "nullable": true
+          },
+          "teacherId": {
+            "type": "integer",
+            "format": "int64"
           },
           "explanation": {
             "type": "string",
@@ -5127,6 +5296,10 @@
           "topicId": {
             "type": "string",
             "nullable": true
+          },
+          "teacherId": {
+            "type": "integer",
+            "format": "int64"
           },
           "explanation": {
             "type": "string",
@@ -5600,6 +5773,10 @@
             "type": "string",
             "nullable": true
           },
+          "teacherId": {
+            "type": "integer",
+            "format": "int64"
+          },
           "explanation": {
             "type": "string",
             "nullable": true
@@ -5693,6 +5870,10 @@
           "topicId": {
             "type": "string",
             "nullable": true
+          },
+          "teacherId": {
+            "type": "integer",
+            "format": "int64"
           },
           "explanation": {
             "type": "string",

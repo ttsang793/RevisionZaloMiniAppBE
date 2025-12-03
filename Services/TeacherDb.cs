@@ -10,15 +10,22 @@ public class TeacherDb : UserDb
 
     private async Task<Teacher> GetTeacherByIdAsync(ulong id)
     {
-        return await _dbContext.Teachers.FirstAsync(t => t.Id == id);
+        return await _dbContext.Teachers.Where(t => t.Id == id).FirstAsync();
     }
 
-    #pragma warning disable CS8603 // Possible null reference return.
-    public async Task<string> GetTeacherSubjectByIdAsync(ulong id)
+    public async Task<Subject> GetTeacherSubjectByIdAsync(ulong id)
     {
-        return (await _dbContext.Teachers.FirstAsync(t => t.Id == id)).SubjectId;
+        var teacher = await GetTeacherByIdAsync(id);
+
+        return await _dbContext.Subjects
+                        .Where(s => s.Id == teacher.SubjectId)
+                        .Select(s => new Subject
+                        {
+                            Id = s.Id,
+                            Name = s.Name
+                        })
+                        .FirstAsync();
     }
-    #pragma warning restore CS8603 // Possible null reference return.
 
     public async Task<TeacherDTO> GetTeacherDTOByIdAsync(ulong id)
     {

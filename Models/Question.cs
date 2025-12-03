@@ -14,7 +14,7 @@ public partial class Question
 
     public byte? Difficulty { get; set; }
 
-    public string? TopicId { get; set; } = null!;
+    public string? TopicId { get; set; }
 
     public ulong TeacherId { get; set; }
 

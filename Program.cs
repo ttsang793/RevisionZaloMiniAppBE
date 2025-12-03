@@ -1,5 +1,6 @@
 using backend.Converters;
 using backend.Services;
+using backend.Models;
 using System.Text.Json;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -7,6 +8,9 @@ var builder = WebApplication.CreateBuilder(args);
 // Configure Kestrel to use PORT environment variable
 var port = Environment.GetEnvironmentVariable("PORT") ?? "5273";
 builder.WebHost.UseUrls($"http://0.0.0.0:{port}");
+
+builder.Services.Configure<StmpSettings>(builder.Configuration.GetSection("StmpSettings"));
+builder.Services.AddScoped<StmpService>();
 
 // Add services to the container.
 builder.Services.AddControllers()

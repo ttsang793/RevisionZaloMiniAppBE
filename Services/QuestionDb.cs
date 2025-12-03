@@ -17,9 +17,9 @@ public class QuestionDb
     public async Task<List<QuestionReadDTO>> GetAllQuestionsByTeacher(ulong teacherId, string? title)
     {
         return await (from q in _dbContext.Questions
-                      join t in _dbContext.Topics on q.TopicId equals t.Id
+                      join t in _dbContext.Teachers on q.TeacherId equals t.Id
                       join s in _dbContext.Subjects on t.SubjectId equals s.Id
-                      where string.IsNullOrEmpty(title) || q.Title.Contains(title, StringComparison.OrdinalIgnoreCase)
+                      where t.Id == teacherId && (string.IsNullOrEmpty(title) || q.Title.Contains(title, StringComparison.OrdinalIgnoreCase))
                       select new QuestionReadDTO
                       {
                           Id = q.Id,
@@ -28,6 +28,7 @@ public class QuestionDb
                           Type = q.Type,
                           Difficulty = q.Difficulty,
                           TopicId = q.TopicId,
+                          TeacherId = q.TeacherId,
                           SubjectName = s.Name,
                           Explanation = q.Explanation
                       }).ToListAsync();
@@ -51,22 +52,6 @@ public class QuestionDb
                           Explanation = q.Explanation
                       }).ToListAsync();
     }
-
-    /*
-    public async Task<List<Question>> GetDefaultQuestionsByTeacher(ulong teacherId, string? title)
-    {
-        if (!string.IsNullOrEmpty(title))
-            return await _dbContext.Questions.Where(q => q.TeacherId == teacherId && EF.Functions.Like(q.Title, $"%{title}%") && q.Type != "true-false-thpt" && q.Type != "group").ToListAsync();
-        return await _dbContext.Questions.Where(q => q.TeacherId == teacherId && q.Type != "true-false-thpt" && q.Type != "group").ToListAsync();
-    }
-
-    public async Task<List<Question>> GetGroupQuestionsByTeacher(ulong teacherId, string? title)
-    {
-        if (!string.IsNullOrEmpty(title))
-            return await _dbContext.Questions.Where(q => q.TeacherId == teacherId && EF.Functions.Like(q.Title, $"%{title}%") && q.Type == "group").ToListAsync();
-        return await _dbContext.Questions.Where(q => q.TeacherId == teacherId && q.Type == "group").ToListAsync();
-    }
-    */
 
     // GET BY ID
     public async Task<Question> GetQuestionById(ulong id)
@@ -116,11 +101,6 @@ public class QuestionDb
         return await _dbContext.TrueFalseTHPTQuestions.FirstAsync(q => q.Id == id);
     }
 
-    private async Task<ulong> GetLastIndex()
-    {
-        return (await _dbContext.Questions.OrderBy(s => s.Id).LastAsync()).Id;
-    }
-
     // POST
     public async Task<bool> AddMultipleChoiceQuestion(Question q, MultipleChoiceQuestion mcq)
     {
@@ -128,7 +108,7 @@ public class QuestionDb
 
         if (await _dbContext.SaveChangesAsync() > 0)
         {
-            mcq.Id = await GetLastIndex();
+            mcq.Id = q.Id;
             _dbContext.MultipleChoiceQuestions.Add(mcq);
         }
 
@@ -141,7 +121,7 @@ public class QuestionDb
 
         if (await _dbContext.SaveChangesAsync() > 0)
         {
-            tfq.Id = await GetLastIndex();
+            tfq.Id = q.Id;
             _dbContext.TrueFalseQuestions.Add(tfq);
         }
 
@@ -154,7 +134,7 @@ public class QuestionDb
 
         if (await _dbContext.SaveChangesAsync() > 0)
         {
-            saq.Id = await GetLastIndex();
+            saq.Id = q.Id;
             _dbContext.ShortAnswerQuestions.Add(saq);
         }
 
@@ -167,7 +147,7 @@ public class QuestionDb
 
         if (await _dbContext.SaveChangesAsync() > 0)
         {
-            mrq.Id = await GetLastIndex();
+            mrq.Id = q.Id;
             _dbContext.ManualResponseQuestions.Add(mrq);
         }
 
@@ -180,13 +160,13 @@ public class QuestionDb
 
         if (await _dbContext.SaveChangesAsync() > 0)
         {
-            sq.Id = await GetLastIndex();
+            sq.Id = q.Id;
             _dbContext.SortingQuestions.Add(sq);
         }
 
         return await _dbContext.SaveChangesAsync() > 0;
     }
-    
+
     /*
     public async Task<bool> AddGroupQuestion(Question q, GroupQuestion gq)
     {
@@ -194,7 +174,7 @@ public class QuestionDb
 
         if (await _dbContext.SaveChangesAsync() > 0)
         {
-            gq.Id = await GetLastIndex();
+            gq.Id = q.Id;
             _dbContext.GroupQuestions.Add(gq);
         }
 
@@ -208,7 +188,7 @@ public class QuestionDb
 
         if (await _dbContext.SaveChangesAsync() > 0)
         {
-            tfq.Id = await GetLastIndex();
+            tfq.Id = q.Id;
             _dbContext.TrueFalseTHPTQuestions.Add(tfq);
         }
 
