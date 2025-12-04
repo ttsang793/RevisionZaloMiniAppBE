@@ -75,7 +75,7 @@ public partial class ExamInsertDTO
 
     public string SubjectId { get; set; } = null!;
 
-    public byte Status { get; set; } = 1;
+    public byte Status { get; set; } = 0;
 }
 
 public partial class ExamPartDTO

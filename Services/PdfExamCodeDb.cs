@@ -58,4 +58,14 @@ public class PdfExamCodeDb
         await DbContext.PdfExamCodeQuestions.AddAsync(pdfExamCodeQuestion);
         return await DbContext.SaveChangesAsync() > 0;
     }
+
+    public async Task<bool> UpdatePdfExamUrl(ulong id, List<string?> files)
+    {
+        var result = await DbContext.PdfExamCodes.Where(pea => pea.Id == id).FirstAsync();
+        result.TaskPdf = files[0];
+        result.AnswerPdf = files[1];
+
+        DbContext.PdfExamCodes.Update(result);
+        return await DbContext.SaveChangesAsync() > 0;
+    }
 }

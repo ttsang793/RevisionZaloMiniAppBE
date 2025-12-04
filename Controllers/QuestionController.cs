@@ -188,7 +188,7 @@ public class QuestionController : Controller
             WrongAnswer = questionDTO.WrongAnswer,
         };
 
-        return await _questionDb.AddMultipleChoiceQuestion(q, mcq) ? StatusCode(201) : StatusCode(400);
+        return await _questionDb.AddMultipleChoiceQuestion(q, mcq) ? StatusCode(201, new { q.Id }) : StatusCode(400);
     }
 
     [HttpPost("true-false")]
@@ -210,7 +210,7 @@ public class QuestionController : Controller
             AnswerKey = questionDTO.AnswerKey
         };
 
-        return await _questionDb.AddTrueFalseQuestion(q, tfq) ? StatusCode(201) : StatusCode(400);
+        return await _questionDb.AddTrueFalseQuestion(q, tfq) ? StatusCode(201, new { q.Id }) : StatusCode(400);
     }
 
     [HttpPost("short-answer")]
@@ -232,7 +232,7 @@ public class QuestionController : Controller
             AnswerKey = questionDTO.AnswerKey
         };
 
-        return await _questionDb.AddShortAnswerQuestion(q, saq) ? StatusCode(201) : StatusCode(400);
+        return await _questionDb.AddShortAnswerQuestion(q, saq) ? StatusCode(201, new { q.Id }) : StatusCode(400);
     }
 
     [HttpPost("manual-response")]
@@ -257,7 +257,7 @@ public class QuestionController : Controller
             MarkAsWrong = questionDTO.MarkAsWrong
         };
 
-        return await _questionDb.AddManualResponseQuestion(q, crq) ? StatusCode(201) : StatusCode(400);
+        return await _questionDb.AddManualResponseQuestion(q, crq) ? StatusCode(201, new { q.Id }) : StatusCode(400);
     }
 
     [HttpPost("sorting")]
@@ -279,7 +279,7 @@ public class QuestionController : Controller
             CorrectOrder = questionDTO.CorrectOrder
         };
 
-        return await _questionDb.AddSortingQuestion(q, sq) ? StatusCode(201) : StatusCode(400);
+        return await _questionDb.AddSortingQuestion(q, sq) ? StatusCode(201, new { q.Id }) : StatusCode(400);
     }
 
     /*
@@ -301,7 +301,7 @@ public class QuestionController : Controller
             Questions = questionDTO.Questions
         };
 
-        return await _questionDb.AddGroupQuestion(q, gq) ? StatusCode(201) : StatusCode(400);
+        return await _questionDb.AddGroupQuestion(q, gq) ? StatusCode(201, new { q.Id }) : StatusCode(400);
     }
     */
 
@@ -325,7 +325,7 @@ public class QuestionController : Controller
             AnswerKeys = questionDTO.AnswerKeys
         };
 
-        return await _questionDb.AddTrueFalseTHPTQuestion(q, tfq) ? StatusCode(201) : StatusCode(400);
+        return await _questionDb.AddTrueFalseTHPTQuestion(q, tfq) ? StatusCode(201, new { q.Id }) : StatusCode(400);
     }
 
     // PUT

@@ -222,6 +222,15 @@ public class QuestionDb
         }
     }
 
+    public async Task<bool> UpdateQuestionImage(ulong id, string imageUrl)
+    {
+        var question = await GetQuestionById(id);
+        question.ImageUrl = imageUrl;
+        _dbContext.Update(question);
+
+        return await _dbContext.SaveChangesAsync() > 0;
+    }
+
     public async Task<bool> DeleteQuestion(Question q)
     {
         _dbContext.Questions.Remove(q);

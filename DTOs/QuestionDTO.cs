@@ -6,7 +6,7 @@ public partial class QuestionReadDTO
 {
     public ulong? Id { get; set; }
 
-    public string? Title { get; set; }
+    public string Title { get; set; } = null!;
 
     public byte? Grade { get; set; }
 
@@ -27,7 +27,7 @@ public abstract partial class QuestionDTO
 {
     public ulong? Id { get; set; }
 
-    public string? Title { get; set; }
+    public string Title { get; set; } = null!;
 
     public string? ImageUrl { get; set; }
 

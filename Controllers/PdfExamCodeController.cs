@@ -26,6 +26,8 @@ public class PdfExamCodeController : Controller
     [HttpPost]
     public async Task<IActionResult> AddPdfExamCodes(List<PdfExamCodeDTO> pdfExamCodeDTOList)
     {
+        List<ulong> newIds = new List<ulong>();
+
         try
         {
             await using var transaction = await _pdfExamCodeDb.DbContext.Database.BeginTransactionAsync();
@@ -45,6 +47,7 @@ public class PdfExamCodeController : Controller
                 if (pdfExamCodeAdded == null) return StatusCode(400, "Failed to add PDF exam code!");
 
                 var newId = pdfExamCodeAdded.Id;
+                newIds.Add(newId);
                 foreach (var q in pdfExamCodeDTO.Questions)
                 {
                     var pdfExamCodeQuestion = new PdfExamCodeQuestion
@@ -67,7 +70,7 @@ public class PdfExamCodeController : Controller
             }
 
             await transaction.CommitAsync();
-            return StatusCode(201, "Add successfully!");
+            return StatusCode(201, new { Id = newIds });
         }
         catch (Exception ex)
         {
