@@ -22,20 +22,14 @@ public class ExamController : Controller
         _examQuestionDb = new ExamQuestionDb(dbContext);
     }
 
-    [HttpGet]
-    public async Task<List<ExamReadDTO>> GetExamsAsync()
-    {
-        return await _examDb.GetExamsAsync();
-    }
-
     [HttpGet("publish")]
-    public async Task<List<ExamReadDTO>> GetPublishExamsAsync()
+    public async Task<List<ExamReadDTO>> GetPublishExams()
     {
         return await _examDb.GetPublishExamsAsync();
     }
 
     [HttpGet("{id}")]
-    public async Task<ExamReadDTO> GetExamDTOByIdAsync(ulong id)
+    public async Task<ExamReadDTO> GetExamDTOById(ulong id)
     {
         return await _examDb.GetExamDTOById(id);
     }
@@ -47,21 +41,33 @@ public class ExamController : Controller
     }
 
     [HttpGet("{id}/topic")]
-    public async Task<List<string>> GetTopicByExamIdAsync(ulong id)
+    public async Task<List<string>> GetTopicByExamId(ulong id)
     {
         return await _examDb.GetTopicByExamId(id);
     }
 
     [HttpGet("teacher/{teacherId}")]
-    public async Task<List<ExamReadDTO>> GetExamsByTeacherAsync(ulong teacherId)
+    public async Task<List<ExamReadDTO>> GetExamsByTeacher(ulong teacherId)
     {
         return await _examDb.GetExamsByTeacherAsync(teacherId);
     }
 
-    [HttpGet("publish/teacher/{teacherId}")]
-    public async Task<List<ExamReadDTO>> GetPublishExamsByTeacherAsync(ulong teacherId)
+    [HttpGet("teacher/{teacherId}/publish")]
+    public async Task<List<ExamReadDTO>> GetPublishExamsByTeacher(ulong teacherId)
     {
         return await _examDb.GetPublishExamsByTeacherAsync(teacherId);
+    }
+
+    [HttpGet("{id}/question/attempt")]
+    public async Task<List<ExamPartDTO>> GetQuestionListForAttempt(ulong id)
+    {
+        return await _examPartDb.GetQuestionListForAttemptAsync(id);
+    }
+
+    [HttpGet("{id}/question")]
+    public async Task<List<ExamPart>> GetExamQuestions(ulong id)
+    {
+        return await _examPartDb.GetExamPartsAsyncByExamId(id);
     }
 
     [HttpPost]
@@ -120,18 +126,6 @@ public class ExamController : Controller
     public async Task<IActionResult> PublishExam(ulong id)
     {
         return await _examDb.PublishExam(id) ? StatusCode(200) : StatusCode(400);
-    }
-
-    [HttpGet("{id}/detail")]
-    public async Task<List<ExamPartDTO>> GetQuestionListForExam(ulong id)
-    {
-        return await _examPartDb.GetExamPartDetailsAsyncByExamId(id);
-    }
-
-    [HttpGet("question/{id}")]
-    public async Task<List<ExamPart>> GetQuestionForExam(ulong id)
-    {
-        return await _examPartDb.GetExamPartsAsyncByExamId(id);
     }
 
     [HttpPost("question/{id}")]

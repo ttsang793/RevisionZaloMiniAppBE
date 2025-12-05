@@ -13,37 +13,6 @@ public class ExamDb
         DbContext = dbContext;
     }
 
-    public async Task<List<ExamReadDTO>> GetExamsAsync()
-    {
-        var result = await (from e in DbContext.Exams
-                            join u in DbContext.Users
-                            on e.TeacherId equals u.Id
-                            join s in DbContext.Subjects
-                            on e.SubjectId equals s.Id
-                            select new ExamReadDTO
-                            {
-                                Id = e.Id,
-                                ExamType = e.ExamType,
-                                DisplayType = e.DisplayType,
-                                Title = e.Title,
-                                Grade = e.Grade,
-                                TimeLimit = e.TimeLimit,
-                                EarlyTurnIn = e.EarlyTurnIn,
-                                AllowShowScore = e.AllowShowScore,
-                                AllowPartSwap = e.AllowPartSwap,
-                                TeacherId = u.Id,
-                                TeacherName = u.Name,
-                                TeacherAvatar = u.Avatar,
-                                SubjectId = s.Id,
-                                SubjectName = s.Name,
-                                UpdatedAt = (e.Status < 3) ? e.UpdatedAt : null,
-                                PublishedAt = (e.Status == 3) ? e.PublishedAt : null,
-                                Status = e.Status
-                            }).ToListAsync();
-
-        return result;
-    }
-
     public async Task<List<ExamReadDTO>> GetPublishExamsAsync()
     {
         var result = await (from e in DbContext.Exams

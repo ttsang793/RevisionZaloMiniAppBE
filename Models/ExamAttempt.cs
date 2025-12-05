@@ -20,11 +20,15 @@ public partial class ExamAttempt
 
     public string? Comment { get; set; }
 
-    public ICollection<ulong> PartOrder { get; set; } = [];
+    public ICollection<ulong>? PartOrder { get; set; }
+
+    public bool? IsPractice { get; set; }
 
     public virtual Exam Exam { get; set; } = null!;
 
     public virtual ICollection<ExamAttemptAnswer> ExamAttemptAnswers { get; set; } = [];
+
+    public virtual PdfExamAttempt? PdfExamAttempt { get; set; }
 
     public virtual Student Student { get; set; } = null!;
 }

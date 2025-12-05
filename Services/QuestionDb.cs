@@ -1,6 +1,7 @@
 ﻿using backend.Models;
 using backend.DTOs;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Mvc.Formatters;
 
 namespace backend.Services;
 
@@ -24,6 +25,7 @@ public class QuestionDb
                       {
                           Id = q.Id,
                           Title = q.Title,
+                          ImageUrl = q.ImageUrl,
                           Grade = q.Grade,
                           Type = q.Type,
                           Difficulty = q.Difficulty,
@@ -44,6 +46,7 @@ public class QuestionDb
                       {
                           Id = q.Id,
                           Title = q.Title,
+                          ImageUrl = q.ImageUrl,
                           Grade = q.Grade,
                           Type = q.Type,
                           Difficulty = q.Difficulty,
@@ -196,30 +199,106 @@ public class QuestionDb
     }
 
     // PUT AND DELETE
-    public async Task<bool> UpdateQuestion(Question q, TypeQuestion tq)
+    public async Task<bool> CheckIfExports(ulong id)
     {
-        var existingQuestion = await _dbContext.Questions.AsNoTracking().FirstOrDefaultAsync(x => x.Id == q.Id);
-        if (existingQuestion == null) return false;
-
-        q.CreatedAt = existingQuestion.CreatedAt;
-
-        using var transaction = await _dbContext.Database.BeginTransactionAsync();
-
         try
         {
-            _dbContext.Entry(q).State = EntityState.Modified;
-            _dbContext.Entry(tq).State = EntityState.Modified;
+            var status = await (from eq in _dbContext.ExamQuestions
+                                join ep in _dbContext.ExamParts on eq.ExamPartId equals ep.Id
+                                join e in _dbContext.Exams on ep.ExamId equals e.Id
+                                where eq.QuestionId == id
+                                select e.Status).FirstAsync();
 
-            var result = await _dbContext.SaveChangesAsync() > 0;
-            await transaction.CommitAsync();
-
-            return result;
+            return (status == 3);
         }
         catch
         {
-            await transaction.RollbackAsync();
-            throw;
+            return false;
         }
+    }
+
+    public async Task<bool> UpdateQuestion(Question q, ulong id)
+    {
+        var question = await _dbContext.Questions.Where(q => q.Id == id).FirstAsync();
+        if (question == null) return false;
+
+        question.Title = q.Title;
+        question.Grade = q.Grade;
+        question.Type = q.Type;
+        question.Difficulty = q.Difficulty;
+        question.TopicId = q.TopicId;
+        question.Explanation = q.Explanation;
+
+        _dbContext.Questions.Update(question);
+        return await _dbContext.SaveChangesAsync() > 0;
+    }
+
+    public async Task<bool> UpdateMultipleChoiceQuestion(Question q, MultipleChoiceQuestion mcq, ulong id)
+    {
+        var multipleChoice = await _dbContext.MultipleChoiceQuestions.Where(mcq => mcq.Id == id).FirstAsync();
+
+        if (multipleChoice == null || await UpdateQuestion(q, id) == false) return false;
+        multipleChoice.CorrectAnswer = mcq.CorrectAnswer;
+        multipleChoice.WrongAnswer = mcq.WrongAnswer;
+        _dbContext.MultipleChoiceQuestions.Update(multipleChoice);
+        return await _dbContext.SaveChangesAsync() > 0;
+    }
+
+    public async Task<bool> UpdateTrueFalseQuestion(Question q, TrueFalseQuestion tfq, ulong id)
+    {
+        var trueFalse = await _dbContext.TrueFalseQuestions.Where(tfq => tfq.Id == id).FirstAsync();
+
+        if (trueFalse == null || await UpdateQuestion(q, id) == false) return false;
+        trueFalse.AnswerKey = tfq.AnswerKey;
+        _dbContext.TrueFalseQuestions.Update(trueFalse);
+        return await _dbContext.SaveChangesAsync() > 0;
+    }
+
+    public async Task<bool> UpdateShortAnswerQuestion(Question q, ShortAnswerQuestion saq, ulong id)
+    {
+        var shortAnswer = await _dbContext.ShortAnswerQuestions.Where(saq => saq.Id == id).FirstAsync();
+
+        if (shortAnswer == null || await UpdateQuestion(q, id) == false) return false;
+        shortAnswer.AnswerKey = saq.AnswerKey;
+        _dbContext.ShortAnswerQuestions.Update(shortAnswer);
+        return await _dbContext.SaveChangesAsync() > 0;
+    }
+
+    public async Task<bool> UpdateManualResponseQuestion(Question q, ManualResponseQuestion mrq, ulong id)
+    {
+        var manualResponse = await _dbContext.ManualResponseQuestions.Where(mrq => mrq.Id == id).FirstAsync();
+
+        if (manualResponse == null || await UpdateQuestion(q, id) == false) return false;
+        manualResponse.AnswerKeys = mrq.AnswerKeys;
+        manualResponse.AllowTakePhoto = mrq.AllowTakePhoto;
+        manualResponse.AllowEnter = mrq.AllowEnter;
+        manualResponse.MarkAsWrong = mrq.MarkAsWrong;
+        _dbContext.ManualResponseQuestions.Update(manualResponse);
+        return await _dbContext.SaveChangesAsync() > 0;
+    }
+
+    public async Task<bool> UpdateSortingQuestion(Question q, SortingQuestion sq, ulong id)
+    {
+        var sorting = await _dbContext.SortingQuestions.Where(sq => sq.Id == id).FirstAsync();
+
+        if (sorting == null || await UpdateQuestion(q, id) == false) return false;
+        sorting.CorrectOrder = sq.CorrectOrder;
+        _dbContext.SortingQuestions.Update(sorting);
+        return await _dbContext.SaveChangesAsync() > 0;
+    }
+
+    public async Task<bool> UpdateTrueFalseTHPTQuestion(Question q, TrueFalseTHPTQuestion tfq, ulong id)
+    {
+        var trueFalseTHPT = await _dbContext.TrueFalseTHPTQuestions.Where(tfq => tfq.Id == id).FirstAsync();
+
+        if (trueFalseTHPT == null || await UpdateQuestion(q, id) == false) return false;
+        trueFalseTHPT.PassageTitle = tfq.PassageTitle;
+        trueFalseTHPT.PassageContent = tfq.PassageContent;
+        trueFalseTHPT.PassageAuthor = tfq.PassageAuthor;
+        trueFalseTHPT.Statements = tfq.Statements;
+        trueFalseTHPT.AnswerKeys = tfq.AnswerKeys;
+        _dbContext.TrueFalseTHPTQuestions.Update(trueFalseTHPT);
+        return await _dbContext.SaveChangesAsync() > 0;
     }
 
     public async Task<bool> UpdateQuestionImage(ulong id, string imageUrl)

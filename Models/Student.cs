@@ -1,6 +1,4 @@
-﻿using System.Linq.Expressions;
-
-namespace backend.Models;
+﻿namespace backend.Models;
 
 public partial class Student
 {
@@ -23,8 +21,6 @@ public partial class Student
     public virtual ICollection<Follower> Followers { get; set; } = [];
 
     public virtual User IdNavigation { get; set; } = null!;
-
-    public virtual ICollection<PdfExamAttempt> PdfExamAttempts { get; set; } = [];
 
     public virtual ICollection<StudentHistory> StudentHistories { get; set; } = [];
 

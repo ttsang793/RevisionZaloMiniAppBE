@@ -85,6 +85,8 @@ public class QuestionController : Controller
     private async Task<ShortAnswerQuestionDTO> GetShortAnswerQuestionById(Question q)
     {
         var answer = await _questionDb.GetShortAnswerQuestionById(q.Id);
+
+        while (answer.AnswerKey.Length < 4) answer.AnswerKey += " ";
         return new ShortAnswerQuestionDTO
         {
             Id = q.Id,
@@ -130,25 +132,6 @@ public class QuestionController : Controller
             CorrectOrder = answer.CorrectOrder
         };
     }
-
-    /*
-    private async Task<GroupQuestionGetDTO> GetGroupQuestionById(Question q)
-    {
-        var answer = await _questionDb.GetGroupQuestionById(q.Id);
-
-        return new GroupQuestionGetDTO
-        {
-            Id = q.Id,
-            Title = q.Title,
-            Grade = q.Grade,
-            Type = q.Type,
-            PassageTitle = answer.PassageTitle,
-            PassageContent = answer.PassageContent,
-            PassageAuthor = answer.PassageAuthor,
-            Questions = await _questionDb.GetQuestionByMultipleIds(answer.Questions)
-        };
-    }
-    */
 
     private async Task<TrueFalseTHPTQuestionDTO> GetTrueFalseTHPTQuestionById(Question q)
     {
@@ -249,7 +232,7 @@ public class QuestionController : Controller
             Explanation = questionDTO.Explanation
         };
 
-        ManualResponseQuestion crq = new ManualResponseQuestion
+        ManualResponseQuestion mrq = new ManualResponseQuestion
         {
             AnswerKeys = questionDTO.AnswerKeys,
             AllowTakePhoto = questionDTO.AllowTakePhoto,
@@ -257,7 +240,7 @@ public class QuestionController : Controller
             MarkAsWrong = questionDTO.MarkAsWrong
         };
 
-        return await _questionDb.AddManualResponseQuestion(q, crq) ? StatusCode(201, new { q.Id }) : StatusCode(400);
+        return await _questionDb.AddManualResponseQuestion(q, mrq) ? StatusCode(201, new { q.Id }) : StatusCode(400);
     }
 
     [HttpPost("sorting")]
@@ -282,29 +265,6 @@ public class QuestionController : Controller
         return await _questionDb.AddSortingQuestion(q, sq) ? StatusCode(201, new { q.Id }) : StatusCode(400);
     }
 
-    /*
-    [HttpPost("group")]
-    public async Task<IActionResult> AddGroupQuestion(GroupQuestionPostDTO questionDTO)
-    {
-        Question q = new Question
-        {
-            Title = questionDTO.Title,
-            Grade = questionDTO.Grade,
-            Type = questionDTO.Type
-        };
-
-        GroupQuestion gq = new GroupQuestion
-        {
-            PassageTitle = questionDTO.PassageTitle,
-            PassageContent = questionDTO.PassageContent,
-            PassageAuthor = questionDTO.PassageAuthor,
-            Questions = questionDTO.Questions
-        };
-
-        return await _questionDb.AddGroupQuestion(q, gq) ? StatusCode(201, new { q.Id }) : StatusCode(400);
-    }
-    */
-
     [HttpPost("true-false-THPT")]
     public async Task<IActionResult> AddTrueFalseTHPTQuestion(TrueFalseTHPTQuestionDTO questionDTO)
     {
@@ -328,10 +288,18 @@ public class QuestionController : Controller
         return await _questionDb.AddTrueFalseTHPTQuestion(q, tfq) ? StatusCode(201, new { q.Id }) : StatusCode(400);
     }
 
+    [HttpGet("{id}/updatable")]
+    public async Task<IActionResult> IsUpdatable(ulong id)
+    {
+        return await _questionDb.CheckIfExports(id) ? StatusCode(400) : StatusCode(200);
+    }
+
     // PUT
     [HttpPut("multiple-choice/{id}")]
     public async Task<IActionResult> UpdateMultipleChoiceQuestion(MultipleChoiceQuestionDTO questionDTO, ulong id)
     {
+        if (await _questionDb.CheckIfExports(id)) return StatusCode(419, new { Error = "Câu hỏi ở đề thi đã xuất bản, không thể cập nhật!" });
+
         Question q = new Question
         {
             Id = id,
@@ -351,12 +319,15 @@ public class QuestionController : Controller
             WrongAnswer = questionDTO.WrongAnswer
         };
 
-        return await _questionDb.UpdateQuestion(q, mcq) ? StatusCode(201) : StatusCode(400);
+        return await _questionDb.UpdateMultipleChoiceQuestion(q, mcq, id) ? StatusCode(200) : StatusCode(400);
     }
 
+    
     [HttpPut("true-false/{id}")]
     public async Task<IActionResult> UpdateTrueFalseQuestion(TrueFalseQuestionDTO questionDTO, ulong id)
     {
+        if (await _questionDb.CheckIfExports(id)) return StatusCode(419, new { Error = "Câu hỏi ở đề thi đã xuất bản, không thể cập nhật!" });
+
         Question q = new Question
         {
             Id = id,
@@ -375,12 +346,14 @@ public class QuestionController : Controller
             AnswerKey = questionDTO.AnswerKey
         };
 
-        return await _questionDb.UpdateQuestion(q, tfq) ? StatusCode(201) : StatusCode(400);
+        return await _questionDb.UpdateTrueFalseQuestion(q, tfq, id) ? StatusCode(200) : StatusCode(400);
     }
 
     [HttpPut("short-answer/{id}")]
     public async Task<IActionResult> UpdateShortAnswerQuestion(ShortAnswerQuestionDTO questionDTO, ulong id)
     {
+        if (await _questionDb.CheckIfExports(id)) return StatusCode(419, new { Error = "Câu hỏi ở đề thi đã xuất bản, không thể cập nhật!" });
+
         Question q = new Question
         {
             Id = id,
@@ -399,12 +372,14 @@ public class QuestionController : Controller
             AnswerKey = questionDTO.AnswerKey
         };
 
-        return await _questionDb.UpdateQuestion(q, saq) ? StatusCode(201) : StatusCode(400);
+        return await _questionDb.UpdateShortAnswerQuestion(q, saq, id) ? StatusCode(200) : StatusCode(400);
     }
-
+    
     [HttpPut("manual-response/{id}")]
     public async Task<IActionResult> UpdateManualResponseQuestion(ManualResponseQuestionDTO questionDTO, ulong id)
     {
+        if (await _questionDb.CheckIfExports(id)) return StatusCode(419, new { Error = "Câu hỏi ở đề thi đã xuất bản, không thể cập nhật!" });
+
         Question q = new Question
         {
             Id = id,
@@ -417,7 +392,7 @@ public class QuestionController : Controller
             Explanation = questionDTO.Explanation
         };
 
-        ManualResponseQuestion crq = new ManualResponseQuestion
+        ManualResponseQuestion mrq = new ManualResponseQuestion
         {
             Id = id,
             AnswerKeys = questionDTO.AnswerKeys,
@@ -426,12 +401,14 @@ public class QuestionController : Controller
             MarkAsWrong = questionDTO.MarkAsWrong
         };
 
-        return await _questionDb.UpdateQuestion(q, crq) ? StatusCode(201) : StatusCode(400);
+        return await _questionDb.UpdateManualResponseQuestion(q, mrq, id) ? StatusCode(200) : StatusCode(400);
     }
 
     [HttpPut("sorting/{id}")]
     public async Task<IActionResult> UpdateSortingQuestion(SortingQuestionDTO questionDTO, ulong id)
     {
+        if (await _questionDb.CheckIfExports(id)) return StatusCode(419, new { Error = "Câu hỏi ở đề thi đã xuất bản, không thể cập nhật!" });
+
         Question q = new Question
         {
             Id = id,
@@ -450,35 +427,14 @@ public class QuestionController : Controller
             CorrectOrder = questionDTO.CorrectOrder
         };
 
-        return await _questionDb.UpdateQuestion(q, sq) ? StatusCode(201) : StatusCode(400);
-    }
-
-    [HttpPut("group/{id}")]
-    public async Task<IActionResult> UpdateGroupQuestion(GroupQuestionPostDTO questionDTO, ulong id)
-    {
-        Question q = new Question
-        {
-            Id = id,
-            Title = questionDTO.Title,
-            Grade = questionDTO.Grade,
-            Type = questionDTO.Type
-        };
-
-        GroupQuestion gq = new GroupQuestion
-        {
-            Id = id,
-            PassageTitle = questionDTO.PassageTitle,
-            PassageContent = questionDTO.PassageContent,
-            PassageAuthor = questionDTO.PassageAuthor,
-            Questions = questionDTO.Questions
-        };
-
-        return await _questionDb.UpdateQuestion(q, gq) ? StatusCode(201) : StatusCode(400);
+        return await _questionDb.UpdateSortingQuestion(q, sq, id) ? StatusCode(200) : StatusCode(400);
     }
 
     [HttpPut("true-false-THPT/{id}")]
     public async Task<IActionResult> UpdateTrueFalseTHPTQuestion(TrueFalseTHPTQuestionDTO questionDTO, ulong id)
     {
+        if (await _questionDb.CheckIfExports(id)) return StatusCode(419, new { Error = "Câu hỏi ở đề thi đã xuất bản, không thể cập nhật!" });
+
         Question q = new Question
         {
             Id = id,
@@ -498,14 +454,16 @@ public class QuestionController : Controller
             AnswerKeys = questionDTO.AnswerKeys
         };
 
-        return await _questionDb.UpdateQuestion(q, tfq) ? StatusCode(201) : StatusCode(400);
+        return await _questionDb.UpdateTrueFalseTHPTQuestion(q, tfq, id) ? StatusCode(200) : StatusCode(400);
     }
 
     // DELETE
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteQuestion(ulong id)
     {
+        if (await _questionDb.CheckIfExports(id)) return StatusCode(419, new { Error = "Câu hỏi ở đề thi đã xuất bản, không thể cập nhật!" });
+
         var question = await _questionDb.GetQuestionById(id);
-        return await _questionDb.DeleteQuestion(question) ? StatusCode(201) : StatusCode(400);
+        return await _questionDb.DeleteQuestion(question) ? StatusCode(200) : StatusCode(400);
     }
 }

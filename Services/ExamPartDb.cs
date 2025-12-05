@@ -20,15 +20,15 @@ public class ExamPartDb
                             {
                                 Id = ep.Id,
                                 PartTitle = ep.PartTitle,
+                                QuestionTypes = ep.QuestionTypes,
                                 ExamQuestions = _dbContext.ExamQuestions.Where(eq => eq.ExamPartId == ep.Id).ToList()
                             }).ToListAsync();
 
         return result;
     }
 
-    public async Task<List<ExamPartDTO>> GetExamPartDetailsAsyncByExamId(ulong id)
+    public async Task<List<ExamPartDTO>> GetQuestionListForAttemptAsync(ulong id)
     {
-        Console.WriteLine($"ID: {id}");
         var examParts = await _dbContext.ExamParts
             .Where(ep => ep.ExamId == id)
             .Include(ep => ep.ExamQuestions)
@@ -81,6 +81,7 @@ public class ExamPartDb
                             {
                                 Id = eq.QuestionId,
                                 Title = eq.Question.Title,
+                                ImageUrl = eq.Question.ImageUrl,
                                 Type = eq.Question.Type,
                                 Difficulty = eq.Question.Difficulty,
                                 TopicId = eq.Question.TopicId,
@@ -97,6 +98,7 @@ public class ExamPartDb
                             {
                                 Id = eq.QuestionId,
                                 Title = eq.Question.Title,
+                                ImageUrl = eq.Question.ImageUrl,
                                 Type = eq.Question.Type,
                                 Difficulty = eq.Question.Difficulty,
                                 TopicId = eq.Question.TopicId,
@@ -112,6 +114,7 @@ public class ExamPartDb
                             {
                                 Id = eq.QuestionId,
                                 Title = eq.Question.Title,
+                                ImageUrl = eq.Question.ImageUrl,
                                 Type = eq.Question.Type,
                                 Difficulty = eq.Question.Difficulty,
                                 TopicId = eq.Question.TopicId,
@@ -127,6 +130,7 @@ public class ExamPartDb
                             {
                                 Id = eq.QuestionId,
                                 Title = eq.Question.Title,
+                                ImageUrl = eq.Question.ImageUrl,
                                 Type = eq.Question.Type,
                                 Difficulty = eq.Question.Difficulty,
                                 TopicId = eq.Question.TopicId,
@@ -145,6 +149,7 @@ public class ExamPartDb
                             {
                                 Id = eq.QuestionId,
                                 Title = eq.Question.Title,
+                                ImageUrl = eq.Question.ImageUrl,
                                 Type = eq.Question.Type,
                                 Difficulty = eq.Question.Difficulty,
                                 TopicId = eq.Question.TopicId,
@@ -160,6 +165,7 @@ public class ExamPartDb
                             {
                                 Id = eq.QuestionId,
                                 Title = eq.Question.Title,
+                                ImageUrl = eq.Question.ImageUrl,
                                 Type = eq.Question.Type,
                                 Difficulty = eq.Question.Difficulty,
                                 TopicId = eq.Question.TopicId,

@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace backend.Controllers;
 
 [ApiController]
-[Route("/api/exam-attempt")]
+[Route("/api/exam/attempt")]
 public class ExamAttemptController : Controller
 {
     private readonly ILogger<QuestionController> _logger;
@@ -43,18 +43,11 @@ public class ExamAttemptController : Controller
     {
         return await _examAttemptDb.GetExamAttempt(null, null, examAttemptId);
     }
-
-    [HttpGet("pdf/{studentId}/{examId}")]
-    public async Task<PdfExamAttempt> GetLatestPdfExamAttempt(ulong studentId, ulong examId)
-    {
-        return await _examAttemptDb.GetLatestPdfExamAttempt(studentId, examId);
-    }
     
     #pragma warning disable CS8629 // Nullable value type may be null.
     [HttpPost]
     public async Task<IActionResult> AddExamAttempt([FromBody] ExamAttemptDTO examAttemptDTO)
     {
-
         double durationDouble = (DateTime.Now - ((DateTime)examAttemptDTO.StartedAt).ToLocalTime()).TotalSeconds;
         ushort duration = ((ushort)Math.Round(durationDouble));
 
@@ -107,57 +100,85 @@ public class ExamAttemptController : Controller
     }
     #pragma warning restore CS8629 // Nullable value type may be null.
 
-    [HttpPut("comment/{id}")]
-    public async Task<IActionResult> CommentExamAttempt([FromBody] ExamAttemptDTO examAttemptDTO, ulong id)
-    {
-        ExamAttempt examAttempt = new ExamAttempt
-        {
-            Id = id,
-            Comment = examAttemptDTO.Comment
-        };
-
-        return (await _examAttemptDb.CommentExamAttempt(examAttempt)) ? StatusCode(201) : StatusCode(400);
-    }
-
     [HttpPut("grading/{id}")]
-    public async Task<IActionResult> GradingExamAttempt([FromBody] ExamAttemptDTO examAttemptDTO, ulong id)
+    public async Task<IActionResult> GradingExamAttempt(ExamAttemptDTO examAttemptDTO, ulong id)
     {
         ExamAttempt examAttempt = new ExamAttempt
         {
             Id = id,
+            Comment = examAttemptDTO.Comment,
             TotalPoint = examAttemptDTO.TotalPoint
         };
+
+        Console.WriteLine(examAttempt.Comment);
 
         foreach (var examAttemptAnswerDTO in examAttemptDTO.ExamAttemptAnswers)
             examAttempt.ExamAttemptAnswers.Add(new ExamAttemptAnswer
             {
+                Id = examAttemptAnswerDTO.Id.Value,
                 Correct = examAttemptAnswerDTO.Correct,
                 Point = examAttemptAnswerDTO.Point
             });
 
-        return (await _examAttemptDb.GradingExamAttempt(examAttempt)) ? StatusCode(201) : StatusCode(400);
+        return (await _examAttemptDb.GradingExamAttempt(examAttempt)) ? StatusCode(200) : StatusCode(400);
     }
-
+    
     [HttpPost("pdf")]
     public async Task<IActionResult> AddPdfExamAttempt(PdfExamAttemptDTO pdfExamAttemptDTO)
     {
         double durationDouble = (DateTime.Now - pdfExamAttemptDTO.StartedAt.ToLocalTime()).TotalSeconds;
         ushort duration = (ushort)Math.Round(durationDouble);
 
-        var pdfExamAttempt = new PdfExamAttempt
+        ExamAttempt examAttempt = new ExamAttempt
         {
             ExamId = pdfExamAttemptDTO.ExamId,
             StudentId = pdfExamAttemptDTO.StudentId,
             TotalPoint = pdfExamAttemptDTO.TotalPoint,
             StartedAt = pdfExamAttemptDTO.StartedAt.ToLocalTime(),
             Duration = duration,
-            SubmittedAt = DateTime.Now,
+            SubmittedAt = DateTime.Now
+        };
+
+        var addedExam = await _examAttemptDb.AddExamAttempt(examAttempt);
+        if (addedExam == null) return StatusCode(400, "Nộp bài thất bại!");
+
+        var pdfExamAttempt = new PdfExamAttempt
+        {
+            Id = addedExam.Id,
             StudentAnswer = pdfExamAttemptDTO.StudentAnswer,
             PointBoard = pdfExamAttemptDTO.PointBoard,
+            CorrectBoard = pdfExamAttemptDTO.CorrectBoard,
             PdfExamCodeId = pdfExamAttemptDTO.PdfExamCodeId
         };
 
         return await _examAttemptDb.AddPdfExamAttempt(pdfExamAttempt) ? StatusCode(201, "Nộp bài thành công!") : StatusCode(400, "Nộp bài thất bại!");
+    }
+
+    [HttpGet("pdf/{studentId}/{examId}")]
+    public async Task<PdfExamAttempt> GetLatestPdfExamAttempt(ulong studentId, ulong examId)
+    {
+        return await _examAttemptDb.GetLatestPdfExamAttempt(studentId, examId);
+    }
+
+    [HttpPut("pdf/grading/{id}")]
+    public async Task<IActionResult> PdfGradingExamAttempt(PdfExamAttemptDTO pdfExamAttemptDTO, ulong id)
+    {
+        ExamAttempt examAttempt = new ExamAttempt
+        {
+            Id = id,
+            Comment = pdfExamAttemptDTO.Comment,
+            TotalPoint = pdfExamAttemptDTO.TotalPoint
+        };
+
+        var pdfExamAttempt = new PdfExamAttempt
+        {
+            Id = id,
+            PointBoard = pdfExamAttemptDTO.PointBoard,
+            CorrectBoard = pdfExamAttemptDTO.CorrectBoard
+        };
+
+        //return (await _examAttemptDb.GradingExamAttempt(examAttempt)) ? StatusCode(200) : StatusCode(400);
+        return BadRequest();
     }
 
     [HttpPost("achievement/{studentId}")]

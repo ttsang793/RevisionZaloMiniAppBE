@@ -18,7 +18,7 @@ public class EmailController : Controller
     }
 
     [HttpPost("new-response")]
-    public async Task NotifyWhenResponse(EmailDTO emailDTO)
+    public void NotifyWhenResponse(EmailDTO emailDTO)
     {
         // To do code
     }

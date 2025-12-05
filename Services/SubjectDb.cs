@@ -27,6 +27,11 @@ public class SubjectDb
         return await _dbContext.Subjects.FirstAsync(s => s.Id == id);
     }
 
+    public async Task<ICollection<byte>> GetGradesByIdAsync(string id)
+    {
+        return await _dbContext.Subjects.Where(s => s.Id == id).Select(s => s.Grades).FirstAsync();
+    }
+
     public async Task<sbyte> Add(Subject s)
     {
         if (_dbContext.Subjects.Any(sj => sj.Name == s.Name)) return -1;

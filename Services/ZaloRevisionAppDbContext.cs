@@ -205,6 +205,9 @@ public partial class ZaloRevisionAppDbContext : DbContext
                 .HasColumnName("comment");
             entity.Property(e => e.Duration).HasColumnName("duration");
             entity.Property(e => e.ExamId).HasColumnName("exam_id");
+            entity.Property(e => e.IsPractice)
+                .HasDefaultValueSql("'0'")
+                .HasColumnName("is_practice");
             entity.Property(e => e.MarkedAt)
                 .HasColumnType("datetime")
                 .HasColumnName("marked_at");
@@ -436,15 +439,15 @@ public partial class ZaloRevisionAppDbContext : DbContext
 
             entity.HasIndex(e => e.PdfExamCodeId, "pdf_exam_code_id");
 
-            entity.HasIndex(e => e.ExamId, "exam_id");
-
-            entity.HasIndex(e => e.StudentId, "student_id");
-
             entity.Property(e => e.Id).HasColumnName("id");
-            entity.Property(e => e.PdfExamCodeId).HasColumnName("code_id");
-            entity.Property(e => e.Comment)
-                .HasColumnType("text")
-                .HasColumnName("comment");
+            entity.Property(e => e.CorrectBoard)
+                .HasColumnType("json")
+                .HasConversion(
+                      v => JsonSerializer.Serialize(v, new JsonSerializerOptions()),
+                      v => JsonSerializer.Deserialize<List<bool[]>>(v!, new JsonSerializerOptions())!
+                  )
+                .HasColumnName("correct_board");
+            entity.Property(e => e.PdfExamCodeId).HasColumnName("pdf_exam_code_id");
             entity.Property(e => e.PointBoard)
                 .HasColumnType("json")
                 .HasConversion(
@@ -452,11 +455,6 @@ public partial class ZaloRevisionAppDbContext : DbContext
                       v => JsonSerializer.Deserialize<List<decimal>>(v!, new JsonSerializerOptions())!
                   )
                 .HasColumnName("point_board");
-            entity.Property(e => e.Duration).HasColumnName("duration");
-            entity.Property(e => e.ExamId).HasColumnName("exam_id");
-            entity.Property(e => e.TotalPoint)
-                .HasColumnType("decimal(5,2) unsigned")
-                .HasColumnName("total_point");
             entity.Property(e => e.StudentAnswer)
                 .HasColumnType("json")
                 .HasConversion(
@@ -464,27 +462,14 @@ public partial class ZaloRevisionAppDbContext : DbContext
                       v => JsonSerializer.Deserialize<List<string>>(v!, new JsonSerializerOptions())!
                   )
                 .HasColumnName("student_answer");
-            entity.Property(e => e.StartedAt)
-                .HasDefaultValueSql("CURRENT_TIMESTAMP")
-                .HasColumnType("datetime")
-                .HasColumnName("started_at");
-            entity.Property(e => e.StudentId).HasColumnName("student_id");
-            entity.Property(e => e.SubmittedAt)
-                .HasDefaultValueSql("CURRENT_TIMESTAMP")
-                .HasColumnType("datetime")
-                .HasColumnName("submitted_at");
 
-            entity.HasOne(d => d.Exam).WithMany(p => p.PdfExamAttempts)
-                .HasForeignKey(d => d.ExamId)
+            entity.HasOne(d => d.IdNavigation).WithOne(p => p.PdfExamAttempt)
+                .HasForeignKey<PdfExamAttempt>(d => d.Id)
                 .HasConstraintName("pdf_exam_attempts_ibfk_1");
 
-            entity.HasOne(d => d.Student).WithMany(p => p.PdfExamAttempts)
-                .HasForeignKey(d => d.StudentId)
-                .HasConstraintName("pdf_exam_attempts_ibfk_2");
-
-            entity.HasOne(d => d.Code).WithMany(p => p.PdfExamAttempts)
+            entity.HasOne(d => d.PdfExamCode).WithMany(p => p.PdfExamAttempts)
                 .HasForeignKey(d => d.PdfExamCodeId)
-                .HasConstraintName("pdf_exam_attempts_ibfk_3");
+                .HasConstraintName("pdf_exam_attempts_ibfk_2");
         });
 
         modelBuilder.Entity<PdfExamCode>(entity =>

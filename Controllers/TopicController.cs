@@ -25,10 +25,10 @@ public class TopicController : Controller
         return await _topicDb.GetAsync();
     }
 
-    [HttpGet("active")]
-    public async Task<List<Topic>> GetActive()
+    [HttpGet("{subjectId}/{grade}/active")]
+    public async Task<List<Topic>> GetActiveByGrades(string subjectId, byte grade)
     {
-        return await _topicDb.GetActiveAsync();
+        return await _topicDb.GetActiveByGradesAsync(subjectId, grade);
     }
 
     [HttpGet("subject/{subjectId}")]

@@ -35,8 +35,14 @@ public class SubjectController : Controller
         return await _subjectDb.GetByIdAsync(id);
     }
 
+    [HttpGet("{id}/grade")]
+    public async Task<ICollection<byte>> GetGradesById(string id)
+    {
+        return await _subjectDb.GetGradesByIdAsync(id);
+    }
+
     [HttpPost("")]
-    public async Task<IActionResult> Add([Bind("Id", "Name", "Classes", "QuestionTN", "QuestionDS", "QuestionTLN", "QuestionDVCT", "QuestionTL", "QuestionSX", "IsVisible")] Subject subject)
+    public async Task<IActionResult> Add(Subject subject)
     {
         sbyte response = await _subjectDb.Add(subject);
         switch (response)
@@ -48,7 +54,7 @@ public class SubjectController : Controller
     }
 
     [HttpPut("{id}")]
-    public async Task<IActionResult> Update([Bind("Id", "Name", "Classes", "QuestionTN", "QuestionDS", "QuestionTLN", "QuestionDVCT", "QuestionTL", "QuestionSX", "IsVisible")] Subject subject)
+    public async Task<IActionResult> Update(Subject subject)
     {
         sbyte response = await _subjectDb.Update(subject);
         switch (response)

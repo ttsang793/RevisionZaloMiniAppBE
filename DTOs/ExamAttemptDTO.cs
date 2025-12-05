@@ -15,6 +15,8 @@ public partial class ExamAttemptGetDTO
 {
     public ulong? Id { get; set; }
 
+    public ulong? StudentId { get; set; }
+
     public string? ExamTitle { get; set; }
 
     public decimal TotalPoint { get; set; }
@@ -39,6 +41,10 @@ public partial class ExamAttemptPartDTO
 
 public class ExamAttemptAnswerGetDTO
 {
+    public ulong? Id { get; set; }
+
+    public decimal CorrectPoint { get; set; }
+
     public decimal Point { get; set; }
 
     public QuestionDTO Question { get; set; } = null!;
@@ -73,6 +79,8 @@ public class ExamAttemptDTO
 
 public class ExamAttemptAnswerDTO
 {
+    public ulong? Id { get; set; }
+
     public ulong? ExamQuestionId { get; set; }
 
     public ICollection<string>? AnswerOrder { get; set; }
@@ -94,9 +102,13 @@ public partial class PdfExamAttemptDTO
 
     public DateTime StartedAt { get; set; }
 
+    public string? Comment { get; set; }
+
     public ulong PdfExamCodeId { get; set; }
 
     public ICollection<string> StudentAnswer { get; set; } = [];
+
+    public ICollection<bool[]> CorrectBoard { get; set; } = [];
 
     public ICollection<decimal> PointBoard { get; set; } = [];
 }

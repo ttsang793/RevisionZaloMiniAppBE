@@ -1,6 +1,7 @@
 ﻿using backend.DTOs;
 using backend.Models;
 using Microsoft.EntityFrameworkCore;
+using System.Security.AccessControl;
 
 namespace backend.Services;
 
@@ -35,8 +36,7 @@ public class ExamAttemptDb
     {
         var result = await (from ea in DbContext.ExamAttempts
                             where ea.ExamId == examId
-                            orderby ea.TotalPoint descending
-                            orderby ea.Duration ascending
+                            orderby ea.TotalPoint descending, ea.Duration ascending
                             select new ExamAttemptStatDTO
                             {
                                 MaxTotalPoint = ea.TotalPoint,
@@ -50,12 +50,25 @@ public class ExamAttemptDb
 
     public async Task<ExamAttemptGetDTO> GetExamAttempt(ulong? studentId, ulong? examId, ulong? examAttemptId)
     {
-        var examAttempt = await DbContext.ExamAttempts
-            .Where(ea => studentId.HasValue ? (ea.StudentId == studentId && ea.ExamId == examId) : ea.Id == examAttemptId.Value)
-            .Include(ea => ea.ExamAttemptAnswers)
-            .ThenInclude(eaa => eaa.ExamQuestion)
-            .ThenInclude(eq => eq.Question)
-            .FirstAsync();
+        ExamAttempt examAttempt;
+
+        if (examAttemptId.HasValue)
+        {
+            examAttempt = await DbContext.ExamAttempts
+                    .Include(ea => ea.ExamAttemptAnswers)
+                    .ThenInclude(eaa => eaa.ExamQuestion)
+                    .ThenInclude(eq => eq.Question)
+                    .Where(eaa => eaa.Id == examAttemptId)
+                    .FirstAsync();
+        }
+
+        else examAttempt = await DbContext.ExamAttempts
+                    .Include(ea => ea.ExamAttemptAnswers)
+                    .ThenInclude(eaa => eaa.ExamQuestion)
+                    .ThenInclude(eq => eq.Question)
+                    .Where(ea => ea.StudentId == studentId && ea.ExamId == examId)
+                    .OrderByDescending(ea => ea.Id)
+                    .FirstAsync();
 
         var parts = DbContext.ExamParts
             .Where(ep => examAttempt.PartOrder.Contains(ep.Id))
@@ -115,6 +128,7 @@ public class ExamAttemptDb
                             {
                                 Id = eq.QuestionId,
                                 Title = eq.Question.Title,
+                                ImageUrl = eq.Question.ImageUrl,
                                 Type = eq.Question.Type,
                                 Explanation = eq.Question.Explanation,
                                 CorrectAnswer = mcq.CorrectAnswer
@@ -128,6 +142,7 @@ public class ExamAttemptDb
                             {
                                 Id = eq.QuestionId,
                                 Title = eq.Question.Title,
+                                ImageUrl = eq.Question.ImageUrl,
                                 Type = eq.Question.Type,
                                 Explanation = eq.Question.Explanation,
                                 AnswerKey = tfq.AnswerKey
@@ -137,14 +152,19 @@ public class ExamAttemptDb
 
                     case "short-answer":
                         if (saQuestions.TryGetValue(eq.Question.Id, out var saq))
+                        {
+                            while (saq.AnswerKey.Length < 4) saq.AnswerKey += " ";
+
                             questionDTO = new ShortAnswerQuestionDTO
                             {
                                 Id = eq.QuestionId,
                                 Title = eq.Question.Title,
+                                ImageUrl = eq.Question.ImageUrl,
                                 Type = eq.Question.Type,
                                 Explanation = eq.Question.Explanation,
                                 AnswerKey = saq.AnswerKey
                             };
+                        }
                         else continue;
                         break;
 
@@ -154,6 +174,7 @@ public class ExamAttemptDb
                             {
                                 Id = eq.QuestionId,
                                 Title = eq.Question.Title,
+                                ImageUrl = eq.Question.ImageUrl,
                                 Type = eq.Question.Type,
                                 Explanation = eq.Question.Explanation,
                                 AnswerKeys = mrq.AnswerKeys,
@@ -168,6 +189,7 @@ public class ExamAttemptDb
                             {
                                 Id = eq.QuestionId,
                                 Title = eq.Question.Title,
+                                ImageUrl = eq.Question.ImageUrl,
                                 Type = eq.Question.Type,
                                 Explanation = eq.Question.Explanation,
                                 CorrectOrder = sorting.CorrectOrder
@@ -181,6 +203,7 @@ public class ExamAttemptDb
                             {
                                 Id = eq.QuestionId,
                                 Title = eq.Question.Title,
+                                ImageUrl = eq.Question.ImageUrl,
                                 Type = eq.Question.Type,
                                 Explanation = eq.Question.Explanation,
                                 Statements = tfTHPT.Statements,
@@ -194,7 +217,9 @@ public class ExamAttemptDb
 
                 examAttemptAnswers.Add(new ExamAttemptAnswerGetDTO
                 {
-                    Point = eq.Point,
+                    Id = eaa.Id,
+                    CorrectPoint = eq.Point,
+                    Point = eaa.Point.Value,
                     Question = questionDTO,
                     AnswerOrder = eaa.AnswerOrder,
                     StudentAnswer = eaa.StudentAnswer,
@@ -213,6 +238,7 @@ public class ExamAttemptDb
 
         ExamAttemptGetDTO result = new ExamAttemptGetDTO
         {
+            StudentId = examAttempt.StudentId,
             TotalPoint = examAttempt.TotalPoint.HasValue ? examAttempt.TotalPoint.Value : 0,
             Duration = examAttempt.Duration,
             Comment = examAttempt.Comment,
@@ -235,24 +261,20 @@ public class ExamAttemptDb
         return await DbContext.SaveChangesAsync() > 0;
     }
 
-    public async Task<bool> CommentExamAttempt(ExamAttempt examAttempt)
-    {
-        var existingAttempt = DbContext.ExamAttempts.First(ea => ea.Id == examAttempt.Id);
-        existingAttempt.Comment = examAttempt.Comment;
-
-        return await DbContext.SaveChangesAsync() > 0;
-    }
-
     public async Task<bool> GradingExamAttempt(ExamAttempt examAttempt)
     {
         var existingAttempt = DbContext.ExamAttempts.First(ea => ea.Id == examAttempt.Id);
+        existingAttempt.Comment = examAttempt.Comment;
         existingAttempt.TotalPoint = examAttempt.TotalPoint;
+        existingAttempt.MarkedAt = DateTime.Now;
+        DbContext.ExamAttempts.Update(existingAttempt);
 
         foreach (var examAttemptAnswer in examAttempt.ExamAttemptAnswers)
         {
             var existingAnswer = DbContext.ExamAttemptAnswers.First(eaa => eaa.Id == examAttemptAnswer.Id);
             existingAnswer.Correct = examAttemptAnswer.Correct;
             existingAnswer.Point = examAttemptAnswer.Point;
+            DbContext.ExamAttemptAnswers.Update(existingAnswer);
         }
 
         return await DbContext.SaveChangesAsync() > 0;
@@ -267,16 +289,27 @@ public class ExamAttemptDb
     public async Task<PdfExamAttempt> GetLatestPdfExamAttempt(ulong studentId, ulong examId)
     {
         var result = await (from pea in DbContext.PdfExamAttempts
-                            join pe in DbContext.PdfExamCodes
-                            on pea.PdfExamCodeId equals pe.Id
-                            where pea.StudentId == studentId && pe.ExamId == examId
-                            orderby pea.SubmittedAt descending
+                            join pe in DbContext.PdfExamCodes on pea.PdfExamCodeId equals pe.Id
+                            join ea in DbContext.ExamAttempts on pea.Id equals ea.Id
+                            where ea.StudentId == studentId && pe.ExamId == examId
+                            orderby ea.SubmittedAt descending
+                            select pea).FirstAsync();
+        return result;
+    }
+
+    public async Task<PdfExamAttempt> GetPdfExamAttemptById(ulong id)
+    {
+        var result = await (from pea in DbContext.PdfExamAttempts
+                            join pe in DbContext.PdfExamCodes on pea.PdfExamCodeId equals pe.Id
+                            join ea in DbContext.ExamAttempts on pea.Id equals ea.Id
+                            where pea.Id == id
                             select pea).FirstAsync();
         return result;
     }
 
     public async Task<bool> AddPdfExamAttempt(PdfExamAttempt pdfExamAttempt)
     {
+        Console.WriteLine(pdfExamAttempt.Id + " - " + pdfExamAttempt.PdfExamCodeId + " - " + pdfExamAttempt.CorrectBoard.Count);
         DbContext.PdfExamAttempts.Add(pdfExamAttempt);
         return await DbContext.SaveChangesAsync() > 0;
     }

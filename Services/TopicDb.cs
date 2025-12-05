@@ -1,5 +1,6 @@
 ﻿using backend.Models;
 using Microsoft.EntityFrameworkCore;
+using Mysqlx.Resultset;
 
 namespace backend.Services;
 
@@ -30,9 +31,17 @@ public class TopicDb
         return result;
     }
 
-    public async Task<List<Topic>> GetActiveAsync()
+    public async Task<List<Topic>> GetActiveByGradesAsync(string subjectId, byte grade)
     {
-        return await _dbContext.Topics.Where(t => t.IsVisible == true).ToListAsync();
+        var query = await _dbContext.Topics.Where(t => t.IsVisible == true && t.SubjectId == subjectId).ToListAsync();
+        List<Topic> result = [];
+        
+        foreach (var row in query)
+        {
+            if (row.Grades.Contains(grade)) result.Add(row);
+        }
+
+        return result;
     }
 
     public async Task<List<Topic>> GetBySubjectIdAsync(string subjectId)

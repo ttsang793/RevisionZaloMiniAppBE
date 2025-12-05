@@ -8,6 +8,8 @@ public partial class QuestionReadDTO
 
     public string Title { get; set; } = null!;
 
+    public string? ImageUrl { get; set; }
+
     public byte? Grade { get; set; }
 
     public string Type { get; set; } = null!;

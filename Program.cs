@@ -3,20 +3,13 @@ using backend.Services;
 using backend.Models;
 using System.Text.Json;
 using CloudinaryDotNet;
+using dotenv.net;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Configure Kestrel to use PORT environment variable
-// var port = Environment.GetEnvironmentVariable("PORT") ?? "5273";
-// builder.WebHost.UseUrls($"http://0.0.0.0:{port}");
-
 // Add Cloudinary
-var cloudinaryAccount = new Account(
-    builder.Configuration["Cloudinary:CloudName"],
-    builder.Configuration["Cloudinary:ApiKey"],
-    builder.Configuration["Cloudinary:ApiSecret"]
-);
-var cloudinary = new Cloudinary(cloudinaryAccount);
+DotEnv.Load(options: new DotEnvOptions(probeForEnv: true));
+Cloudinary cloudinary = new Cloudinary(Environment.GetEnvironmentVariable("CLOUDINARY_URL"));
 builder.Services.AddSingleton(cloudinary);
 
 builder.Services.Configure<StmpSettings>(builder.Configuration.GetSection("StmpSettings"));
