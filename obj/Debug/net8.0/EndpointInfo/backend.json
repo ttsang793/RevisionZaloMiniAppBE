@@ -1241,6 +1241,35 @@
         }
       }
     },
+    "/api/hello-world": {
+      "get": {
+        "tags": [
+          "HelloWorld"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/notification/student/{studentId}": {
       "put": {
         "tags": [

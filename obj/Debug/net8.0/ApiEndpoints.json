@@ -722,6 +722,26 @@
     ]
   },
   {
+    "ContainingType": "backend.Controllers.HelloWorldController",
+    "Method": "Get",
+    "RelativePath": "api/hello-world",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.String",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
     "ContainingType": "backend.Controllers.NotificationController",
     "Method": "UpdateStudentStatus",
     "RelativePath": "api/notification/student/{studentId}",
