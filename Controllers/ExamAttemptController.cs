@@ -26,16 +26,16 @@ public class ExamAttemptController : Controller
         return await _examAttemptDb.GetExamAttemptsAsync(examId);
     }
 
-    [HttpGet("exam/{examId}/record")]
-    public async Task<ExamAttemptStatDTO> GetExamAttemptsRecordByExamId(ulong examId)
-    {
-        return await _examAttemptDb.GetExamAttemptsRecordByExamId(examId);
-    }
-
     [HttpGet("{studentId}/{examId}/latest")]
     public async Task<ExamAttemptGetDTO> GetLatestExamAttempt(ulong studentId, ulong examId)
     {
         return await _examAttemptDb.GetExamAttempt(studentId, examId, null);
+    }
+
+    [HttpGet("{studentId}/{examId}/latest/date")]
+    public async Task<DateTime?> GetLatestExamAttemptDate(ulong studentId, ulong examId)
+    {
+        return await _examAttemptDb.GetLatestExamAttemptDateAsync(studentId, examId);
     }
 
     [HttpGet("{examAttemptId}")]
@@ -155,13 +155,19 @@ public class ExamAttemptController : Controller
     }
 
     [HttpGet("pdf/{studentId}/{examId}")]
-    public async Task<PdfExamAttempt> GetLatestPdfExamAttempt(ulong studentId, ulong examId)
+    public async Task<PdfExamAttemptReadDTO> GetLatestPdfExamAttempt(ulong studentId, ulong examId)
     {
         return await _examAttemptDb.GetLatestPdfExamAttempt(studentId, examId);
     }
 
+    [HttpGet("pdf/{examAttemptId}")]
+    public async Task<PdfExamAttemptReadDTO> GetPdfExamAttemptById(ulong examAttemptId)
+    {
+        return await _examAttemptDb.GetPdfExamAttemptById(examAttemptId);
+    }
+
     [HttpPut("pdf/grading/{id}")]
-    public async Task<IActionResult> PdfGradingExamAttempt(PdfExamAttemptDTO pdfExamAttemptDTO, ulong id)
+    public async Task<IActionResult> GradingPdfExamAttempt(PdfExamAttemptDTO pdfExamAttemptDTO, ulong id)
     {
         ExamAttempt examAttempt = new ExamAttempt
         {
@@ -177,8 +183,7 @@ public class ExamAttemptController : Controller
             CorrectBoard = pdfExamAttemptDTO.CorrectBoard
         };
 
-        //return (await _examAttemptDb.GradingExamAttempt(examAttempt)) ? StatusCode(200) : StatusCode(400);
-        return BadRequest();
+        return (await _examAttemptDb.GradingPdfExamAttempt(examAttempt, pdfExamAttempt)) ? StatusCode(200) : StatusCode(400);
     }
 
     [HttpPost("achievement/{studentId}")]

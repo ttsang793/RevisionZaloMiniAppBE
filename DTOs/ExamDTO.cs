@@ -47,6 +47,15 @@ public partial class ExamReadDTO
     public DateTime? LatestAttempt { get; set; }
 }
 
+public partial class ExamDetailDTO
+{
+    public int PartCount { get; set; }
+
+    public int QuestionCount { get; set; }
+
+    public List<string>? Topics { get; set; }
+}
+
 public partial class ExamInsertDTO
 {
     public ulong? Id { get; set; }

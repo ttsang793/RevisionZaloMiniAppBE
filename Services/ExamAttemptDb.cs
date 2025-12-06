@@ -18,6 +18,7 @@ public class ExamAttemptDb
     {
         var result = await (from ea in DbContext.ExamAttempts
                             join e in DbContext.Exams on ea.ExamId equals e.Id
+                            where e.Id == examId
                             orderby ea.Id descending
                             select new ExamAttemptGetDTO
                             {
@@ -32,7 +33,7 @@ public class ExamAttemptDb
         return result;
     }
 
-    public async Task<ExamAttemptStatDTO> GetExamAttemptsRecordByExamId(ulong examId)
+    public async Task<ExamAttemptStatDTO> GetExamRecordByExamId(ulong examId)
     {
         var result = await (from ea in DbContext.ExamAttempts
                             where ea.ExamId == examId
@@ -248,6 +249,26 @@ public class ExamAttemptDb
         return result;
     }
 
+    public async Task<DateTime?> GetLatestExamAttemptDateAsync(ulong studentId, ulong examId)
+    {
+        try
+        {
+            var exam = await DbContext.ExamAttempts
+                        .Include(ea => ea.ExamAttemptAnswers)
+                        .ThenInclude(eaa => eaa.ExamQuestion)
+                        .ThenInclude(eq => eq.Question)
+                        .Where(ea => ea.StudentId == studentId && ea.ExamId == examId)
+                        .OrderByDescending(ea => ea.Id)
+                        .FirstAsync();
+
+            return (exam == null) ? null : exam.SubmittedAt;
+        }
+        catch
+        {
+            return null;
+        }
+    }
+
     public async Task<ExamAttempt?> AddExamAttempt(ExamAttempt examAttempt)
     {
         DbContext.ExamAttempts.Add(examAttempt);
@@ -286,31 +307,74 @@ public class ExamAttemptDb
         return await DbContext.SaveChangesAsync() > 0;
     }
 
-    public async Task<PdfExamAttempt> GetLatestPdfExamAttempt(ulong studentId, ulong examId)
+    public async Task<PdfExamAttemptReadDTO> GetLatestPdfExamAttempt(ulong studentId, ulong examId)
     {
         var result = await (from pea in DbContext.PdfExamAttempts
                             join pe in DbContext.PdfExamCodes on pea.PdfExamCodeId equals pe.Id
                             join ea in DbContext.ExamAttempts on pea.Id equals ea.Id
                             where ea.StudentId == studentId && pe.ExamId == examId
                             orderby ea.SubmittedAt descending
-                            select pea).FirstAsync();
+                            select new PdfExamAttemptReadDTO
+                            {
+                                Id = pea.Id,
+                                ExamId = ea.ExamId,
+                                TaskPdf = pe.TaskPdf!,
+                                AnswerPdf = pe.AnswerPdf!,
+                                TotalPoint = ea.TotalPoint.Value,
+                                Comment = ea.Comment,
+                                PdfExamCodeId = pe.Id,
+                                StudentAnswer = pea.StudentAnswer,
+                                CorrectBoard = pea.CorrectBoard,
+                                PointBoard = pea.PointBoard
+                            }).FirstAsync();
         return result;
     }
 
-    public async Task<PdfExamAttempt> GetPdfExamAttemptById(ulong id)
+    public async Task<PdfExamAttemptReadDTO> GetPdfExamAttemptById(ulong examAttemptId)
     {
         var result = await (from pea in DbContext.PdfExamAttempts
                             join pe in DbContext.PdfExamCodes on pea.PdfExamCodeId equals pe.Id
                             join ea in DbContext.ExamAttempts on pea.Id equals ea.Id
-                            where pea.Id == id
-                            select pea).FirstAsync();
+                            where pea.Id == examAttemptId
+                            select new PdfExamAttemptReadDTO
+                            {
+                                Id = pea.Id,
+                                ExamId = ea.ExamId,
+                                TaskPdf = pe.TaskPdf!,
+                                AnswerPdf = pe.AnswerPdf!,
+                                TotalPoint = ea.TotalPoint.Value,
+                                Comment = ea.Comment,
+                                PdfExamCodeId = pe.Id,
+                                StudentAnswer = pea.StudentAnswer,
+                                CorrectBoard = pea.CorrectBoard,
+                                PointBoard = pea.PointBoard
+                            }).FirstAsync();
         return result;
     }
 
     public async Task<bool> AddPdfExamAttempt(PdfExamAttempt pdfExamAttempt)
     {
-        Console.WriteLine(pdfExamAttempt.Id + " - " + pdfExamAttempt.PdfExamCodeId + " - " + pdfExamAttempt.CorrectBoard.Count);
         DbContext.PdfExamAttempts.Add(pdfExamAttempt);
+        return await DbContext.SaveChangesAsync() > 0;
+    }
+
+    public async Task<bool> GradingPdfExamAttempt(ExamAttempt examAttempt, PdfExamAttempt pdfExamAttempt)
+    {
+        var existingAttempt = await DbContext.ExamAttempts.FirstOrDefaultAsync(ea => ea.Id == examAttempt.Id);
+        var existingPdfAttempt = await DbContext.PdfExamAttempts.FirstOrDefaultAsync(pea => pea.Id == pdfExamAttempt.Id);
+
+        if (existingAttempt == null || existingPdfAttempt == null) return false;
+
+        existingAttempt.Comment = examAttempt.Comment;
+        existingAttempt.TotalPoint = examAttempt.TotalPoint;
+        existingAttempt.MarkedAt = DateTime.Now;
+        DbContext.ExamAttempts.Update(existingAttempt);
+
+        existingPdfAttempt.PointBoard = pdfExamAttempt.PointBoard;
+        existingPdfAttempt.CorrectBoard = pdfExamAttempt.CorrectBoard;
+
+        DbContext.PdfExamAttempts.Update(existingPdfAttempt);
+
         return await DbContext.SaveChangesAsync() > 0;
     }
 }

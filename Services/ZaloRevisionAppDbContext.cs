@@ -163,7 +163,7 @@ public partial class ZaloRevisionAppDbContext : DbContext
                 .HasColumnType("datetime")
                 .HasColumnName("published_at");
             entity.Property(e => e.Status)
-                .HasDefaultValueSql("'1'")
+                .HasDefaultValueSql("'0'")
                 .HasColumnName("status");
             entity.Property(e => e.SubjectId)
                 .HasMaxLength(4)
@@ -437,6 +437,8 @@ public partial class ZaloRevisionAppDbContext : DbContext
 
             entity.ToTable("pdf_exam_attempts");
 
+            entity.HasIndex(e => e.Id, "id");
+
             entity.HasIndex(e => e.PdfExamCodeId, "pdf_exam_code_id");
 
             entity.Property(e => e.Id).HasColumnName("id");
@@ -465,11 +467,13 @@ public partial class ZaloRevisionAppDbContext : DbContext
 
             entity.HasOne(d => d.IdNavigation).WithOne(p => p.PdfExamAttempt)
                 .HasForeignKey<PdfExamAttempt>(d => d.Id)
-                .HasConstraintName("pdf_exam_attempts_ibfk_1");
+                .HasConstraintName("pdf_exam_attempts_ibfk_1")
+                .OnDelete(DeleteBehavior.Cascade);
 
             entity.HasOne(d => d.PdfExamCode).WithMany(p => p.PdfExamAttempts)
                 .HasForeignKey(d => d.PdfExamCodeId)
-                .HasConstraintName("pdf_exam_attempts_ibfk_2");
+                .HasConstraintName("pdf_exam_attempts_ibfk_2")
+                .OnDelete(DeleteBehavior.Cascade);
         });
 
         modelBuilder.Entity<PdfExamCode>(entity =>

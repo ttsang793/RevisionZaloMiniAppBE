@@ -142,30 +142,56 @@ public class ExamDb
         return result;
     }
 
-    public async Task<object> GetNumberOfPartsAndQuestionsByExamId(ulong id)
+    public async Task<ExamDetailDTO> GetExamDetailById(ulong id)
     {
-        var query = (from e in DbContext.Exams
-                     join ep in DbContext.ExamParts on e.Id equals ep.ExamId
-                     join eq in DbContext.ExamQuestions on ep.Id equals eq.ExamPartId
-                     where e.Id == id group eq by eq.ExamPartId into g
-                     select new
-                     {
-                         ExamPartId = g.Key,
-                         Count = g.Select(eq => eq.OrderIndex).Distinct().Count()
-                     });
+        var type = (await GetExamById(id)).DisplayType;
 
-        return new { PartCount = await query.CountAsync(), QuestionCount = await query.SumAsync(q => q.Count) };
-    }
+        if (type == "pdf")
+        {
+            var code = await (from e in DbContext.Exams
+                              join pec in DbContext.PdfExamCodes on e.Id equals pec.ExamId
+                              where e.Id == id
+                              select new
+                              {
+                                  PartId = pec.Id,
+                                  PartCount = pec.NumPart
+                              }).FirstOrDefaultAsync();
 
-    public async Task<List<string>> GetTopicByExamId(ulong id)
-    {
-        return await (from e in DbContext.Exams
-                      join ep in DbContext.ExamParts on e.Id equals ep.ExamId
-                      join eq in DbContext.ExamQuestions on ep.Id equals eq.ExamPartId
-                      join q in DbContext.Questions on eq.QuestionId equals q.Id
-                      join t in DbContext.Topics on q.TopicId equals t.Id
-                      where e.Id == id
-                      select t.Name).Distinct().ToListAsync();
+            var query = await (from peq in DbContext.PdfExamCodeQuestions
+                               where peq.PdfExamCodeId == code.PartId
+                               select peq).CountAsync();
+
+            return new ExamDetailDTO
+            {
+                PartCount = code.PartCount,
+                QuestionCount = query
+            };
+        }
+
+        var countQuery = (from e in DbContext.Exams
+                          join ep in DbContext.ExamParts on e.Id equals ep.ExamId
+                          join eq in DbContext.ExamQuestions on ep.Id equals eq.ExamPartId
+                          where e.Id == id group eq by eq.ExamPartId into g
+                          select new
+                          {
+                              ExamPartId = g.Key,
+                              Count = g.Select(eq => eq.OrderIndex).Distinct().Count()
+                          });
+
+        var topicList = await (from e in DbContext.Exams
+                               join ep in DbContext.ExamParts on e.Id equals ep.ExamId
+                               join eq in DbContext.ExamQuestions on ep.Id equals eq.ExamPartId
+                               join q in DbContext.Questions on eq.QuestionId equals q.Id
+                               join t in DbContext.Topics on q.TopicId equals t.Id
+                               where e.Id == id
+                               select t.Name).Distinct().ToListAsync();
+
+        return new ExamDetailDTO
+        {
+            PartCount = await countQuery.CountAsync(),
+            QuestionCount = await countQuery.SumAsync(q => q.Count),
+            Topics = topicList
+        };
     }
 
     public async Task<bool> AddExam(Exam exam)

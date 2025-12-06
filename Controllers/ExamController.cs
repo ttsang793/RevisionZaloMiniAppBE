@@ -11,6 +11,7 @@ public class ExamController : Controller
 {
     private readonly ILogger<QuestionController> _logger;
     private readonly ExamDb _examDb;
+    private readonly ExamAttemptDb _examAttemptDb;
     private readonly ExamPartDb _examPartDb;
     private readonly ExamQuestionDb _examQuestionDb;
 
@@ -18,6 +19,7 @@ public class ExamController : Controller
     {
         _logger = logger;
         _examDb = new ExamDb(dbContext);
+        _examAttemptDb = new ExamAttemptDb(dbContext);
         _examPartDb = new ExamPartDb(dbContext);
         _examQuestionDb = new ExamQuestionDb(dbContext);
     }
@@ -34,16 +36,16 @@ public class ExamController : Controller
         return await _examDb.GetExamDTOById(id);
     }
 
-    [HttpGet("{id}/question/count")]
-    public async Task<object> GetNumberOfPartsAndQuestionsByExamId(ulong id)
+    [HttpGet("{id}/detail")]
+    public async Task<ExamDetailDTO> GetExamDetailById(ulong id)
     {
-        return await _examDb.GetNumberOfPartsAndQuestionsByExamId(id);
+        return await _examDb.GetExamDetailById(id);
     }
 
-    [HttpGet("{id}/topic")]
-    public async Task<List<string>> GetTopicByExamId(ulong id)
+    [HttpGet("{id}/record")]
+    public async Task<ExamAttemptStatDTO> GetExamRecordById(ulong id)
     {
-        return await _examDb.GetTopicByExamId(id);
+        return await _examAttemptDb.GetExamRecordByExamId(id);
     }
 
     [HttpGet("teacher/{teacherId}")]

@@ -92,6 +92,29 @@ public class ExamAttemptAnswerDTO
     public decimal Point { get; set; }
 }
 
+public partial class PdfExamAttemptReadDTO
+{
+    public ulong Id { get; set; }
+
+    public ulong ExamId { get; set; }
+
+    public string TaskPdf { get; set; } = null!;
+
+    public string AnswerPdf { get; set; } = null!;
+
+    public decimal TotalPoint { get; set; }
+
+    public string? Comment { get; set; }
+
+    public ulong PdfExamCodeId { get; set; }
+
+    public List<string> StudentAnswer { get; set; } = [];
+
+    public List<bool[]> CorrectBoard { get; set; } = [];
+
+    public List<decimal> PointBoard { get; set; } = [];
+}
+
 public partial class PdfExamAttemptDTO
 {
     public ulong ExamId { get; set; }
@@ -106,9 +129,9 @@ public partial class PdfExamAttemptDTO
 
     public ulong PdfExamCodeId { get; set; }
 
-    public ICollection<string> StudentAnswer { get; set; } = [];
+    public List<string> StudentAnswer { get; set; } = [];
 
-    public ICollection<bool[]> CorrectBoard { get; set; } = [];
+    public List<bool[]> CorrectBoard { get; set; } = [];
 
-    public ICollection<decimal> PointBoard { get; set; } = [];
+    public List<decimal> PointBoard { get; set; } = [];
 }

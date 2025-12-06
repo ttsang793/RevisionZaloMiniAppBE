@@ -40,8 +40,6 @@ public partial class Exam
 
     public virtual ICollection<ExamAttempt> ExamAttempts { get; set; } = [];
 
-    public virtual ICollection<PdfExamAttempt> PdfExamAttempts { get; set; } = [];
-
     public virtual ICollection<PdfExamCode> PdfExamCodes { get; set; } = [];
 
     public virtual ICollection<StudentHistory> StudentHistories { get; set; } = new List<StudentHistory>();

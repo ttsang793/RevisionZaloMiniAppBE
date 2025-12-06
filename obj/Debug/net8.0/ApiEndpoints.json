@@ -284,6 +284,32 @@
   },
   {
     "ContainingType": "backend.Controllers.ExamController",
+    "Method": "GetExamDetailById",
+    "RelativePath": "api/exam/{id}/detail",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.UInt64",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "backend.DTOs.ExamDetailDTO",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "backend.Controllers.ExamController",
     "Method": "GetExamQuestions",
     "RelativePath": "api/exam/{id}/question",
     "HttpMethod": "GET",
@@ -336,24 +362,8 @@
   },
   {
     "ContainingType": "backend.Controllers.ExamController",
-    "Method": "GetNumberOfPartsAndQuestionsByExamId",
-    "RelativePath": "api/exam/{id}/question/count",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "id",
-        "Type": "System.UInt64",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "backend.Controllers.ExamController",
-    "Method": "GetTopicByExamId",
-    "RelativePath": "api/exam/{id}/topic",
+    "Method": "GetExamRecordById",
+    "RelativePath": "api/exam/{id}/record",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -366,7 +376,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "System.Collections.Generic.List\u00601[[System.String, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "Type": "backend.DTOs.ExamAttemptStatDTO",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -451,6 +461,37 @@
   },
   {
     "ContainingType": "backend.Controllers.ExamAttemptController",
+    "Method": "GetLatestExamAttemptDate",
+    "RelativePath": "api/exam/attempt/{studentId}/{examId}/latest/date",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "studentId",
+        "Type": "System.UInt64",
+        "IsRequired": true
+      },
+      {
+        "Name": "examId",
+        "Type": "System.UInt64",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Nullable\u00601[[System.DateTime, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "backend.Controllers.ExamAttemptController",
     "Method": "SetAchivement",
     "RelativePath": "api/exam/attempt/achievement/{studentId}",
     "HttpMethod": "POST",
@@ -499,32 +540,6 @@
   },
   {
     "ContainingType": "backend.Controllers.ExamAttemptController",
-    "Method": "GetExamAttemptsRecordByExamId",
-    "RelativePath": "api/exam/attempt/exam/{examId}/record",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "examId",
-        "Type": "System.UInt64",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": [
-      {
-        "Type": "backend.DTOs.ExamAttemptStatDTO",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
-      }
-    ]
-  },
-  {
-    "ContainingType": "backend.Controllers.ExamAttemptController",
     "Method": "GradingExamAttempt",
     "RelativePath": "api/exam/attempt/grading/{id}",
     "HttpMethod": "PUT",
@@ -562,6 +577,32 @@
   },
   {
     "ContainingType": "backend.Controllers.ExamAttemptController",
+    "Method": "GetPdfExamAttemptById",
+    "RelativePath": "api/exam/attempt/pdf/{examAttemptId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "examAttemptId",
+        "Type": "System.UInt64",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "backend.DTOs.PdfExamAttemptReadDTO",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "backend.Controllers.ExamAttemptController",
     "Method": "GetLatestPdfExamAttempt",
     "RelativePath": "api/exam/attempt/pdf/{studentId}/{examId}",
     "HttpMethod": "GET",
@@ -581,7 +622,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "backend.Models.PdfExamAttempt",
+        "Type": "backend.DTOs.PdfExamAttemptReadDTO",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -593,7 +634,7 @@
   },
   {
     "ContainingType": "backend.Controllers.ExamAttemptController",
-    "Method": "PdfGradingExamAttempt",
+    "Method": "GradingPdfExamAttempt",
     "RelativePath": "api/exam/attempt/pdf/grading/{id}",
     "HttpMethod": "PUT",
     "IsController": true,
@@ -812,7 +853,7 @@
   {
     "ContainingType": "backend.Controllers.PdfExamCodeController",
     "Method": "GetExamCodeByExamId",
-    "RelativePath": "api/pdf-exam-code/{examId}",
+    "RelativePath": "api/pdf-exam-code/{examId}/{pdfExamCodeId}",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
