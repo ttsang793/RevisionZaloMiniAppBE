@@ -219,7 +219,7 @@
         }
       }
     },
-    "/api/email/new-response": {
+    "/api/email/comment": {
       "post": {
         "tags": [
           "Email"
@@ -250,7 +250,7 @@
         }
       }
     },
-    "/api/email/new-exam": {
+    "/api/email/exam": {
       "post": {
         "tags": [
           "Email"
@@ -281,7 +281,7 @@
         }
       }
     },
-    "/api/email/new-turn-in": {
+    "/api/email/turn-in": {
       "post": {
         "tags": [
           "Email"
@@ -312,7 +312,7 @@
         }
       }
     },
-    "/api/email/new-point": {
+    "/api/email/grading": {
       "post": {
         "tags": [
           "Email"
@@ -3106,6 +3106,49 @@
         }
       }
     },
+    "/api/teacher/{id}/followers": {
+      "get": {
+        "tags": [
+          "Teacher"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "integer",
+                  "format": "int32"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "integer",
+                  "format": "int32"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "integer",
+                  "format": "int32"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/teacher/{id}/subject": {
       "get": {
         "tags": [
@@ -3813,10 +3856,19 @@
       },
       "EmailDTO": {
         "required": [
-          "toEmail"
+          "textValue",
+          "toId"
         ],
         "type": "object",
         "properties": {
+          "toId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "textValue": {
+            "type": "string",
+            "nullable": true
+          },
           "toEmail": {
             "type": "string",
             "nullable": true

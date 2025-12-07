@@ -21,8 +21,23 @@ public static class ConfigurationService
         service.AddSingleton(cloudinary);
 
         // SMTP configuration
-        service.Configure<StmpSettings>(configuration.GetSection("StmpSettings"));
-        service.AddScoped<StmpService>();
+        var smtpSettings = new SmtpSettings
+        {
+            Server = Environment.GetEnvironmentVariable("SMTP_SERVER") ?? throw new Exception("SMTP Server not found."),
+            Port = int.TryParse(Environment.GetEnvironmentVariable("SMTP_PORT"), out var port) ? port : throw new Exception("Invalid SMTP Port."),
+            Username = Environment.GetEnvironmentVariable("SMTP_USERNAME") ?? throw new Exception("SMTP Username not found."),
+            Password = Environment.GetEnvironmentVariable("SMTP_PASSWORD") ?? throw new Exception("SMTP Password not found.")
+        };
+        service.Configure<SmtpSettings>(options =>
+        {
+            options.Server = smtpSettings.Server;
+            options.Port = smtpSettings.Port;
+            options.Username = smtpSettings.Username;
+            options.Password = smtpSettings.Password;
+        });
+
+        // Registering services
+        service.AddScoped<SmtpService>();
         service.AddScoped<UploadService>();
     }
 }

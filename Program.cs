@@ -14,21 +14,20 @@ builder.Services.RegisterExternalServices(builder.Configuration);
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowLocalhost", policy =>
-        policy.WithOrigins("http://localhost:3000")
+        policy.AllowAnyOrigin()
               .AllowAnyHeader()
-              .AllowAnyMethod()
-              .AllowCredentials());
+              .AllowAnyMethod());
 });
 
 // Add Zalo Mini App
-builder.Services.AddCors(options =>
-{
-    options.AddPolicy("AllowZaloMiniApp", policy =>
-        policy.WithOrigins("https://h5.zdn.vn")
-              .AllowAnyHeader()
-              .AllowAnyMethod()
-              .AllowCredentials());
-});
+//builder.Services.AddCors(options =>
+//{
+//    options.AddPolicy("AllowZaloMiniApp", policy =>
+//        policy.WithOrigins("https://h5.zdn.vn")
+//              .AllowAnyHeader()
+//              .AllowAnyMethod()
+//              .AllowCredentials());
+//});
 
 
 // Add services to the container.
@@ -51,7 +50,7 @@ app.UseSwagger();
 app.UseSwaggerUI();
 
 app.UseCors("AllowLocalhost");
-app.UseCors("AllowZaloMiniApp");
+//app.UseCors("AllowZaloMiniApp");
 
 app.UseAuthorization();
 

@@ -117,8 +117,30 @@
   },
   {
     "ContainingType": "backend.Controllers.EmailController",
+    "Method": "NotifyWhenComment",
+    "RelativePath": "api/email/comment",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "emailDTO",
+        "Type": "backend.DTOs.EmailDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "backend.Controllers.EmailController",
     "Method": "NotifyWhenNewExam",
-    "RelativePath": "api/email/new-exam",
+    "RelativePath": "api/email/exam",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
@@ -140,29 +162,7 @@
   {
     "ContainingType": "backend.Controllers.EmailController",
     "Method": "NotifyWhenFinishGrading",
-    "RelativePath": "api/email/new-point",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "emailDTO",
-        "Type": "backend.DTOs.EmailDTO",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": [
-      {
-        "Type": "System.Void",
-        "MediaTypes": [],
-        "StatusCode": 200
-      }
-    ]
-  },
-  {
-    "ContainingType": "backend.Controllers.EmailController",
-    "Method": "NotifyWhenResponse",
-    "RelativePath": "api/email/new-response",
+    "RelativePath": "api/email/grading",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
@@ -184,7 +184,7 @@
   {
     "ContainingType": "backend.Controllers.EmailController",
     "Method": "NotifyWhenNewTurnIn",
-    "RelativePath": "api/email/new-turn-in",
+    "RelativePath": "api/email/turn-in",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
@@ -1828,6 +1828,32 @@
       }
     ],
     "ReturnTypes": []
+  },
+  {
+    "ContainingType": "backend.Controllers.TeacherController",
+    "Method": "GetTeacherFollowerNumberById",
+    "RelativePath": "api/teacher/{id}/followers",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.UInt64",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Int32",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
   },
   {
     "ContainingType": "backend.Controllers.TeacherController",

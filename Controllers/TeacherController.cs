@@ -24,6 +24,12 @@ public class TeacherController : Controller
         return await _teacherDb.GetTeacherDTOByIdAsync(id);
     }
 
+    [HttpGet("{id}/followers")]
+    public async Task<int> GetTeacherFollowerNumberById(ulong id)
+    {
+        return await _teacherDb.GetTeacherFollowersByIdAsync(id);
+    }
+
     [HttpGet("{id}/subject")]
     public async Task<Subject> GetTeacherSubjectById(ulong id)
     {

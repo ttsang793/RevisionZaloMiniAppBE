@@ -1,6 +1,6 @@
 ﻿namespace backend.Models;
 
-public partial class StmpSettings
+public partial class SmtpSettings
 {
     public required string Server { get; set; }
 

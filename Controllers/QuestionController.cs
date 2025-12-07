@@ -56,6 +56,7 @@ public class QuestionController : Controller
         {
             Id = q.Id,
             Title = q.Title,
+            ImageUrl = q.ImageUrl,
             Grade = q.Grade,
             Type = q.Type,
             Difficulty = q.Difficulty,
@@ -73,6 +74,7 @@ public class QuestionController : Controller
         {
             Id = q.Id,
             Title = q.Title,
+            ImageUrl = q.ImageUrl,
             Grade = q.Grade,
             Type = q.Type,
             Difficulty = q.Difficulty,
@@ -91,6 +93,7 @@ public class QuestionController : Controller
         {
             Id = q.Id,
             Title = q.Title,
+            ImageUrl = q.ImageUrl,
             Grade = q.Grade,
             Type = q.Type,
             Difficulty = q.Difficulty,
@@ -107,6 +110,7 @@ public class QuestionController : Controller
         {
             Id = q.Id,
             Title = q.Title,
+            ImageUrl = q.ImageUrl,
             Grade = q.Grade,
             Type = q.Type,
             Difficulty = q.Difficulty,
@@ -124,6 +128,7 @@ public class QuestionController : Controller
         {
             Id = q.Id,
             Title = q.Title,
+            ImageUrl = q.ImageUrl,
             Grade = q.Grade,
             Type = q.Type,
             Difficulty = q.Difficulty,
@@ -140,6 +145,7 @@ public class QuestionController : Controller
         {
             Id = q.Id,
             Title = q.Title,
+            ImageUrl = q.ImageUrl,
             Grade = q.Grade,
             Type = q.Type,
             Difficulty = q.Difficulty,

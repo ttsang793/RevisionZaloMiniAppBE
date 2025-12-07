@@ -18,7 +18,7 @@ public class UserDb
         return await _dbContext.Users.FirstOrDefaultAsync(u => u.ZaloId == zaloId);
     }
 
-    private protected async Task<User> GetUserByIdAsync(ulong id)
+    public async Task<User> GetUserByIdAsync(ulong id)
     {
         return await _dbContext.Users.FirstOrDefaultAsync(u => u.Id == id);
     }

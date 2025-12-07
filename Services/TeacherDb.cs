@@ -22,7 +22,12 @@ public class TeacherDb : UserDb
                         .Select(s => new Subject
                         {
                             Id = s.Id,
-                            Name = s.Name
+                            Name = s.Name,
+                            QuestionMC = s.QuestionMC,
+                            QuestionTF = s.QuestionTF,
+                            QuestionSA = s.QuestionSA,
+                            QuestionGF = s.QuestionGF,
+                            QuestionST = s.QuestionST
                         })
                         .FirstAsync();
     }
@@ -44,6 +49,27 @@ public class TeacherDb : UserDb
                                 Grades = t.Grades,
                                 Introduction = t.Introduction
                             }).FirstAsync();
+
+        return result;
+    }
+
+    public async Task<int> GetTeacherFollowersByIdAsync(ulong id)
+    {
+        var result = await _dbContext.Followers.Where(f => f.TeacherId == id).CountAsync();
+        return result;
+    }
+
+    public async Task<List<string>> GetTeacherFollowersNotifyByIdAsync(ulong id)
+    {
+        var query = await (from f in _dbContext.Followers
+                           join u in _dbContext.Users on f.StudentId equals u.Id
+                           where f.TeacherId == id
+                           select new { u.Email, u.Notification }
+                          ).ToListAsync();
+
+        List<string> result = [];
+        foreach (var row in query)
+            if (row.Notification[1]) result.Add(row.Email);
 
         return result;
     }
