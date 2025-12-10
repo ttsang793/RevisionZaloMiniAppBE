@@ -140,28 +140,25 @@ public class ExamController : Controller
         {
             await using var transaction = await _examDb.DbContext.Database.BeginTransactionAsync();
 
-            // 1. Get all existing parts for the exam
-            var existingParts = await _examPartDb.GetExamPartsAsyncByExamId(id);
-            var existingPartTitles = existingParts.Select(p => p.PartTitle).ToHashSet(StringComparer.OrdinalIgnoreCase);
+            // 1. Delete all existing parts for the exam
+            await _examPartDb.DeleteExamPartsByExamId(id);
 
             // 2. Add new parts if needed
             for (byte i = 0; i < e.PartTitles.Count(); i++)
             {
-                var title = e.PartTitles.ElementAt(i);
-                if (!existingPartTitles.Contains(title))
+                var newPart = new ExamPart
                 {
-                    var newPart = new ExamPart
-                    {
-                        ExamId = id,
-                        PartTitle = title
-                    };
+                    ExamId = id,
+                    PartTitle = e.PartTitles.ElementAt(i),
+                    QuestionTypes = e.QuestionTypes.ElementAt(i)
+                };
 
-                    success &= await _examPartDb.AddExamPart(newPart);
-                }
+                success &= await _examPartDb.AddExamPart(newPart);
             }
 
-            // 3. Refresh the list of parts (to get IDs)
+            // 3. Refresh the list of parts (to get IDs) and clear questions
             var updatedParts = await _examPartDb.GetExamPartsAsyncByExamId(id);
+            await _examQuestionDb.DeleteExamQuestion(id);
 
             // 4. Add questions
             foreach (var q in e.ExamQuestions)

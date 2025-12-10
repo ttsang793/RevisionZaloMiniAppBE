@@ -39,7 +39,16 @@ public class ExamQuestionDb
     public async Task<bool> AddExamQuestion(ExamQuestion eq)
     {
         _dbContext.ExamQuestions.Add(eq);
+        return await _dbContext.SaveChangesAsync() > 0;
+    }
 
+    public async Task<bool> DeleteExamQuestion(ulong examId)
+    {
+        var questionList = await (from eq in _dbContext.ExamQuestions
+                                  join ep in _dbContext.ExamParts on eq.ExamPartId equals ep.Id
+                                  where ep.ExamId == examId
+                                  select eq).ToListAsync();
+        _dbContext.ExamQuestions.RemoveRange(questionList);
         return await _dbContext.SaveChangesAsync() > 0;
     }
 }

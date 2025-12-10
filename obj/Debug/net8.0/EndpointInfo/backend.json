@@ -2751,6 +2751,139 @@
         }
       }
     },
+    "/api/student/reminder/{studentId}": {
+      "get": {
+        "tags": [
+          "Student"
+        ],
+        "parameters": [
+          {
+            "name": "studentId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/StudentReminder"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/StudentReminder"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/StudentReminder"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Student"
+        ],
+        "parameters": [
+          {
+            "name": "studentId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/student/reminder/{id}": {
+      "put": {
+        "tags": [
+          "Student"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/StudentReminderDTO"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/StudentReminderDTO"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/StudentReminderDTO"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Student"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/api/subject": {
       "get": {
         "tags": [
@@ -5666,6 +5799,13 @@
               "$ref": "#/components/schemas/StudentHistory"
             },
             "nullable": true
+          },
+          "studentReminders": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/StudentReminder"
+            },
+            "nullable": true
           }
         },
         "additionalProperties": false
@@ -5738,6 +5878,59 @@
           },
           "student": {
             "$ref": "#/components/schemas/Student"
+          }
+        },
+        "additionalProperties": false
+      },
+      "StudentReminder": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "studentId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "hour": {
+            "type": "string",
+            "format": "date-span",
+            "nullable": true
+          },
+          "date": {
+            "type": "array",
+            "items": {
+              "type": "boolean"
+            },
+            "nullable": true
+          },
+          "isActive": {
+            "type": "boolean"
+          },
+          "student": {
+            "$ref": "#/components/schemas/Student"
+          }
+        },
+        "additionalProperties": false
+      },
+      "StudentReminderDTO": {
+        "type": "object",
+        "properties": {
+          "hour": {
+            "type": "string",
+            "format": "date-span",
+            "nullable": true
+          },
+          "date": {
+            "type": "array",
+            "items": {
+              "type": "boolean"
+            },
+            "nullable": true
+          },
+          "isActive": {
+            "type": "boolean"
           }
         },
         "additionalProperties": false

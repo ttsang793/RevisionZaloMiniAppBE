@@ -143,4 +143,28 @@ public class StudentController : Controller
     {
         return await _studentDb.HandleFollowing(studentId, teacherId) ? StatusCode(200) : StatusCode(400);
     }
+
+    [HttpGet("reminder/{studentId}")]
+    public async Task<List<StudentReminder>> GetReminderById(ulong studentId)
+    {
+        return await _studentDb.GetReminderByIdAsync(studentId);
+    }
+
+    [HttpPost("reminder/{studentId}")]
+    public async Task<IActionResult> AddReminder(ulong studentId)
+    {
+        return await _studentDb.AddReminderAsync(studentId) ? StatusCode(201) : StatusCode(400);
+    }
+
+    [HttpPut("reminder/{id}")]
+    public async Task<IActionResult> UpdateReminder(ulong id, StudentReminderDTO reminder)
+    {
+        return await _studentDb.UpdateReminderAsync(id, reminder) ? StatusCode(200) : StatusCode(400);
+    }
+
+    [HttpDelete("reminder/{id}")]
+    public async Task<IActionResult> DeleteReminder(ulong id)
+    {
+        return await _studentDb.DeleteReminderAsync(id) ? StatusCode(200) : StatusCode(400);
+    }
 }

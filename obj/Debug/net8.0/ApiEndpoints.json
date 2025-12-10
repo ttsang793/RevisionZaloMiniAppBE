@@ -1606,6 +1606,85 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "backend.Controllers.StudentController",
+    "Method": "UpdateReminder",
+    "RelativePath": "api/student/reminder/{id}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.UInt64",
+        "IsRequired": true
+      },
+      {
+        "Name": "reminder",
+        "Type": "backend.DTOs.StudentReminderDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "backend.Controllers.StudentController",
+    "Method": "DeleteReminder",
+    "RelativePath": "api/student/reminder/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.UInt64",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "backend.Controllers.StudentController",
+    "Method": "GetReminderById",
+    "RelativePath": "api/student/reminder/{studentId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "studentId",
+        "Type": "System.UInt64",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.List\u00601[[backend.Models.StudentReminder, backend, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "backend.Controllers.StudentController",
+    "Method": "AddReminder",
+    "RelativePath": "api/student/reminder/{studentId}",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "studentId",
+        "Type": "System.UInt64",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "backend.Controllers.SubjectController",
     "Method": "Get",
     "RelativePath": "api/subject",

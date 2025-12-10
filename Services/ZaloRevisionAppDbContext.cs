@@ -53,6 +53,8 @@ public partial class ZaloRevisionAppDbContext : DbContext
 
     public virtual DbSet<StudentHistory> StudentHistories { get; set; }
 
+    public virtual DbSet<StudentReminder> StudentReminders { get; set; }
+
     public virtual DbSet<Subject> Subjects { get; set; }
 
     public virtual DbSet<Teacher> Teachers { get; set; }
@@ -680,6 +682,36 @@ public partial class ZaloRevisionAppDbContext : DbContext
             entity.HasOne(d => d.Student).WithMany(p => p.StudentHistories)
                 .HasForeignKey(d => d.StudentId)
                 .HasConstraintName("student_histories_ibfk_1");
+        });
+
+        modelBuilder.Entity<StudentReminder>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PRIMARY");
+
+            entity.ToTable("student_reminders");
+
+            entity.HasIndex(e => e.StudentId, "student_id");
+
+            entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.Date)
+                .HasColumnType("json")
+                .HasConversion(
+                      v => JsonSerializer.Serialize(v, new JsonSerializerOptions()),
+                      v => JsonSerializer.Deserialize<bool[]>(v!, new JsonSerializerOptions())!
+                  )
+                .HasColumnName("date");
+            entity.Property(e => e.Hour)
+                .HasDefaultValueSql("'00:00:00'")
+                .HasColumnType("time")
+                .HasColumnName("hour");
+            entity.Property(e => e.IsActive)
+                .HasDefaultValueSql("'1'")
+                .HasColumnName("is_active");
+            entity.Property(e => e.StudentId).HasColumnName("student_id");
+
+            entity.HasOne(d => d.Student).WithMany(p => p.StudentReminders)
+                .HasForeignKey(d => d.StudentId)
+                .HasConstraintName("student_reminders_ibfk_1");
         });
 
         modelBuilder.Entity<Subject>(entity =>

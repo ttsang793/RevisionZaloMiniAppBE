@@ -248,4 +248,54 @@ public class StudentDb : UserDb
         if (followingEntity == null) return false;
         return followingEntity.IsVisible;
     }
+
+    public async Task<List<StudentReminder>> GetReminderByIdAsync(ulong studentId)
+    {
+        return await _dbContext.StudentReminders.Where(s => s.StudentId == studentId).ToListAsync();
+    }
+
+    public async Task<bool> AddReminderAsync(ulong studentId)
+    {
+        try
+        {
+            await _dbContext.StudentReminders.AddAsync(new StudentReminder { StudentId = studentId });
+            return await _dbContext.SaveChangesAsync() > 0;
+        }
+        catch
+        {
+            return false;
+        }
+    }
+
+    public async Task<bool> UpdateReminderAsync(ulong id, StudentReminderDTO reminder)
+    {
+        try
+        {
+            var updateReminder = await _dbContext.StudentReminders.Where(s => s.Id == id).FirstOrDefaultAsync() ?? throw new Exception();
+            updateReminder.Hour = reminder.Hour;
+            updateReminder.Date = reminder.Date;
+            updateReminder.IsActive = reminder.IsActive;
+
+            _dbContext.StudentReminders.Update(updateReminder);
+            return await _dbContext.SaveChangesAsync() > 0;
+        }
+        catch
+        {
+            return false;
+        }
+    }
+
+    public async Task<bool> DeleteReminderAsync(ulong id)
+    {
+        try
+        {
+            var reminder = await _dbContext.StudentReminders.Where(s => s.Id == id).FirstOrDefaultAsync() ?? throw new Exception();
+            _dbContext.StudentReminders.Remove(reminder);
+            return await _dbContext.SaveChangesAsync() > 0;
+        }
+        catch
+        {
+            return false;
+        }
+    }
 }

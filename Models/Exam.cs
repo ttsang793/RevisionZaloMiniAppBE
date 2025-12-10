@@ -34,7 +34,7 @@ public partial class Exam
 
     public DateTime? PublishedAt { get; set; }
 
-    public byte Status { get; set; } = 1;
+    public byte Status { get; set; } = 0;
 
     public virtual ICollection<Comment> Comments { get; set; } = [];
 

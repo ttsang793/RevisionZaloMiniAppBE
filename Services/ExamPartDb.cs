@@ -16,6 +16,7 @@ public class ExamPartDb
     public async Task<List<ExamPart>> GetExamPartsAsyncByExamId(ulong id)
     {
         var result = await (from ep in _dbContext.ExamParts
+                            where ep.ExamId == id
                             select new ExamPart
                             {
                                 Id = ep.Id,
@@ -215,6 +216,13 @@ public class ExamPartDb
     {
         _dbContext.ExamParts.Remove(await GetExamPartById(id));
 
+        return await _dbContext.SaveChangesAsync() > 0;
+    }
+
+    public async Task<bool> DeleteExamPartsByExamId(ulong examId)
+    {
+        var examParts = _dbContext.ExamParts.Where(ep => ep.ExamId == examId).ToList();
+        _dbContext.ExamParts.RemoveRange(examParts);
         return await _dbContext.SaveChangesAsync() > 0;
     }
 }

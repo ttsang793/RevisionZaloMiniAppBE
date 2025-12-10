@@ -24,6 +24,8 @@ public partial class Student
 
     public virtual ICollection<StudentHistory> StudentHistories { get; set; } = [];
 
+    public virtual ICollection<StudentReminder> StudentReminders { get; set; } = [];
+
     public Student() { }
 
     public Student(ulong id, byte grade)
