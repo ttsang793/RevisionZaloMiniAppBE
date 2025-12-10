@@ -36,12 +36,14 @@ public class QuestionDb
                       }).ToListAsync();
     }
 
-    public async Task<List<QuestionReadDTO>> GetFilterQuestionsByTeacher(ulong teacherId, string type, string? title)
+    public async Task<List<QuestionReadDTO>> GetFilterQuestionsByTeacher(ulong teacherId, string type, string? title, byte? grade)
     {
         return await (from q in _dbContext.Questions
                       join t in _dbContext.Topics on q.TopicId equals t.Id
                       join s in _dbContext.Subjects on t.SubjectId equals s.Id
-                      where q.Type == type && (string.IsNullOrEmpty(title) || q.Title.Contains(title, StringComparison.OrdinalIgnoreCase))
+                      where q.Type == type
+                        && (string.IsNullOrEmpty(title) || q.Title.Contains(title, StringComparison.OrdinalIgnoreCase))
+                        && (grade == null || q.Grade == grade)
                       select new QuestionReadDTO
                       {
                           Id = q.Id,

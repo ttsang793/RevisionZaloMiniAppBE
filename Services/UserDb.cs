@@ -41,6 +41,14 @@ public class UserDb
         return await _dbContext.SaveChangesAsync() > 0;
     }
 
+    public async Task<bool> UpdateUserAvatar(ulong id, string url)
+    {
+        User updateUser = await GetUserByIdAsync(id);
+        updateUser.Avatar = url;
+        _dbContext.Users.Update(updateUser);
+        return await _dbContext.SaveChangesAsync() > 0;
+    }
+
     private protected async Task<bool> NullifyUser(ulong id)
     {
         var deleteUser = await GetUserByIdAsync(id);

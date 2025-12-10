@@ -1581,6 +1581,14 @@
               "type": "string",
               "default": ""
             }
+          },
+          {
+            "name": "grade",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
           }
         ],
         "responses": {
@@ -3988,15 +3996,12 @@
         "additionalProperties": false
       },
       "EmailDTO": {
-        "required": [
-          "textValue",
-          "toId"
-        ],
         "type": "object",
         "properties": {
           "toId": {
             "type": "integer",
-            "format": "int64"
+            "format": "int64",
+            "nullable": true
           },
           "textValue": {
             "type": "string",

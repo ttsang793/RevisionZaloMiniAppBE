@@ -58,7 +58,7 @@ public class SmtpService(IOptions<SmtpSettings> smtpSettings)
 
             var bodyBuilder = new BodyBuilder
             {
-                HtmlBody = $"<html><body><i>{emailDTO.Body}</i></body></html>"
+                HtmlBody = $"<html><body><i>{emailDTO.Body}</i><br /><br /><img src='https://res.cloudinary.com/dqxhmt5sp/image/upload/v1765116275/qr_fis5gs.png'/></body></html>"
             };
 
             message.Body = bodyBuilder.ToMessageBody();

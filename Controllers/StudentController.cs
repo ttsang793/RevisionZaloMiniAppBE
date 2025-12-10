@@ -63,7 +63,10 @@ public class StudentController : Controller
             Grade = studentDTO.Grade
         };
 
-        return await _studentDb.UpdateStudent(user, student) ? StatusCode(200) : StatusCode(400);
+        bool response = await _studentDb.UpdateStudent(user, student);
+        Console.WriteLine(response ? "Thanh cong" : "That bai");
+
+        return response ? StatusCode(200) : StatusCode(400);
     }
 
     [HttpDelete("{id}")]

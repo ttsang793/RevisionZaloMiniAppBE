@@ -9,6 +9,7 @@ public class UploadController : Controller
     private readonly ILogger<UploadController> _logger;
     private readonly UploadService _uploadService;
     private readonly QuestionDb _questionDb;
+    private readonly UserDb _userDb;
     private readonly PdfExamCodeDb _pdfExamCodeDb;
 
     public UploadController(ILogger<UploadController> logger, Cloudinary cloudinary, ZaloRevisionAppDbContext dbContext)
@@ -16,6 +17,7 @@ public class UploadController : Controller
         _logger = logger;
         _uploadService = new UploadService(cloudinary);
         _questionDb = new QuestionDb(dbContext);
+        _userDb = new UserDb(dbContext);
         _pdfExamCodeDb = new PdfExamCodeDb(dbContext);
     }
 
@@ -33,7 +35,10 @@ public class UploadController : Controller
             }
 
             string url = result.SecureUrl.ToString();
-            var response = (type == "question") ? await _questionDb.UpdateQuestionImage(id, url) : true;
+            bool response = true;
+
+            if (type == "avatar") await _userDb.UpdateUserAvatar(id, url);
+            else if (type == "question") await _questionDb.UpdateQuestionImage(id, url);
             return response ? StatusCode(200) : StatusCode(404);
         }
         

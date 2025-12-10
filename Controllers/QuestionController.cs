@@ -25,9 +25,9 @@ public class QuestionController : Controller
     }
 
     [HttpGet("teacher/filter/{teacherId}")]
-    public async Task<List<QuestionReadDTO>> GetFilterQuestionsByTeacher(ulong teacherId, string type, string title = "")
-    {        
-        return await _questionDb.GetFilterQuestionsByTeacher(teacherId, type, title);
+    public async Task<List<QuestionReadDTO>> GetFilterQuestionsByTeacher(ulong teacherId, string type, string title = "", byte? grade = null)
+    {
+        return await _questionDb.GetFilterQuestionsByTeacher(teacherId, type, title, grade);
     }
 
     [HttpGet("{id}")]

@@ -2,9 +2,9 @@
 
 public class EmailDTO
 {
-    public required ulong ToId { get; set; }
+    public ulong? ToId { get; set; }
 
-    public required string TextValue { get; set; }
+    public string? TextValue { get; set; }
 
     public string? ToEmail { get; set; }
 

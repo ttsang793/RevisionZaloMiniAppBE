@@ -24,7 +24,7 @@ public class EmailController : Controller
     [HttpPost("comment")]
     public async Task NotifyWhenComment(EmailDTO emailDTO)
     {
-        var user = await _userDb.GetUserByIdAsync(emailDTO.ToId);
+        var user = await _userDb.GetUserByIdAsync(emailDTO.ToId!.Value);
         if (user == null || user.Notification[2] == false) return;
 
         emailDTO.ToEmail = user.Email;
@@ -36,7 +36,7 @@ public class EmailController : Controller
     [HttpPost("exam")]
     public async Task NotifyWhenNewExam(EmailDTO emailDTO)
     {
-        List<string> emailList = await _teacherDb.GetTeacherFollowersNotifyByIdAsync(emailDTO.ToId);
+        List<string> emailList = await _teacherDb.GetTeacherFollowersNotifyByIdAsync(emailDTO.ToId!.Value);
         emailDTO.Subject = "Có đề mới từ giáo viên";
         emailDTO.Body = $"Giáo viên {emailDTO.TextValue} đã có đề thi mới. Em hãy truy cập vào mini app để xem nhé!";
         await _stmpService.SendMultipleEmailsAsync(emailDTO, emailList);
@@ -45,7 +45,7 @@ public class EmailController : Controller
     [HttpPost("turn-in")]
     public async Task NotifyWhenNewTurnIn(EmailDTO emailDTO)
     {
-        var user = await _userDb.GetUserByIdAsync(emailDTO.ToId);
+        var user = await _userDb.GetUserByIdAsync(emailDTO.ToId!.Value);
         if (user == null || user.Notification[1] == false) return;
 
         emailDTO.ToEmail = user.Email;
@@ -57,7 +57,7 @@ public class EmailController : Controller
     [HttpPost("grading")]
     public async Task NotifyWhenFinishGrading(EmailDTO emailDTO)
     {
-        var user = await _userDb.GetUserByIdAsync(emailDTO.ToId);
+        var user = await _userDb.GetUserByIdAsync(emailDTO.ToId!.Value);
         if (user == null || user.Notification[2] == false) return;
 
         emailDTO.ToEmail = user.Email;

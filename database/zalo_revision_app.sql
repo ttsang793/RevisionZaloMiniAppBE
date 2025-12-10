@@ -63,6 +63,7 @@ CREATE TABLE `followers` (
 	`id` BIGINT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
 	`student_id` BIGINT UNSIGNED NOT NULL,
 	`teacher_id` BIGINT UNSIGNED NOT NULL,
+	`is_visible` BOOLEAN DEFAULT TRUE,
 	FOREIGN KEY (`student_id`) REFERENCES `students`(`id`) ON DELETE CASCADE,
 	FOREIGN KEY (`teacher_id`) REFERENCES `teachers`(`id`) ON DELETE CASCADE
 );
@@ -150,7 +151,7 @@ CREATE TABLE `exams` (
 	`created_at` DATETIME DEFAULT NOW(),
 	`updated_at` DATETIME DEFAULT NOW() ON UPDATE NOW(),
 	`published_at` DATETIME,
-	`status` TINYINT UNSIGNED DEFAULT 1,
+	`status` TINYINT UNSIGNED DEFAULT 0,
 	FOREIGN KEY (`teacher_id`) REFERENCES `teachers`(`id`) ON DELETE CASCADE,
 	FOREIGN KEY (`subject_id`) REFERENCES `subjects`(`id`) ON DELETE CASCADE
 );
@@ -182,6 +183,7 @@ CREATE TABLE `exam_attempts` (
 	`submitted_at` DATETIME DEFAULT NOW(),
 	`marked_at` DATETIME,
 	`comment` TEXT,
+	`is_practice` BOOLEAN DEFAULT FALSE,
 	`part_order` JSON, -- bigint[]
 	FOREIGN KEY (`exam_id`) REFERENCES `exams`(`id`) ON DELETE CASCADE,
 	FOREIGN KEY (`student_id`) REFERENCES `students`(`id`) ON DELETE CASCADE
@@ -217,24 +219,15 @@ CREATE TABLE `pdf_exam_codes_questions` (
 	`question_index` SMALLINT UNSIGNED DEFAULT 0,
 	`answer_key` TEXT,
 	`point` DECIMAL(5,2) UNSIGNED CHECK (`point` >= 0 AND `point` <= 10),
-	FOREIGN KEY (`pdf_exam_code_id`) REFERENCES `pdf_exam_codes`(`id`)
+	FOREIGN KEY (`pdf_exam_code_id`) REFERENCES `pdf_exam_codes`(`id`) ON DELETE CASCADE
 );
 
 CREATE TABLE `pdf_exam_attempts` (
 	`id` BIGINT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
-	`exam_id` BIGINT UNSIGNED NOT NULL,
-	`student_id` BIGINT UNSIGNED NOT NULL,
-	`total_point` DECIMAL(5,2) UNSIGNED CHECK (`total_point` >= 0 AND `total_point` <= 10),
-	`started_at` DATETIME,
-	`duration` SMALLINT UNSIGNED,
-	`submitted_at` DATETIME DEFAULT NOW(),
-	`comment` TEXT,
 	`pdf_exam_code_id` BIGINT UNSIGNED NOT NULL,
 	`student_answer` JSON NOT NULL,
 	`correct_board` JSON NOT NULL, -- tinyint[]
 	`point_board` JSON NOT NULL, -- decimal[]
-	FOREIGN KEY (`exam_id`) REFERENCES `exams`(`id`) ON DELETE CASCADE,
-	FOREIGN KEY (`student_id`) REFERENCES `students`(`id`) ON DELETE CASCADE,
 	FOREIGN KEY (`pdf_exam_code_id`) REFERENCES `pdf_exam_codes`(`id`) ON DELETE CASCADE
 );
 
@@ -255,9 +248,19 @@ CREATE TABLE `student_histories` (
 	`student_id` BIGINT UNSIGNED,
 	`exam_id` BIGINT UNSIGNED,
 	`time` TIMESTAMP DEFAULT NOW() ON UPDATE NOW(),
-	FOREIGN KEY (`student_id`) REFERENCES `students`(`id`),
+	FOREIGN KEY (`student_id`) REFERENCES `students`(`id`) ON DELETE CASCADE,
 	FOREIGN KEY (`exam_id`) REFERENCES `exams`(`id`)
 );
+
+CREATE TABLE `student_reminders` (
+	`id` BIGINT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+	`student_id` BIGINT UNSIGNED,
+	`hour` TIME DEFAULT '12:00:00',
+	`date` JSON, -- boolean[]
+	`is_active` BOOLEAN DEFAULT TRUE,
+	FOREIGN KEY (`student_id`) REFERENCES `students`(`id`) ON DELETE CASCADE,
+
+)
 
 /* Insert data */
 INSERT INTO `subjects` (`id`, `name`, `grades`, `questionMC`, `questionTF`, `questionSA`, `questionGF`, `questionST`, `is_visible`) VALUES

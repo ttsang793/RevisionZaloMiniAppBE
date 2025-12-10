@@ -38,6 +38,7 @@ public class StudentDb : UserDb
 
         var student = await _dbContext.Students.Where(s => s.Id == st.Id).FirstOrDefaultAsync();
         if (student == null) return false;
+        if (student.Grade == st.Grade) return true;
         student.Grade = st.Grade;
         return await _dbContext.SaveChangesAsync() > 0;
     }
