@@ -25,9 +25,9 @@ public class ExamController : Controller
     }
 
     [HttpGet("publish")]
-    public async Task<List<ExamReadDTO>> GetPublishExams()
+    public async Task<List<ExamReadDTO>> GetPublishExams(string? search, string? subject, sbyte? grade, string? type)
     {
-        return await _examDb.GetPublishExamsAsync();
+        return await _examDb.GetPublishExamsAsync(search, subject, grade, type);
     }
 
     [HttpGet("{id}")]

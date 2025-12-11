@@ -15,22 +15,6 @@ public class UserDTO
     public List<bool>? Notification { get; set; }
 }
 
-public class StudentDTO : UserDTO
-{
-    public byte Grade { get; set; }
-
-    public bool? AllowSaveHistory { get; set; }
-}
-
-public class StudentReminderDTO
-{
-    public TimeSpan? Hour { get; set; }
-
-    public bool[] Date { get; set; } = [false, false, false, false, false, false, false];
-
-    public bool IsActive { get; set; } = true;
-}
-
 public class TeacherDTO : UserDTO
 {
 

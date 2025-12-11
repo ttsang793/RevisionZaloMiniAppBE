@@ -348,6 +348,37 @@
         "tags": [
           "Exam"
         ],
+        "parameters": [
+          {
+            "name": "search",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "subject",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "grade",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "type",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -2554,7 +2585,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/ExamReadDTO"
+                    "$ref": "#/components/schemas/StudentHistoryReadDTO"
                   }
                 }
               },
@@ -2562,7 +2593,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/ExamReadDTO"
+                    "$ref": "#/components/schemas/StudentHistoryReadDTO"
                   }
                 }
               },
@@ -2570,7 +2601,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/ExamReadDTO"
+                    "$ref": "#/components/schemas/StudentHistoryReadDTO"
                   }
                 }
               }
@@ -4840,6 +4871,11 @@
             "format": "int64",
             "nullable": true
           },
+          "historyTime": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
           "latestAttempt": {
             "type": "string",
             "format": "date-time",
@@ -5883,6 +5919,23 @@
           },
           "student": {
             "$ref": "#/components/schemas/Student"
+          }
+        },
+        "additionalProperties": false
+      },
+      "StudentHistoryReadDTO": {
+        "type": "object",
+        "properties": {
+          "date": {
+            "type": "string",
+            "format": "date"
+          },
+          "exams": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ExamReadDTO"
+            },
+            "nullable": true
           }
         },
         "additionalProperties": false

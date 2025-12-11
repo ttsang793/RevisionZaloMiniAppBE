@@ -258,8 +258,7 @@ CREATE TABLE `student_reminders` (
 	`hour` TIME DEFAULT '12:00:00',
 	`date` JSON, -- boolean[]
 	`is_active` BOOLEAN DEFAULT TRUE,
-	FOREIGN KEY (`student_id`) REFERENCES `students`(`id`) ON DELETE CASCADE,
-
+	FOREIGN KEY (`student_id`) REFERENCES `students`(`id`) ON DELETE CASCADE
 )
 
 /* Insert data */

@@ -43,7 +43,7 @@ builder.Services.AddDistributedMemoryCache();
 builder.Services.AddDataProtection();
 builder.Services.AddSession();
 builder.Services.RegisterDb(builder.Configuration);
-builder.Services.AddHostedService<EmailSchedulerService>();
+//builder.Services.AddHostedService<EmailSchedulerService>();
 
 var app = builder.Build();
 

@@ -142,36 +142,51 @@ public class StudentDb : UserDb
     }
 
     // HISTORY
-    public async Task<List<ExamReadDTO>> GetHistory(ulong studentId)
+    public async Task<List<StudentHistoryReadDTO>> GetHistory(ulong studentId)
     {
-        var result = await (from h in _dbContext.StudentHistories
-                            join e in _dbContext.Exams
-                            on h.ExamId equals e.Id
-                            join u in _dbContext.Users
-                            on e.TeacherId equals u.Id
-                            join s in _dbContext.Subjects
-                            on e.SubjectId equals s.Id
-                            where h.StudentId == studentId
-                            orderby h.Time descending
-                            select new ExamReadDTO
-                            {
-                                Id = e.Id,
-                                ExamType = e.ExamType,
-                                DisplayType = e.DisplayType,
-                                Title = e.Title,
-                                Grade = e.Grade,
-                                TimeLimit = e.TimeLimit,
-                                EarlyTurnIn = e.EarlyTurnIn,
-                                AllowShowScore = e.AllowShowScore,
-                                AllowPartSwap = e.AllowPartSwap,
-                                TeacherId = u.Id,
-                                TeacherName = u.Name,
-                                TeacherAvatar = u.Avatar,
-                                SubjectId = s.Id,
-                                SubjectName = s.Name,
-                                Status = e.Status,
-                                HistoryId = h.Id
-                            }).ToListAsync();
+        Console.WriteLine(DateOnly.FromDateTime(DateTime.Now));
+
+        var query = await (from h in _dbContext.StudentHistories
+                           join e in _dbContext.Exams
+                           on h.ExamId equals e.Id
+                           join u in _dbContext.Users
+                           on e.TeacherId equals u.Id
+                           join s in _dbContext.Subjects
+                           on e.SubjectId equals s.Id
+                           where h.StudentId == studentId
+                           orderby h.Time descending
+                           select new ExamReadDTO
+                           {
+                               Id = e.Id,
+                               ExamType = e.ExamType,
+                               DisplayType = e.DisplayType,
+                               Title = e.Title,
+                               Grade = e.Grade,
+                               TimeLimit = e.TimeLimit,
+                               EarlyTurnIn = e.EarlyTurnIn,
+                               AllowShowScore = e.AllowShowScore,
+                               AllowPartSwap = e.AllowPartSwap,
+                               TeacherId = u.Id,
+                               TeacherName = u.Name,
+                               TeacherAvatar = u.Avatar,
+                               SubjectId = s.Id,
+                               SubjectName = s.Name,
+                               Status = e.Status,
+                               HistoryId = h.Id,
+                               HistoryTime = h.Time
+                           }).ToListAsync();
+
+        List<StudentHistoryReadDTO> result = [];
+
+        for (int i = 0; i < query.Count; i++)
+        {
+            var row = query[i];
+            if (i == 0 || DateOnly.FromDateTime(query[i - 1].HistoryTime!.Value) != DateOnly.FromDateTime(row.HistoryTime!.Value))
+            {
+                result.Add(new StudentHistoryReadDTO(DateOnly.FromDateTime(row.HistoryTime!.Value)));
+            }
+            result[^1].Exams.Add(row);
+        }
 
         return result;
     }

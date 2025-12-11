@@ -13,7 +13,7 @@ public class ExamDb
         DbContext = dbContext;
     }
 
-    public async Task<List<ExamReadDTO>> GetPublishExamsAsync()
+    public async Task<List<ExamReadDTO>> GetPublishExamsAsync(string? search, string? subject, sbyte? grade, string? type)
     {
         var result = await (from e in DbContext.Exams
                             join u in DbContext.Users
@@ -21,6 +21,9 @@ public class ExamDb
                             join s in DbContext.Subjects
                             on e.SubjectId equals s.Id
                             where e.Status == 3
+                                && (string.IsNullOrEmpty(subject) || e.SubjectId == subject)
+                                && (grade == null || grade == -1 || e.Grade == grade)
+                                && (string.IsNullOrEmpty(type) || e.ExamType == type)
                             select new ExamReadDTO
                             {
                                 Id = e.Id,
@@ -40,7 +43,7 @@ public class ExamDb
                                 PublishedAt = e.PublishedAt
                             }).ToListAsync();
 
-        return result;
+        return result.Where(e => string.IsNullOrEmpty(search) || e.Title.Contains(search)).ToList();
     }
 
     public async Task<List<ExamReadDTO>> GetPublishExamsByTeacherAsync(ulong teacherId)

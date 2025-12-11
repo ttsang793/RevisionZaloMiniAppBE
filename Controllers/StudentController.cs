@@ -106,7 +106,7 @@ public class StudentController : Controller
     }
 
     [HttpGet("history/{studentId}")]
-    public async Task<List<ExamReadDTO>> GetHistory(ulong studentId)
+    public async Task<List<StudentHistoryReadDTO>> GetHistory(ulong studentId)
     {
         return await _studentDb.GetHistory(studentId);
     }

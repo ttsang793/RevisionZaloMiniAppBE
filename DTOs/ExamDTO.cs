@@ -44,6 +44,8 @@ public partial class ExamReadDTO
 
     public ulong? HistoryId { get; set; }
 
+    public DateTime? HistoryTime { get; set; }
+
     public DateTime? LatestAttempt { get; set; }
 }
 
