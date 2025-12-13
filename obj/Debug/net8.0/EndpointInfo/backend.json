@@ -3177,6 +3177,55 @@
         }
       }
     },
+    "/api/subject/grade/{grade}": {
+      "get": {
+        "tags": [
+          "Subject"
+        ],
+        "parameters": [
+          {
+            "name": "grade",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Subject"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Subject"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Subject"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/teacher/{id}": {
       "get": {
         "tags": [
@@ -4214,8 +4263,7 @@
             "nullable": true
           },
           "isPractice": {
-            "type": "boolean",
-            "nullable": true
+            "type": "boolean"
           },
           "exam": {
             "$ref": "#/components/schemas/Exam"
@@ -4401,8 +4449,7 @@
             "nullable": true
           },
           "isPractice": {
-            "type": "boolean",
-            "nullable": true
+            "type": "boolean"
           },
           "partOrder": {
             "type": "array",
@@ -5170,6 +5217,9 @@
           "startedAt": {
             "type": "string",
             "format": "date-time"
+          },
+          "isPractice": {
+            "type": "boolean"
           },
           "comment": {
             "type": "string",

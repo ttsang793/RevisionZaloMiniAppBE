@@ -59,7 +59,8 @@ public class ExamAttemptController : Controller
             StartedAt = ((DateTime)examAttemptDTO.StartedAt).ToLocalTime(),
             Duration = duration,
             SubmittedAt = DateTime.Now,
-            PartOrder = examAttemptDTO.PartOrder
+            PartOrder = examAttemptDTO.PartOrder,
+            IsPractice = examAttemptDTO.IsPractice
         };
         
         var addedExam = await _examAttemptDb.AddExamAttempt(examAttempt);
@@ -135,6 +136,7 @@ public class ExamAttemptController : Controller
             StudentId = pdfExamAttemptDTO.StudentId,
             TotalPoint = pdfExamAttemptDTO.TotalPoint,
             StartedAt = pdfExamAttemptDTO.StartedAt.ToLocalTime(),
+            IsPractice = pdfExamAttemptDTO.IsPractice,
             Duration = duration,
             SubmittedAt = DateTime.Now
         };

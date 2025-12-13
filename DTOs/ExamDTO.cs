@@ -49,6 +49,41 @@ public partial class ExamReadDTO
     public DateTime? LatestAttempt { get; set; }
 }
 
+public partial class ExamReadStatDTO
+{
+    public ulong? Id { get; set; }
+
+    public string ExamType { get; set; } = null!;
+
+    public string DisplayType { get; set; } = null!;
+
+    public string Title { get; set; } = null!;
+
+    public byte Grade { get; set; }
+
+    public ushort TimeLimit { get; set; }
+
+    public ulong? TeacherId { get; set; }
+
+    public string SubjectId { get; set; } = null!;
+
+    public byte Status { get; set; } = 1;
+
+    public decimal? TotalPoint { get; set; }
+
+    public string? TeacherName { get; set; }
+
+    public string? TeacherAvatar { get; set; }
+
+    public string? SubjectName { get; set; }
+
+    public ulong AttemptId { get; set; }
+
+    public DateTime? PublishedAt { get; set; }
+
+    public DateTime? SubmittedAt { get; set; }
+}
+
 public partial class ExamDetailDTO
 {
     public int PartCount { get; set; }

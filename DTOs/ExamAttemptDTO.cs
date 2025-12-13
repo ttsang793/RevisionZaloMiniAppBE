@@ -68,7 +68,7 @@ public class ExamAttemptDTO
 
     public DateTime? StartedAt { get; set; }
 
-    public bool? IsPractice { get; set; } = false;
+    public bool IsPractice { get; set; } = false;
 
     public ICollection<ulong>? PartOrder { get; set; } = [];
 
@@ -124,6 +124,8 @@ public partial class PdfExamAttemptDTO
     public decimal TotalPoint { get; set; }
 
     public DateTime StartedAt { get; set; }
+
+    public bool IsPractice { get; set; } = false;
 
     public string? Comment { get; set; }
 

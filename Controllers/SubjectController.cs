@@ -41,6 +41,12 @@ public class SubjectController : Controller
         return await _subjectDb.GetGradesByIdAsync(id);
     }
 
+    [HttpGet("grade/{grade}")]
+    public async Task<List<Subject>> GetbyGrade(byte grade)
+    {
+        return await _subjectDb.GetByGradeAsync(grade);
+    }
+
     [HttpPost("")]
     public async Task<IActionResult> Add(Subject subject)
     {

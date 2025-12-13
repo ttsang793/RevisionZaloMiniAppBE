@@ -67,7 +67,7 @@ public class ExamAttemptDb
                     .Include(ea => ea.ExamAttemptAnswers)
                     .ThenInclude(eaa => eaa.ExamQuestion)
                     .ThenInclude(eq => eq.Question)
-                    .Where(ea => ea.StudentId == studentId && ea.ExamId == examId)
+                    .Where(ea => ea.StudentId == studentId && ea.ExamId == examId && ea.IsPractice == false)
                     .OrderByDescending(ea => ea.Id)
                     .FirstAsync();
 
@@ -257,7 +257,7 @@ public class ExamAttemptDb
                         .Include(ea => ea.ExamAttemptAnswers)
                         .ThenInclude(eaa => eaa.ExamQuestion)
                         .ThenInclude(eq => eq.Question)
-                        .Where(ea => ea.StudentId == studentId && ea.ExamId == examId)
+                        .Where(ea => ea.StudentId == studentId && ea.ExamId == examId && ea.IsPractice == false)
                         .OrderByDescending(ea => ea.Id)
                         .FirstAsync();
 
@@ -312,7 +312,7 @@ public class ExamAttemptDb
         var result = await (from pea in DbContext.PdfExamAttempts
                             join pe in DbContext.PdfExamCodes on pea.PdfExamCodeId equals pe.Id
                             join ea in DbContext.ExamAttempts on pea.Id equals ea.Id
-                            where ea.StudentId == studentId && pe.ExamId == examId
+                            where ea.StudentId == studentId && pe.ExamId == examId && ea.IsPractice == false
                             orderby ea.SubmittedAt descending
                             select new PdfExamAttemptReadDTO
                             {
@@ -320,7 +320,7 @@ public class ExamAttemptDb
                                 ExamId = ea.ExamId,
                                 TaskPdf = pe.TaskPdf!,
                                 AnswerPdf = pe.AnswerPdf!,
-                                TotalPoint = ea.TotalPoint.Value,
+                                TotalPoint = ea.TotalPoint!.Value,
                                 Comment = ea.Comment,
                                 PdfExamCodeId = pe.Id,
                                 StudentAnswer = pea.StudentAnswer,

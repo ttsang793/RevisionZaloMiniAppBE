@@ -22,7 +22,7 @@ public partial class ExamAttempt
 
     public ICollection<ulong>? PartOrder { get; set; }
 
-    public bool? IsPractice { get; set; }
+    public bool IsPractice { get; set; } = false;
 
     public virtual Exam Exam { get; set; } = null!;
 

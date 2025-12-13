@@ -32,6 +32,17 @@ public class SubjectDb
         return await _dbContext.Subjects.Where(s => s.Id == id).Select(s => s.Grades).FirstAsync();
     }
 
+    public async Task<List<Subject>> GetByGradeAsync(byte grade)
+    {
+        List<Subject> query = await GetActiveAsync();
+        List<Subject> result = [];
+        foreach (var row in query)
+        {
+            if (row.Grades.Contains(grade)) result.Add(row);
+        }
+        return result;
+    }
+
     public async Task<sbyte> Add(Subject s)
     {
         if (_dbContext.Subjects.Any(sj => sj.Name == s.Name)) return -1;
