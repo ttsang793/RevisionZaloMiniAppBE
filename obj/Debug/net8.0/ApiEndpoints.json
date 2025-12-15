@@ -903,6 +903,32 @@
     ]
   },
   {
+    "ContainingType": "backend.Controllers.PdfExamCodeController",
+    "Method": "GetAllExamCodesByExamId",
+    "RelativePath": "api/pdf-exam-code/{examId}/all",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "examId",
+        "Type": "System.UInt64",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.List\u00601[[backend.DTOs.PdfExamCodeDTO, backend, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
     "ContainingType": "backend.Controllers.QuestionController",
     "Method": "GetQuestionById",
     "RelativePath": "api/question/{id}",

@@ -13,6 +13,38 @@ public class PdfExamCodeDb
         DbContext = dbContext;
     }
 
+    public async Task<List<PdfExamCodeDTO>> GetAllExamCodesByExamId(ulong examId)
+    {
+        var result = await (from ec in DbContext.PdfExamCodes
+                            where ec.ExamId == examId
+                            select new PdfExamCodeDTO
+                            {
+                                Id = ec.Id,
+                                ExamId = ec.ExamId,
+                                Code = ec.Code,
+                                TaskPdf = ec.TaskPdf,
+                                AnswerPdf = ec.AnswerPdf,
+                                NumPart = ec.NumPart
+                            }
+                           ).ToListAsync();
+
+        foreach (var row in result)
+        {
+            row.Questions = await (from q in DbContext.PdfExamCodeQuestions
+                                   where q.PdfExamCodeId == row.Id
+                                   select new PdfExamCodeQuestionDTO
+                                   {
+                                       Type = q.Type,
+                                       PartIndex = q.PartIndex,
+                                       QuestionIndex = q.QuestionIndex,
+                                       AnswerKey = q.AnswerKey,
+                                       Point = q.Point
+                                   }).ToListAsync();
+        }
+
+        return result;
+    }
+
     public async Task<PdfExamCodeDTO> GetExamCodeByExamId(ulong examId, ulong? pdfExamCodeId)
     {
         PdfExamCode currentCode;
@@ -66,6 +98,14 @@ public class PdfExamCodeDb
         result.AnswerPdf = files[1];
 
         DbContext.PdfExamCodes.Update(result);
+        return await DbContext.SaveChangesAsync() > 0;
+    }
+
+    public async Task<bool> DeleteExamCodes(ulong examId)
+    {
+        var deleted = await DbContext.PdfExamCodes.Where(pea => pea.ExamId == examId).ToListAsync();
+        if (deleted.Count == 0) return true;        
+        DbContext.RemoveRange(deleted);
         return await DbContext.SaveChangesAsync() > 0;
     }
 }

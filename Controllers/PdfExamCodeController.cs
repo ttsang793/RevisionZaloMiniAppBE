@@ -10,11 +10,19 @@ public class PdfExamCodeController : Controller
 {
     private readonly ILogger<PdfExamCodeController> _logger;
     private readonly PdfExamCodeDb _pdfExamCodeDb;
+    private readonly ExamDb _examDb;
 
     public PdfExamCodeController(ILogger<PdfExamCodeController> logger, ZaloRevisionAppDbContext dbContext)
     {
         _logger = logger;
         _pdfExamCodeDb = new PdfExamCodeDb(dbContext);
+        _examDb = new ExamDb(dbContext);
+    }
+
+    [HttpGet("{examId}/all")]
+    public async Task<List<PdfExamCodeDTO>> GetAllExamCodesByExamId(ulong examId)
+    {
+        return await _pdfExamCodeDb.GetAllExamCodesByExamId(examId);
     }
 
     [HttpGet("{examId}/{pdfExamCodeId?}")]
@@ -26,14 +34,19 @@ public class PdfExamCodeController : Controller
     [HttpPost]
     public async Task<IActionResult> AddPdfExamCodes(List<PdfExamCodeDTO> pdfExamCodeDTOList)
     {
-        List<ulong> newIds = new List<ulong>();
-
         try
         {
+            List<ulong> newIds = [];
+            ulong examId = pdfExamCodeDTOList.ElementAt(0).ExamId;
+            byte status = 1;
+            await _pdfExamCodeDb.DeleteExamCodes(examId);
+
             await using var transaction = await _pdfExamCodeDb.DbContext.Database.BeginTransactionAsync();
 
             foreach (var pdfExamCodeDTO in pdfExamCodeDTOList)
             {
+                if (pdfExamCodeDTO.Status == 0) status = 0;
+
                 var pdfExamCode = new PdfExamCode
                 {
                     ExamId = pdfExamCodeDTO.ExamId,
@@ -69,8 +82,9 @@ public class PdfExamCodeController : Controller
                 }
             }
 
+            await _examDb.UpdateExam(examId, status);
             await transaction.CommitAsync();
-            return StatusCode(201, new { Id = newIds });
+            return StatusCode(201);
         }
         catch (Exception ex)
         {

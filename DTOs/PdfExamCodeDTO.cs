@@ -16,6 +16,8 @@ public partial class PdfExamCodeDTO
 
     public bool AllowShowScore { get; set; } = true;
 
+    public byte Status { get; set; } = 0;
+
     public ICollection<PdfExamCodeQuestionDTO> Questions { get; set; } = [];
 }
 
@@ -30,6 +32,8 @@ public partial class PdfExamCodeQuestionDTO
     public ushort QuestionIndex { get; set; }
 
     public string? AnswerKey { get; set; }
+
+    public ICollection<string>? AnswerKeys { get; set; } = [];
 
     public decimal Point { get; set; }
 
