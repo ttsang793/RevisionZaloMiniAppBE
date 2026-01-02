@@ -90,7 +90,7 @@ public class ExamAttemptController : Controller
             }
 
             await transaction.CommitAsync();
-            return StatusCode(201, "Nộp bài thành công!");
+            return StatusCode(201, new { addedExam.Id });
         }
         catch (Exception ex)
         {
@@ -110,8 +110,6 @@ public class ExamAttemptController : Controller
             Comment = examAttemptDTO.Comment,
             TotalPoint = examAttemptDTO.TotalPoint
         };
-
-        Console.WriteLine(examAttempt.Comment);
 
         foreach (var examAttemptAnswerDTO in examAttemptDTO.ExamAttemptAnswers)
             examAttempt.ExamAttemptAnswers.Add(new ExamAttemptAnswer
@@ -153,7 +151,7 @@ public class ExamAttemptController : Controller
             PdfExamCodeId = pdfExamAttemptDTO.PdfExamCodeId
         };
 
-        return await _examAttemptDb.AddPdfExamAttempt(pdfExamAttempt) ? StatusCode(201, "Nộp bài thành công!") : StatusCode(400, "Nộp bài thất bại!");
+        return await _examAttemptDb.AddPdfExamAttempt(pdfExamAttempt) ? StatusCode(201, new { addedExam.Id }) : StatusCode(400, "Nộp bài thất bại!");
     }
 
     [HttpGet("pdf/{studentId}/{examId}")]

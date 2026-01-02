@@ -84,7 +84,7 @@ public class PdfExamCodeController : Controller
 
             await _examDb.UpdateExam(examId, status);
             await transaction.CommitAsync();
-            return StatusCode(201);
+            return StatusCode(201, new { Id = newIds });
         }
         catch (Exception ex)
         {

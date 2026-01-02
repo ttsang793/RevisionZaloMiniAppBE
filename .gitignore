@@ -37,7 +37,9 @@ Thumbs.db
 # Production build
 wwwroot
 database/zalo_revision_app_with_group.sql
+database/zalo_revision_app_external_db.sql
 /appsettings.json
 /appsettings.Development.json
-/appsettings.json
-/appsettings.Development.json
+
+# temp
+/Program.cs

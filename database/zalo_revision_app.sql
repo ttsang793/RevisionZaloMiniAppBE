@@ -286,4 +286,4 @@ INSERT INTO `users` (`id`, `zalo_id`, `name`, `avatar`, `email`, `role`) VALUES
 (1, NULL, 'Admin', '/avatar/default.jpg', NULL, 'AD');
 
 INSERT INTO `admins` (`id`, `password`) VALUES
-(1, 'AQAAAAIAAYagAAAAEJNR4TJiaNCauvkIJ1qy8f7vvuS4cyGwdxsGDQ44g7w5Ljd6eKHQ0i65M+/6Ntq/vA==');
+(1, 'AQAAAAIAAYagAAAAEGa9JPIlIgua4W2uWwU6HhvqetQ+AXImIUt0N7dJGfh6djLRAjiz0wjbkvvWTRXV0w=='); -- 123456

@@ -117,7 +117,8 @@ public class QuestionController : Controller
             TopicId = q.TopicId,
             Explanation = q.Explanation,
             AnswerKeys = answer.AnswerKeys,
-            MarkAsWrong = answer.MarkAsWrong
+            MarkAsWrong = answer.MarkAsWrong,
+            AllowEnter = answer.AllowEnter
         };
     }
 
@@ -271,7 +272,7 @@ public class QuestionController : Controller
         return await _questionDb.AddSortingQuestion(q, sq) ? StatusCode(201, new { q.Id }) : StatusCode(400);
     }
 
-    [HttpPost("true-false-THPT")]
+    [HttpPost("true-false-thpt")]
     public async Task<IActionResult> AddTrueFalseTHPTQuestion(TrueFalseTHPTQuestionDTO questionDTO)
     {
         Question q = new Question
@@ -436,7 +437,7 @@ public class QuestionController : Controller
         return await _questionDb.UpdateSortingQuestion(q, sq, id) ? StatusCode(200) : StatusCode(400);
     }
 
-    [HttpPut("true-false-THPT/{id}")]
+    [HttpPut("true-false-thpt/{id}")]
     public async Task<IActionResult> UpdateTrueFalseTHPTQuestion(TrueFalseTHPTQuestionDTO questionDTO, ulong id)
     {
         if (await _questionDb.CheckIfExports(id)) return StatusCode(419, new { Error = "Câu hỏi ở đề thi đã xuất bản, không thể cập nhật!" });

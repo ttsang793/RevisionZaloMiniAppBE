@@ -44,6 +44,7 @@ public class QuestionDb
                       where q.Type == type
                         && (string.IsNullOrEmpty(title) || q.Title.Contains(title, StringComparison.OrdinalIgnoreCase))
                         && (grade == null || q.Grade == grade)
+                        && (q.TeacherId == teacherId)
                       select new QuestionReadDTO
                       {
                           Id = q.Id,
